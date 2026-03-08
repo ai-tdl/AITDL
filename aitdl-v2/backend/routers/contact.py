@@ -18,26 +18,38 @@
 #
 # Copyright © aitdl.com · AITDL | GANITSUTRAM.com
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from models.contact import ContactForm, ContactResponse
+from models.db_tables import ContactRecord
+from core.database import get_db
 
 router = APIRouter(tags=["Contact"])
 
 
 @router.post("/contact", response_model=ContactResponse, status_code=201)
-async def submit_contact(form: ContactForm):
+async def submit_contact(
+    form: ContactForm,
+    db: AsyncSession = Depends(get_db),
+):
     """
-    Receive a contact form submission.
-    Currently stores in-memory (swap for DB insert when backend is deployed).
+    Purpose : Persist an inbound contact form submission to the database.
+    Input   : ContactForm (validated Pydantic model), AsyncSession (injected)
+    Output  : ContactResponse with DB-generated id and confirmation message
+    Errors  : 500 on DB failure — rolled back automatically via session context
     """
-    # TODO: replace with actual DB insert via SQLAlchemy
-    # Example:
-    # async with get_db() as db:
-    #     result = await db.execute(
-    #         insert(contacts_table).values(**form.model_dump()).returning(contacts_table.c.id)
-    #     )
-    #     row_id = result.scalar_one()
-    #     await db.commit()
+    record = ContactRecord(
+        name=form.name,
+        phone=form.phone,
+        section=form.section,
+        business=form.business,
+        city=form.city,
+        message=form.message,
+    )
+    db.add(record)
+    await db.commit()
+    await db.refresh(record)
 
-    print(f"[CONTACT] {form.name} | {form.phone} | section={form.section}")
-    return ContactResponse(id=1)
+    return ContactResponse(id=record.id)
+

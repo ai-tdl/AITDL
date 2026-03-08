@@ -2,7 +2,8 @@
     "_aitdl": {
         "description": "PIL — Module Index: all modules and their paths",
         "creator": "Jawahar R. Mallah",
-        "updated": "2026-03-09"
+        "updated": "2026-03-09",
+        "version": "2.1.0"
     },
     "modules": {
         "frontend.config": {
@@ -53,32 +54,37 @@
         "backend.contact": {
             "path": "backend/routers/contact.py",
             "type": "router",
-            "description": "POST /api/contact endpoint"
+            "description": "POST /api/contact — async DB insert via SQLAlchemy"
         },
         "backend.partner": {
             "path": "backend/routers/partner.py",
             "type": "router",
-            "description": "POST /api/partner-apply endpoint"
+            "description": "POST /api/partner-apply — async DB insert via SQLAlchemy"
         },
         "backend.m_contact": {
             "path": "backend/models/contact.py",
-            "type": "model",
-            "description": "Pydantic models for contact form"
+            "type": "model-pydantic",
+            "description": "Pydantic request/response models for contact form"
         },
         "backend.m_partner": {
             "path": "backend/models/partner.py",
-            "type": "model",
-            "description": "Pydantic models for partner application"
+            "type": "model-pydantic",
+            "description": "Pydantic request/response models for partner application"
+        },
+        "backend.db_tables": {
+            "path": "backend/models/db_tables.py",
+            "type": "model-orm",
+            "description": "SQLAlchemy ORM — ContactRecord + PartnerRecord table mappings"
         },
         "backend.config": {
             "path": "backend/core/config.py",
             "type": "infra",
-            "description": "Settings loaded from environment variables"
+            "description": "Settings loaded from environment variables via pydantic-settings"
         },
         "backend.database": {
             "path": "backend/core/database.py",
             "type": "infra",
-            "description": "Database connection — swap DB implementation here"
+            "description": "Async engine, session factory, Base, get_db dependency"
         },
         "backend.cors": {
             "path": "backend/core/cors.py",
@@ -88,12 +94,42 @@
         "backend.identity": {
             "path": "backend/core/aitdl_identity.py",
             "type": "fingerprint",
-            "description": "AITDL identity constant — protected"
+            "description": "Rule 13 — AITDL identity constant. DO NOT MODIFY."
+        },
+        "tests.conftest": {
+            "path": "tests/conftest.py",
+            "type": "test-fixture",
+            "description": "In-memory SQLite async fixtures, get_db override for all tests"
+        },
+        "tests.contact": {
+            "path": "tests/test_contact.py",
+            "type": "test",
+            "description": "3 tests for /api/contact — valid, short phone, health"
+        },
+        "tests.partner": {
+            "path": "tests/test_partner.py",
+            "type": "test",
+            "description": "2 tests for /api/partner-apply — valid, missing city"
+        },
+        "scripts.migrate": {
+            "path": "scripts/migrate.py",
+            "type": "script",
+            "description": "Run SQL migration files against PostgreSQL"
+        },
+        "scripts.seed": {
+            "path": "scripts/seed.py",
+            "type": "script",
+            "description": "Seed development data into the database"
+        },
+        "scripts.signature": {
+            "path": "scripts/aitdl_signature.py",
+            "type": "fingerprint",
+            "description": "Rule 13 — CLI identity check. DO NOT MODIFY."
         },
         "core.identity": {
             "path": "core/aitdl_identity.json",
             "type": "fingerprint",
-            "description": "AITDL identity — do not modify"
+            "description": "Rule 13 — Canonical JSON identity. DO NOT MODIFY."
         },
         "core.segments": {
             "path": "core/segments.json",
@@ -109,6 +145,11 @@
             "path": "core/products.json",
             "type": "data",
             "description": "Full product catalog across all sections"
+        },
+        "docs.signature": {
+            "path": "docs/aitdl_signature.md",
+            "type": "fingerprint",
+            "description": "Rule 13 — documentation identity record. DO NOT MODIFY."
         }
     }
 }

@@ -1,118 +1,102 @@
 {
     "_aitdl": {
-        "description": "Project Intelligence Layer — repository map for agent analysis",
+        "description": "PIL — Project Map: full directory and file listing",
         "creator": "Jawahar R. Mallah",
-        "version": "2.0.0",
-        "updated": "2026-03-09"
+        "updated": "2026-03-09",
+        "version": "2.1.0"
     },
-    "root": "aitdl-v2/",
-    "locked_directories": [
-        "core",
-        "rules",
-        "docs",
-        "frontend",
-        "backend",
-        "scripts",
-        "tests",
-        "deploy",
-        ".github",
-        "guardian",
-        "ade",
-        "agents",
-        "pil"
-    ],
-    "layers": {
-        "data": "core/",
-        "governance": "rules/",
-        "documentation": "docs/",
-        "presentation": "frontend/",
-        "api": "backend/",
-        "automation": "scripts/",
-        "quality": "tests/",
-        "deployment": "deploy/",
-        "ci_cd": ".github/",
-        "protection": "guardian/",
-        "development_engine": "ade/",
-        "agent_definitions": "agents/",
-        "intelligence": "pil/"
+    "project": "aitdl-v2",
+    "architecture": {
+        "locked_root_dirs": [
+            "core",
+            "rules",
+            "docs",
+            "frontend",
+            "backend",
+            "scripts",
+            "tests",
+            "deploy",
+            ".github",
+            "guardian",
+            "ade",
+            "agents",
+            "pil"
+        ]
     },
-    "directories": {
-        "core": {
-            "purpose": "Shared JSON data — read by frontend and backend",
-            "files": [
-                "aitdl_identity.json",
-                "segments.json",
-                "brand.json",
-                "products.json"
-            ],
-            "protected": true
+    "directory_map": {
+        "core/": {
+            "aitdl_identity.json": "Rule 13 fingerprint — DO NOT MODIFY",
+            "segments.json": "9 audience segments — single source of truth",
+            "brand.json": "AITDL brand identity and contact information",
+            "products.json": "Full product catalog across all sections"
         },
-        "rules": {
-            "purpose": "Governance — read before every task",
-            "files": [
-                "RULESBOOK.md"
-            ],
-            "protected": true
+        "rules/": {
+            "RULESBOOK.md": "Master 15-rule architecture rulebook"
         },
-        "docs": {
-            "purpose": "Technical documentation",
-            "files": [
-                "ARCHITECTURE.md",
-                "API.md",
-                "CHANGELOG.md",
-                "DEPLOYMENT.md",
-                "PHASE_TRACKER.md",
-                "aitdl_signature.md"
-            ]
+        "docs/": {
+            "CHANGELOG.md": "Version history",
+            "DEPLOYMENT.md": "Deployment guide — Vercel + Railway",
+            "PHASE_TRACKER.md": "Feature readiness status",
+            "README.md": "Project overview",
+            "aitdl_signature.md": "Rule 13 documentation fingerprint"
         },
-        "frontend": {
-            "purpose": "Static site — deploy on any CDN",
-            "entry": "index.html",
-            "css": "css/",
-            "js": "js/",
-            "pages": "pages/",
-            "assets": "assets/"
+        "frontend/": {
+            "index.html": "3-door gate + 9 audience sections + partner landing",
+            "css/main.css": "Core design system, layout, components",
+            "css/themes.css": "9 audience colour themes",
+            "css/animations.css": "Keyframe animations and reveal classes",
+            "js/config.js": "Environment-aware configuration (API URL, keys)",
+            "js/canvas.js": "Particle canvas background system",
+            "js/picker.js": "Role picker state machine",
+            "js/forms.js": "Form submission — Web3Forms or FastAPI",
+            "js/main.js": "App router, theme engine, Intersection Observers, nav"
         },
-        "backend": {
-            "purpose": "FastAPI Python API",
-            "entry": "main.py",
-            "framework": "FastAPI",
-            "routers": "routers/",
-            "models": "models/",
-            "core_infra": "core/",
-            "database": "db/"
+        "backend/": {
+            "main.py": "FastAPI app entry point — mounts all routers",
+            "requirements.txt": "Python dependencies incl. aiosqlite for tests",
+            ".env.example": "Environment variable template",
+            "core/config.py": "Settings from .env via pydantic-settings",
+            "core/cors.py": "CORS allowed origins helper",
+            "core/database.py": "Async SQLAlchemy engine + session factory + Base",
+            "core/aitdl_identity.py": "Rule 13 identity fingerprint — DO NOT MODIFY",
+            "models/contact.py": "Pydantic validation model — contact form",
+            "models/partner.py": "Pydantic validation model — partner application",
+            "models/db_tables.py": "SQLAlchemy ORM tables — ContactRecord, PartnerRecord",
+            "routers/contact.py": "POST /api/contact — inserts to contacts table",
+            "routers/partner.py": "POST /api/partner-apply — inserts to partner_applications",
+            "db/migrations/001_initial.sql": "Initial schema — contacts + partner_applications"
         },
-        "pil": {
-            "purpose": "Project Intelligence Layer — agent analysis files",
-            "files": [
-                "project_map.json",
-                "module_index.json",
-                "dependency_map.json"
-            ]
+        "scripts/": {
+            "migrate.py": "Run SQL migration files against the database",
+            "seed.py": "Seed development data into the database",
+            "aitdl_signature.py": "Rule 13 CLI identity check — DO NOT MODIFY"
         },
-        "guardian": {
-            "purpose": "Architecture protection system",
-            "files": [
-                "guardian_config.json",
-                "protected_paths.json"
-            ]
+        "tests/": {
+            "conftest.py": "pytest fixtures — in-memory SQLite async engine, DB override",
+            "test_contact.py": "Tests for /api/contact (5 scenarios)",
+            "test_partner.py": "Tests for /api/partner-apply"
         },
-        "ade": {
-            "purpose": "Autonomous Development Engine workflow definitions",
-            "files": [
-                "workflow.json",
-                "agent_router.json"
-            ]
+        "deploy/": {
+            "vercel.json": "Vercel frontend deployment config + security headers"
         },
-        "agents": {
-            "purpose": "Multi-agent role definitions",
-            "files": [
-                "architect.json",
-                "coder.json",
-                "security.json",
-                "test.json",
-                "documentation.json"
-            ]
-        }
+        ".github/workflows/": {
+            "deploy.yml": "CI/CD — pytest + Vercel + Railway on push to main"
+        },
+        "guardian/": {
+            "README.md": "Architecture protection system — Phase 2 placeholder"
+        },
+        "ade/": {
+            "README.md": "AITDL Development Engine — Phase 2 placeholder"
+        },
+        "agents/": {
+            "README.md": "Multi-agent role definitions — Phase 2 placeholder"
+        },
+        "pil/": {
+            "README.md": "Project Intelligence Layer overview",
+            "project_map.json": "This file — full directory map",
+            "module_index.json": "Module-to-file cross-reference",
+            "dependency_map.json": "Module dependency graph"
+        },
+        "pytest.ini": "pytest config — asyncio_mode=auto, testpaths=tests"
     }
 }

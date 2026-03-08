@@ -18,17 +18,37 @@
 #
 # Copyright © aitdl.com · AITDL | GANITSUTRAM.com
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from models.partner import PartnerApplication, PartnerResponse
+from models.db_tables import PartnerRecord
+from core.database import get_db
 
 router = APIRouter(tags=["Partner"])
 
 
 @router.post("/partner-apply", response_model=PartnerResponse, status_code=201)
-async def submit_partner_application(form: PartnerApplication):
+async def submit_partner_application(
+    form: PartnerApplication,
+    db: AsyncSession = Depends(get_db),
+):
     """
-    Receive a partner application.
-    Currently logs to console — swap for DB insert when deployed.
+    Purpose : Persist an inbound partner application to the database.
+    Input   : PartnerApplication (validated Pydantic model), AsyncSession (injected)
+    Output  : PartnerResponse with DB-generated id and confirmation message
+    Errors  : 500 on DB failure — rolled back automatically via session context
     """
-    print(f"[PARTNER] {form.name} | {form.phone} | city={form.city}")
-    return PartnerResponse(id=1)
+    record = PartnerRecord(
+        name=form.name,
+        phone=form.phone,
+        city=form.city,
+        occupation=form.occupation,
+        message=form.message,
+    )
+    db.add(record)
+    await db.commit()
+    await db.refresh(record)
+
+    return PartnerResponse(id=record.id)
+
