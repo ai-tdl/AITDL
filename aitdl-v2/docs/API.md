@@ -1,16 +1,23 @@
 <!--
-  AITDL
-  A Living Knowledge Ecosystem for AI Technology Development Lab
+|| ॐ श्री गणेशाय नमः ||
 
-  Creator:   Jawahar R. Mallah (Founder, Author & System Architect)
-  Email:     jawahar@aitdl.com
-  GitHub:    https://github.com/jawahar-mallah
-  Websites:  https://ganitsutram.com | https://aitdl.com
+Organization: AITDL
+AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
 
-  Then:  628 CE · Brahmasphutasiddhanta
-  Now:   8 March MMXXVI · Vikram Samvat 2082
+Creator: Jawahar R. Mallah
+Founder, Author & System Architect
 
-  Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+Email: jawahar@aitdl.com
+GitHub: https://github.com/jawahar-mallah
+
+Websites:
+https://ganitsutram.com
+https://aitdl.com
+
+Then: 628 CE · Brahmasphuṭasiddhānta
+Now: 8 March MMXXVI · Vikram Samvat 2082
+
+Copyright © aitdl.com · AITDL | GANITSUTRAM.com
 -->
 
 # AITDL v2 — API Reference
@@ -48,9 +55,9 @@ Captures an enquiry from any audience section.
 | `section` | string | ✅ | one of: retail, erp, education, teacher, student, home, partner, ngo, ecom |
 | `message` | string | ❌ | max 1000 chars |
 
-**Response `200`**
+**Response `201`**
 ```json
-{ "status": "success", "id": "uuid-here" }
+{ "id": 1, "message": "Thank you! We'll contact you on WhatsApp shortly." }
 ```
 
 **Response `422`**
@@ -67,10 +74,10 @@ Captures a Partner Programme application.
 ```json
 {
   "name":       "Suresh Mehta",
-  "whatsapp":   "9876543210",
+  "phone":      "9876543210",
   "city":       "Nashik",
-  "background": "IT / Software Sales",
-  "network":    "I know 50+ shop owners and 10 schools in Nashik"
+  "occupation": "IT / Software Sales",
+  "message":    "I know 50+ shop owners and 10 schools in Nashik"
 }
 ```
 
@@ -78,14 +85,14 @@ Captures a Partner Programme application.
 | Field | Type | Required | Notes |
 |---|---|---|---|
 | `name` | string | ✅ | |
-| `whatsapp` | string | ✅ | 10-digit |
+| `phone` | string | ✅ | 10-digit Indian mobile |
 | `city` | string | ✅ | |
-| `background` | string | ❌ | |
-| `network` | string | ❌ | |
+| `occupation` | string | ❌ | Current role / profession |
+| `message` | string | ❌ | Why they want to partner |
 
-**Response `200`**
+**Response `201`**
 ```json
-{ "status": "success", "id": "uuid-here" }
+{ "id": 1, "message": "Application received! Our team will WhatsApp you within 24 hours." }
 ```
 
 ---

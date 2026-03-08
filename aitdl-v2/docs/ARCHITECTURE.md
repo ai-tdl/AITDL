@@ -1,17 +1,23 @@
 <!--
-  AITDL
-  A Living Knowledge Ecosystem for AI Technology Development Lab
+|| ॐ श्री गणेशाय नमः ||
 
-  Creator:   Jawahar R. Mallah (Founder, Author & System Architect)
-  Email:     jawahar@aitdl.com
-  GitHub:    https://github.com/jawahar-mallah
-  Websites:  https://ganitsutram.com
-             https://aitdl.com
+Organization: AITDL
+AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
 
-  Then:  628 CE · Brahmasphutasiddhanta
-  Now:   8 March MMXXVI · Vikram Samvat 2082
+Creator: Jawahar R. Mallah
+Founder, Author & System Architect
 
-  Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+Email: jawahar@aitdl.com
+GitHub: https://github.com/jawahar-mallah
+
+Websites:
+https://ganitsutram.com
+https://aitdl.com
+
+Then: 628 CE · Brahmasphuṭasiddhānta
+Now: 8 March MMXXVI · Vikram Samvat 2082
+
+Copyright © aitdl.com · AITDL | GANITSUTRAM.com
 -->
 
 # AITDL v2 — Architecture
@@ -109,17 +115,19 @@ Multi-role     show: #s-{primary} + #s-{secondary...}
 
 ```
 backend/
-├── main.py             App factory, middleware, router registration
+├── main.py               App factory, middleware, router registration
 ├── routers/
-│   ├── contact.py      POST /api/contact
-│   └── partner.py      POST /api/partner-apply
+│   ├── contact.py        POST /api/contact → real DB insert
+│   └── partner.py        POST /api/partner-apply → real DB insert
 ├── models/
-│   ├── contact.py      ContactRequest, ContactResponse (Pydantic)
-│   └── partner.py      PartnerRequest, PartnerResponse (Pydantic)
+│   ├── contact.py        ContactForm, ContactResponse (Pydantic)
+│   ├── partner.py        PartnerApplication, PartnerResponse (Pydantic)
+│   └── db_tables.py      ContactRecord, PartnerRecord (SQLAlchemy ORM)
 ├── core/
-│   ├── config.py       Settings from env (pydantic-settings)
-│   ├── database.py     Async SQLAlchemy engine + session
-│   └── cors.py         CORS middleware config
+│   ├── config.py         Settings from env (pydantic-settings)
+│   ├── database.py       Async engine, session factory, Base, get_db
+│   ├── cors.py           CORS middleware config
+│   └── aitdl_identity.py Rule 13 fingerprint — DO NOT MODIFY
 └── db/
     └── migrations/
         └── 001_initial.sql
