@@ -1,0 +1,114 @@
+{
+    "_aitdl": {
+        "description": "PIL — Module Index: all modules and their paths",
+        "creator": "Jawahar R. Mallah",
+        "updated": "2026-03-09"
+    },
+    "modules": {
+        "frontend.config": {
+            "path": "frontend/js/config.js",
+            "type": "config",
+            "description": "All frontend configurable values — API URL, keys"
+        },
+        "frontend.main": {
+            "path": "frontend/js/main.js",
+            "type": "logic",
+            "description": "App router, state machine, theme switcher, door/picker"
+        },
+        "frontend.canvas": {
+            "path": "frontend/js/canvas.js",
+            "type": "ui",
+            "description": "Particle canvas animation module"
+        },
+        "frontend.picker": {
+            "path": "frontend/js/picker.js",
+            "type": "ui",
+            "description": "Role picker — primary/secondary selection logic"
+        },
+        "frontend.forms": {
+            "path": "frontend/js/forms.js",
+            "type": "api-client",
+            "description": "Form handlers — POST to backend or Web3Forms interim"
+        },
+        "frontend.main_css": {
+            "path": "frontend/css/main.css",
+            "type": "style",
+            "description": "Core styles and CSS custom properties"
+        },
+        "frontend.themes": {
+            "path": "frontend/css/themes.css",
+            "type": "style",
+            "description": "9 audience color themes"
+        },
+        "frontend.animate": {
+            "path": "frontend/css/animations.css",
+            "type": "style",
+            "description": "Keyframes and reveal utilities"
+        },
+        "backend.main": {
+            "path": "backend/main.py",
+            "type": "entry",
+            "description": "FastAPI app factory, middleware, router registration"
+        },
+        "backend.contact": {
+            "path": "backend/routers/contact.py",
+            "type": "router",
+            "description": "POST /api/contact endpoint"
+        },
+        "backend.partner": {
+            "path": "backend/routers/partner.py",
+            "type": "router",
+            "description": "POST /api/partner-apply endpoint"
+        },
+        "backend.m_contact": {
+            "path": "backend/models/contact.py",
+            "type": "model",
+            "description": "Pydantic models for contact form"
+        },
+        "backend.m_partner": {
+            "path": "backend/models/partner.py",
+            "type": "model",
+            "description": "Pydantic models for partner application"
+        },
+        "backend.config": {
+            "path": "backend/core/config.py",
+            "type": "infra",
+            "description": "Settings loaded from environment variables"
+        },
+        "backend.database": {
+            "path": "backend/core/database.py",
+            "type": "infra",
+            "description": "Database connection — swap DB implementation here"
+        },
+        "backend.cors": {
+            "path": "backend/core/cors.py",
+            "type": "infra",
+            "description": "CORS middleware configuration"
+        },
+        "backend.identity": {
+            "path": "backend/core/aitdl_identity.py",
+            "type": "fingerprint",
+            "description": "AITDL identity constant — protected"
+        },
+        "core.identity": {
+            "path": "core/aitdl_identity.json",
+            "type": "fingerprint",
+            "description": "AITDL identity — do not modify"
+        },
+        "core.segments": {
+            "path": "core/segments.json",
+            "type": "data",
+            "description": "9 audience segments — single source of truth"
+        },
+        "core.brand": {
+            "path": "core/brand.json",
+            "type": "data",
+            "description": "AITDL brand identity and contact information"
+        },
+        "core.products": {
+            "path": "core/products.json",
+            "type": "data",
+            "description": "Full product catalog across all sections"
+        }
+    }
+}

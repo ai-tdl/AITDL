@@ -1,0 +1,118 @@
+{
+    "_aitdl": {
+        "description": "Project Intelligence Layer — repository map for agent analysis",
+        "creator": "Jawahar R. Mallah",
+        "version": "2.0.0",
+        "updated": "2026-03-09"
+    },
+    "root": "aitdl-v2/",
+    "locked_directories": [
+        "core",
+        "rules",
+        "docs",
+        "frontend",
+        "backend",
+        "scripts",
+        "tests",
+        "deploy",
+        ".github",
+        "guardian",
+        "ade",
+        "agents",
+        "pil"
+    ],
+    "layers": {
+        "data": "core/",
+        "governance": "rules/",
+        "documentation": "docs/",
+        "presentation": "frontend/",
+        "api": "backend/",
+        "automation": "scripts/",
+        "quality": "tests/",
+        "deployment": "deploy/",
+        "ci_cd": ".github/",
+        "protection": "guardian/",
+        "development_engine": "ade/",
+        "agent_definitions": "agents/",
+        "intelligence": "pil/"
+    },
+    "directories": {
+        "core": {
+            "purpose": "Shared JSON data — read by frontend and backend",
+            "files": [
+                "aitdl_identity.json",
+                "segments.json",
+                "brand.json",
+                "products.json"
+            ],
+            "protected": true
+        },
+        "rules": {
+            "purpose": "Governance — read before every task",
+            "files": [
+                "RULESBOOK.md"
+            ],
+            "protected": true
+        },
+        "docs": {
+            "purpose": "Technical documentation",
+            "files": [
+                "ARCHITECTURE.md",
+                "API.md",
+                "CHANGELOG.md",
+                "DEPLOYMENT.md",
+                "PHASE_TRACKER.md",
+                "aitdl_signature.md"
+            ]
+        },
+        "frontend": {
+            "purpose": "Static site — deploy on any CDN",
+            "entry": "index.html",
+            "css": "css/",
+            "js": "js/",
+            "pages": "pages/",
+            "assets": "assets/"
+        },
+        "backend": {
+            "purpose": "FastAPI Python API",
+            "entry": "main.py",
+            "framework": "FastAPI",
+            "routers": "routers/",
+            "models": "models/",
+            "core_infra": "core/",
+            "database": "db/"
+        },
+        "pil": {
+            "purpose": "Project Intelligence Layer — agent analysis files",
+            "files": [
+                "project_map.json",
+                "module_index.json",
+                "dependency_map.json"
+            ]
+        },
+        "guardian": {
+            "purpose": "Architecture protection system",
+            "files": [
+                "guardian_config.json",
+                "protected_paths.json"
+            ]
+        },
+        "ade": {
+            "purpose": "Autonomous Development Engine workflow definitions",
+            "files": [
+                "workflow.json",
+                "agent_router.json"
+            ]
+        },
+        "agents": {
+            "purpose": "Multi-agent role definitions",
+            "files": [
+                "architect.json",
+                "coder.json",
+                "security.json",
+                "test.json",
+                "documentation.json"
+            ]
+        }
+    }
+}

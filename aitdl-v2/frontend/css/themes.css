@@ -1,0 +1,147 @@
+/*
+|| ॐ श्री गणेशाय नमः ||
+
+Organization: AITDL
+AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
+
+Creator: Jawahar R. Mallah
+Founder, Author & System Architect
+
+Email: jawahar@aitdl.com
+GitHub: https://github.com/jawahar-mallah
+
+Websites:
+https://ganitsutram.com
+https://aitdl.com
+
+Then: 628 CE · Brahmasphuṭasiddhānta
+Now: 8 March MMXXVI · Vikram Samvat 2082
+
+Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+*/
+
+/* ─── Default Theme (Gate) ───────────────────────────────────────────────── */
+:root {
+    --bg: #03040a;
+    --deep: #080c18;
+    --card: #0d1121;
+    --a: #c9a84c;
+    --a2: #f0d080;
+    --text: #e8e4da;
+    --muted: #6a6860;
+    --border: rgba(255, 255, 255, 0.07);
+    --pr: 201, 168, 76;
+    --btn-text: #03040a;
+}
+
+/* ─── Retail (Orange) ────────────────────────────────────────────────────── */
+.t-retail {
+    --bg: #060200;
+    --deep: #0f0500;
+    --card: #180a00;
+    --a: #ff6b1a;
+    --a2: #ffb07a;
+    --text: #fff5ee;
+    --muted: #8a6a55;
+    --border: rgba(255, 107, 26, .12);
+    --pr: 255, 107, 26;
+    --btn-text: #fff;
+}
+
+/* ─── ERP / Business (Blue) ──────────────────────────────────────────────── */
+.t-erp {
+    --bg: #00050f;
+    --deep: #000c1e;
+    --card: #001127;
+    --a: #1a8fff;
+    --a2: #70caff;
+    --text: #e0f0ff;
+    --muted: #4a7090;
+    --border: rgba(26, 143, 255, .12);
+    --pr: 26, 143, 255;
+    --btn-text: #fff;
+}
+
+/* ─── Education (Green) ──────────────────────────────────────────────────── */
+.t-education {
+    --bg: #010a04;
+    --deep: #031208;
+    --card: #05180b;
+    --a: #22c565;
+    --a2: #7ffaaa;
+    --text: #e0f8eb;
+    --muted: #458060;
+    --border: rgba(34, 197, 101, .12);
+    --pr: 34, 197, 101;
+    --btn-text: #fff;
+}
+
+/* ─── AI / Student (Purple) ──────────────────────────────────────────────── */
+.t-ai {
+    --bg: #030108;
+    --deep: #070315;
+    --card: #0c0620;
+    --a: #a259ff;
+    --a2: #d4a0ff;
+    --text: #f0e8ff;
+    --muted: #6a5090;
+    --border: rgba(162, 89, 255, .12);
+    --pr: 162, 89, 255;
+    --btn-text: #fff;
+}
+
+/* ─── Home / Family (Pink-Red) ───────────────────────────────────────────── */
+.t-home {
+    --bg: #070203;
+    --deep: #110405;
+    --card: #1a0708;
+    --a: #ff4d6a;
+    --a2: #ff9aaa;
+    --text: #fff0f2;
+    --muted: #8a5060;
+    --border: rgba(255, 77, 106, .12);
+    --pr: 255, 77, 106;
+    --btn-text: #fff;
+}
+
+/* ─── Partner (Vivid Green) ──────────────────────────────────────────────── */
+.t-partner {
+    --bg: #030602;
+    --deep: #071004;
+    --card: #0c1a06;
+    --a: #39e07a;
+    --a2: #90f5b0;
+    --text: #e8fff0;
+    --muted: #4a7a58;
+    --border: rgba(57, 224, 122, .12);
+    --pr: 57, 224, 122;
+    --btn-text: #040e06;
+}
+
+/* ─── NGO / Social Sector (Teal) ─────────────────────────────────────────── */
+.t-ngo {
+    --bg: #010a09;
+    --deep: #031512;
+    --card: #051f1b;
+    --a: #0eb8a0;
+    --a2: #60eedd;
+    --text: #e0faf6;
+    --muted: #3a7a70;
+    --border: rgba(14, 184, 160, .12);
+    --pr: 14, 184, 160;
+    --btn-text: #010a09;
+}
+
+/* ─── Ecommerce (Indigo) ─────────────────────────────────────────────────── */
+.t-ecom {
+    --bg: #03020f;
+    --deep: #07051a;
+    --card: #0e0a28;
+    --a: #6c63ff;
+    --a2: #b0aaff;
+    --text: #f0eeff;
+    --muted: #5a5480;
+    --border: rgba(108, 99, 255, .12);
+    --pr: 108, 99, 255;
+    --btn-text: #fff;
+}

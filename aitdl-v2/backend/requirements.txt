@@ -1,0 +1,32 @@
+# || ॐ श्री गणेशाय नमः ||
+#
+# Organization: AITDL
+# AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
+#
+# Creator: Jawahar R. Mallah
+# Founder, Author & System Architect
+#
+# Email: jawahar@aitdl.com
+# GitHub: https://github.com/jawahar-mallah
+#
+# Websites:
+# https://ganitsutram.com
+# https://aitdl.com
+#
+# Then: 628 CE · Brahmasphuṭasiddhānta
+# Now: 8 March MMXXVI · Vikram Samvat 2082
+#
+# Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.6
+pydantic-settings==2.7.1
+asyncpg==0.30.0
+sqlalchemy[asyncio]==2.0.38
+alembic==1.14.1
+python-dotenv==1.0.1
+httpx==0.28.1
+pytest==8.3.4
+pytest-asyncio==0.25.2
+email-validator==2.2.0

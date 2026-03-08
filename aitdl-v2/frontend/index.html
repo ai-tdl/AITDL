@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<!--
+|| ॐ श्री गणेशाय नमः ||
+
+Organization: AITDL
+AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
+
+Creator: Jawahar R. Mallah
+Founder, Author & System Architect
+
+Email: jawahar@aitdl.com
+GitHub: https://github.com/jawahar-mallah
+
+Websites:
+https://ganitsutram.com
+https://aitdl.com
+
+Then: 628 CE · Brahmasphuṭasiddhānta
+Now: 8 March MMXXVI · Vikram Samvat 2082
+
+Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+  <meta name="description"
+    content="AITDL — Technology Solutions for Retail, ERP, Education & AI. Pan India. Since 2007. See it. Love it. Then pay for it." />
+  <meta property="og:title" content="AITDL — Choose Your World" />
+  <meta property="og:description"
+    content="Retail POS · ERP & Tally · School Management · AI Learning Tools. Pan India since 2007." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aitdl.com" />
+  <title>AITDL — Choose Your World</title>
+
+  <!-- Styles: themes first, then core, then animations -->
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+
+  <canvas id="cv"></canvas>
+  <div id="cur"></div>
+  <div id="curR"></div>
+
+  <!-- BACK BUTTON -->
+  <button class="back-btn" id="backBtn" onclick="goHome()">← Back to Gate</button>
+
+  <div class="wrap">
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     NAV
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <nav>
+      <div class="nav-logo" onclick="goHome()" title="Back to Gate">AITDL</div>
+      <div class="nav-links" id="navL">
+        <button class="xbtn" onclick="closeMenu()">✕</button>
+        <a href="#" onclick="scrollToId('about');closeMenu()">About</a>
+        <a href="#" onclick="scrollToId('products');closeMenu()">Products</a>
+        <a href="#" onclick="scrollToId('clients');closeMenu()">Clients</a>
+        <a href="#" onclick="scrollToId('contact');closeMenu()">Contact</a>
+        <a href="#" onclick="goHome();closeMenu()" class="nav-cta">← Gate</a>
+      </div>
+      <button class="burger" onclick="openMenu()"><span></span><span></span><span></span></button>
+    </nav>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     THE GATE — Entry Screen
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div id="gate">
+      <div class="orb o1"></div>
+      <div class="orb o2"></div>
+
+      <!-- Brand -->
+      <div class="gate-brand" style="padding:7rem 3rem 0">
+        <span class="logo">AITDL</span>
+        <div class="tagline">Since <em>2007</em> · Mumbai · Nashik · Surat · Gorakhpur · 100+ Clients · Pan India</div>
+      </div>
+
+      <!-- Three Doors -->
+      <div style="padding:2.5rem 0 5rem">
+        <div class="gate-doors">
+
+          <!-- Door 1 — Universe -->
+          <div class="door door-universe" onclick="enterUniverse()" style="--dl:#c9a84c">
+            <div class="door-line"></div>
+            <div class="door-top">
+              <span class="door-icon">🌌</span>
+              <div class="door-label">WHOLE UNIVERSE</div>
+              <h2>EXPLORE<br>EVERYTHING</h2>
+              <p class="door-desc">Browse all our solutions freely — <strong>no filter, no restrictions</strong>.
+                Retail, ERP, education, AI tools — the full picture, all at once.</p>
+            </div>
+            <div class="door-cta">Overview Dashboard <span class="arr">→</span></div>
+          </div>
+
+          <!-- Door 2 — Destination -->
+          <div class="door door-destination" onclick="openPicker()" style="--dl:#c9a84c">
+            <div class="door-line"></div>
+            <div class="door-top">
+              <span class="door-icon">🎯</span>
+              <div class="door-label">SPECIFIC DESTINATION</div>
+              <h2>GO TO<br>MY WORLD</h2>
+              <p class="door-desc">You know what you need. <strong>Pick your role</strong> — retailer, business, school,
+                teacher, student, or parent. Only what's relevant to you.</p>
+            </div>
+            <div class="door-cta">Choose My Role <span class="arr">→</span></div>
+          </div>
+
+          <!-- Door 3 — Partner -->
+          <div class="door door-partner" onclick="enterPartnerLanding()">
+            <div class="door-line"></div>
+            <div class="door-top">
+              <span class="door-icon">🤝</span>
+              <div class="door-label">BECOME A PARTNER</div>
+              <h2>GROW WITH<br>AITDL</h2>
+              <p class="door-desc">You have the network. We have 18 years of proven products. <strong>Resell our entire
+                  portfolio</strong> in your city.</p>
+            </div>
+            <div class="door-cta">Partner Programme <span class="arr">→</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /gate -->
+
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ROLE PICKER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div id="picker">
+      <button class="pk-close" onclick="closePicker()">✕</button>
+      <div class="pk-wrap">
+
+        <div class="pk-steps">
+          <span class="pk-step" id="pkStep1">01 Pick Primary</span>
+          <div class="pk-sdiv"></div>
+          <span class="pk-step" id="pkStep2">02 Add More</span>
+          <div class="pk-sdiv"></div>
+          <span class="pk-step" id="pkStep3">03 Enter</span>
+        </div>
+
+        <div class="pk-head">Who Are You?</div>
+        <p class="pk-sub">Pick your <em>primary role</em> — then optionally add more. We'll show only what's relevant to
+          you.</p>
+
+        <div class="pk-grid">
+          <div class="pk-role" data-role="retail" data-c="retail" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">🛍️</span>
+            <div class="pk-r-txt">
+              <h4>Retailer</h4>
+              <p>Shop / chain / mall owner</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="erp" data-c="erp" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">⚙️</span>
+            <div class="pk-r-txt">
+              <h4>Business</h4>
+              <p>ERP / Tally / accounts</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="education" data-c="edu" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">🏫</span>
+            <div class="pk-r-txt">
+              <h4>School</h4>
+              <p>School / coaching institute</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="teacher" data-c="teacher" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">👨‍🏫</span>
+            <div class="pk-r-txt">
+              <h4>Teacher</h4>
+              <p>AI tools for educators</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="student" data-c="student" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">🎓</span>
+            <div class="pk-r-txt">
+              <h4>Student</h4>
+              <p>AI-powered learning</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="home" data-c="home" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">🏠</span>
+            <div class="pk-r-txt">
+              <h4>Parent</h4>
+              <p>Home & family AI tools</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="partner" data-c="partner" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">🤝</span>
+            <div class="pk-r-txt">
+              <h4>Partner</h4>
+              <p>Resell AITDL products</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="ngo" data-c="ngo" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">🤲</span>
+            <div class="pk-r-txt">
+              <h4>NGO / Trust</h4>
+              <p>Social sector software</p>
+            </div>
+          </div>
+          <div class="pk-role" data-role="ecom" data-c="ecom" onclick="pickRole(this)">
+            <span class="pk-badge">PRIMARY</span>
+            <span class="pk-r-ico">🛒</span>
+            <div class="pk-r-txt">
+              <h4>Ecommerce</h4>
+              <p>Sell online — India-first</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pk-hint">
+          <div class="pk-hint-item h-pri">
+            <div class="dot"></div>Primary
+          </div>
+          <div class="pk-hint-item h-sec">
+            <div class="dot"></div>Also relevant
+          </div>
+        </div>
+
+        <div class="pk-actions">
+          <button class="pk-go" id="pkGo" onclick="enterMyWorld()"><span>Enter My World →</span></button>
+          <button class="pk-skip" onclick="enterUniverse();closePicker()">Show everything instead</button>
+          <div class="pk-summary" id="pkSummary"></div>
+        </div>
+
+      </div>
+    </div><!-- /picker -->
+
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     OVERVIEW DASHBOARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div id="overview">
+      <div class="ov-hero">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="ov-tag">
+          <div class="pd"></div>
+          <span>AITDL Universe</span>
+          <div class="dl"></div>
+          <span class="sb">Since 2007 · Pan India · 100+ Clients</span>
+        </div>
+        <div class="ov-head rv">THE <span class="gold">WHOLE</span><br>UNIVERSE.</div>
+        <p class="ov-sub rv">Everything AITDL does — <strong>all 7 product universes</strong>, in one place. Click any
+          world to go deeper.</p>
+      </div>
+
+      <div class="ov-grid">
+        <div class="ov-card rv" style="--oc:#ff6b1a" onclick="activate('retail')">
+          <div class="ov-ico">🛍️</div>
+          <h3>Retail</h3>
+          <p>Shoper POS · billing · inventory · chain management · GST</p>
+          <div class="ov-foot"><span class="ov-tags">100+ LIVE CLIENTS</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#1a8fff" onclick="activate('erp')">
+          <div class="ov-ico">⚙️</div>
+          <h3>ERP & Tally</h3>
+          <p>TallyPrime · TallyTDL · ERPNext · Odoo · business automation</p>
+          <div class="ov-foot"><span class="ov-tags">TALLY PARTNER</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#22c565" onclick="activate('education')">
+          <div class="ov-ico">🏫</div>
+          <h3>Education</h3>
+          <p>School ERP · coaching management · fee collection · reports</p>
+          <div class="ov-foot"><span class="ov-tags">SCHOOLS + COACHING</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#22c565" onclick="activate('teacher')">
+          <div class="ov-ico">👨‍🏫</div>
+          <h3>Teachers</h3>
+          <p>AI lesson planning · auto question banks · personalised learning tools</p>
+          <div class="ov-foot"><span class="ov-tags">AI-POWERED</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#a259ff" onclick="activate('student')">
+          <div class="ov-ico">🎓</div>
+          <h3>Students & AI</h3>
+          <p>Ganitsutram · My AI Pathsala · Saathi Book · personalised AI tutor</p>
+          <div class="ov-foot"><span class="ov-tags">INDIA'S OWN AI</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#ff4d6a" onclick="activate('home')">
+          <div class="ov-ico">🏠</div>
+          <h3>Home & Family</h3>
+          <p>Home Study Buddy · AI tutor for kids · parent-friendly interface</p>
+          <div class="ov-foot"><span class="ov-tags">FAMILY AI</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#39e07a" onclick="enterPartnerLanding()">
+          <div class="ov-ico">🤝</div>
+          <h3>Partner</h3>
+          <p>Resell all 6 product lines · zero investment · territory protection</p>
+          <div class="ov-foot"><span class="ov-tags">OPEN PROGRAMME</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#0eb8a0" onclick="activate('ngo')">
+          <div class="ov-ico">🤲</div>
+          <h3>NGO & Trusts</h3>
+          <p>Donation tracking · fund accounting · member management · temple ERP</p>
+          <div class="ov-foot"><span class="ov-tags">SOCIAL SECTOR</span><span class="ov-arr">↗</span></div>
+        </div>
+        <div class="ov-card rv" style="--oc:#6c63ff" onclick="activate('ecom')">
+          <div class="ov-ico">🛒</div>
+          <h3>Ecommerce</h3>
+          <p>India-first · GST-native · UPI payments · marketplace sync — coming 2025</p>
+          <div class="ov-foot"><span class="ov-tags">COMING SOON</span><span class="ov-arr">↗</span></div>
+        </div>
+      </div>
+
+      <footer>
+        <p>© 2026 AITDL · All Solutions</p>
+        <div class="fl">AITDL</div>
+        <p>Mumbai · Nashik · Surat · Gorakhpur · Pan India</p>
+      </footer>
+    </div><!-- /overview -->
+
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     PARTNER LANDING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div id="partner-landing" style="display:none;position:relative;z-index:2">
+
+      <div
+        style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:7rem 3rem 4rem;position:relative;overflow:hidden">
+        <div class="orb"
+          style="width:700px;height:700px;background:rgba(57,224,122,.05);top:-200px;right:-200px;border-radius:50%;filter:blur(90px);position:absolute;pointer-events:none">
+        </div>
+        <div class="orb"
+          style="width:400px;height:400px;background:rgba(57,224,122,.03);bottom:-100px;left:-100px;border-radius:50%;filter:blur(90px);position:absolute;pointer-events:none">
+        </div>
+
+        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem;flex-wrap:wrap">
+          <div
+            style="width:7px;height:7px;border-radius:50%;background:#39e07a;animation:pulse-dot 2s infinite;flex-shrink:0">
+          </div>
+          <span
+            style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#39e07a">Partner
+            Programme · Open Now</span>
+          <div style="width:36px;height:1px;background:#39e07a;opacity:.4"></div>
+          <span style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:#4a7a58">Pan India
+            · All Cities · Apply Today</span>
+        </div>
+
+        <div
+          style="font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,12rem);line-height:.86;letter-spacing:-.01em;margin-bottom:2.5rem">
+          YOUR CITY.<br>OUR PRODUCTS.<br><span
+            style="background:linear-gradient(135deg,#39e07a,#90f5b0);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite">YOUR
+            EMPIRE.</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap">
+          <p style="max-width:460px;color:#4a7a58;line-height:1.9;font-size:.88rem">You already know every shop owner,
+            school principal and business in your city. <strong style="color:#e8fff0">We've spent 18 years building the
+              products they all need</strong> — retail POS, ERP, school systems, AI tools. <strong
+              style="color:#e8fff0">You sell. We deliver. We both win.</strong></p>
+          <div style="display:flex;flex-direction:column;gap:.85rem;align-items:flex-end">
+            <button onclick="scrollToId('pl-apply')"
+              style="display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 2.2rem;background:#39e07a;color:#040e06;font-weight:800;font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s"
+              onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 18px 55px rgba(57,224,122,.35)'"
+              onmouseout="this.style.transform='';this.style.boxShadow=''">Apply Now — It's Free →</button>
+            <button onclick="scrollToId('pl-products')"
+              style="font-family:'Space Mono',monospace;font-size:.6rem;color:#4a7a58;letter-spacing:.1em;background:none;border:none;border-bottom:1px solid rgba(57,224,122,.2);padding-bottom:2px;cursor:pointer;transition:color .3s"
+              onmouseover="this.style.color='#39e07a'" onmouseout="this.style.color='#4a7a58'">See what you'll earn
+              →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(57,224,122,.08)">
+        <div class="sb rv" style="background:#030a04"><span class="sn" data-target="18"
+            style="background:linear-gradient(135deg,#39e07a,#90f5b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">0+</span><span
+            class="sl" style="color:#4a7a58">Years of Proven Products</span></div>
+        <div class="sb rv" style="background:#030a04"><span class="sn" data-target="100"
+            style="background:linear-gradient(135deg,#39e07a,#90f5b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">0+</span><span
+            class="sl" style="color:#4a7a58">Live Client References</span></div>
+        <div class="sb rv" style="background:#030a04"><span class="sn" data-target="6"
+            style="background:linear-gradient(135deg,#39e07a,#90f5b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">0</span><span
+            class="sl" style="color:#4a7a58">Product Lines to Sell</span></div>
+        <div class="sb rv" style="background:#030a04"><span class="sn"
+            style="background:linear-gradient(135deg,#39e07a,#90f5b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">₹0</span><span
+            class="sl" style="color:#4a7a58">Investment to Join</span></div>
+      </div>
+
+      <!-- Product Catalogue -->
+      <div class="sec" id="pl-products" style="background:#030a04">
+        <div class="sh rv"><span class="snum" style="color:#39e07a">01 — YOUR PRODUCT CATALOGUE</span>
+          <div class="sline" style="background:rgba(57,224,122,.12)"></div>
+        </div>
+        <div class="stitle rv" style="color:#e8fff0">Six Product Lines.<br>Every Business Needs One.</div>
+        <p class="sdesc rv" style="color:#4a7a58">Every shop, school, family and business in your city is a potential
+          client. <strong style="color:#90f5b0">You don't build anything. You connect people to solutions that already
+            work.</strong></p>
+        <div class="prod-grid rv" style="background:rgba(57,224,122,.06)">
+          <div class="prod-card" style="background:#030a04;border:none"><span class="prod-icon">🛍️</span>
+            <h3 style="color:#39e07a">Retail POS</h3>
+            <p style="color:#4a7a58">Shoper POS for any shop, chain or mall.</p>
+            <ul style="margin-top:.8rem">
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>Shoper 9 licences</li>
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>Implementation income</li>
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>Annual support contracts</li>
+            </ul>
+          </div>
+          <div class="prod-card" style="background:#030a04;border:none"><span class="prod-icon">⚙️</span>
+            <h3 style="color:#39e07a">ERP & Tally</h3>
+            <p style="color:#4a7a58">TallyPrime, ERPNext & Odoo. Every business owner is a prospect.</p>
+            <ul style="margin-top:.8rem">
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>TallyPrime licences & AMC</li>
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>Custom TallyTDL projects</li>
+            </ul>
+          </div>
+          <div class="prod-card" style="background:#030a04;border:none"><span class="prod-icon">🏫</span>
+            <h3 style="color:#39e07a">School & Coaching</h3>
+            <p style="color:#4a7a58">School Management System & coaching platform.</p>
+            <ul style="margin-top:.8rem">
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>Annual subscriptions</li>
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>Onboarding & setup fees</li>
+            </ul>
+          </div>
+          <div class="prod-card" style="background:#030a04;border:none"><span class="prod-icon">🤖</span>
+            <h3 style="color:#39e07a">AI & EdTech</h3>
+            <p style="color:#4a7a58">India's own AI learning tools.</p>
+            <ul style="margin-top:.8rem">
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>Ganitsutram school licences</li>
+              <li style="font-size:.72rem;color:#4a7a58;padding-left:.9rem;position:relative"><span
+                  style="position:absolute;left:0;color:#39e07a">↳</span>My AI Pathasala subscriptions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partner Apply Form -->
+      <div class="sec" id="pl-apply">
+        <div class="sh rv"><span class="snum" style="color:#39e07a">02 — APPLY NOW</span>
+          <div class="sline" style="background:rgba(57,224,122,.12)"></div>
+        </div>
+        <div class="stitle rv" style="color:#e8fff0">Your City.<br>Your Territory.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p style="color:#4a7a58">Zero investment. Zero franchise fee. Pure commission on every sale you make.
+              <strong style="color:#e8fff0">We give you full product training, sales material, and ongoing
+                support.</strong></p>
+            <div class="clinks">
+              <a href="mailto:partners@aitdl.com" class="clink"><span class="cll">Email</span><span
+                  class="clv">partners@aitdl.com</span><span class="cla">↗</span></a>
+            </div>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)" data-form-type="partner">
+            <input type="hidden" name="section" value="partner-apply" />
+            <div class="frow">
+              <div class="ff"><label>Your Full Name</label><input type="text" name="name" placeholder="Your name"
+                  required /></div>
+              <div class="ff"><label>WhatsApp Number</label><input type="tel" name="phone" placeholder="Mobile number"
+                  required /></div>
+            </div>
+            <div class="ff"><label>City / District</label><input type="text" name="city"
+                placeholder="Your city or district" required /></div>
+            <div class="ff"><label>Current Occupation</label><input type="text" name="occupation"
+                placeholder="What do you do currently?" required /></div>
+            <div class="ff"><label>Why do you want to partner with AITDL?</label><textarea name="message"
+                placeholder="Tell us about your network and why you'd be a great AITDL partner…"></textarea></div>
+            <button type="submit" class="bsend"><span>Apply Now — Free →</span></button>
+          </form>
+        </div>
+      </div>
+
+      <footer>
+        <p>© 2026 AITDL · Partner Programme</p>
+        <div class="fl">AITDL</div>
+        <p>Mumbai · Nashik · Surat · Gorakhpur · Pan India</p>
+      </footer>
+    </div><!-- /partner-landing -->
+
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     RETAIL SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="aud-section" id="s-retail">
+      <div class="aud-hero">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="hero-eyebrow">
+          <div class="pdf"
+            style="width:7px;height:7px;border-radius:50%;background:var(--a);animation:pulse-dot 2s infinite"></div>
+          <span class="etag">Retail Technology</span>
+          <div class="eline"></div><span class="esub">Shoper 9 POS · GST Billing · Inventory · Chain Management</span>
+        </div>
+        <div class="hero-h rv">RETAIL.<br>RUN <span class="acc">RIGHT.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">India's best retail POS — trusted by <strong>100+ stores</strong> across Mumbai, Nashik,
+            Surat & Gorakhpur. From single shop to multi-city chains. <strong>See it live. Then decide.</strong></p>
+          <div class="hero-acts">
+            <a href="#" class="btn-primary" onclick="scrollToId('products')">See Solutions ↓</a>
+            <button class="btn-ghost" onclick="scrollToId('contact')">Book a free demo →</button>
+          </div>
+        </div>
+      </div>
+      <div class="trust-row rv">
+        <div class="ti"><span class="ti-ico">🧾</span>
+          <div>
+            <h4>GST Compliant</h4>
+            <p>Full GST billing, returns & reconciliation</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">🏪</span>
+          <div>
+            <h4>Multi-Store</h4>
+            <p>Link all your branches to one Head Office</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">📊</span>
+          <div>
+            <h4>Live Reports</h4>
+            <p>Sales, stock, outstanding — real time</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">👁️</span>
+          <div>
+            <h4>See It First</h4>
+            <p>Free demo before you pay a rupee</p>
+          </div>
+        </div>
+      </div>
+      <div class="stats rv">
+        <div class="sb"><span class="sn" data-target="18">0+</span><span class="sl">Years Experience</span></div>
+        <div class="sb"><span class="sn" data-target="100">0+</span><span class="sl">Live Retail Clients</span></div>
+        <div class="sb"><span class="sn" data-target="4">0</span><span class="sl">Cities Supported</span></div>
+        <div class="sb"><span class="sn" data-target="99">0%</span><span class="sl">Satisfaction Rate</span></div>
+      </div>
+      <div class="sec" id="products">
+        <div class="sh rv"><span class="snum">01 — OUR SOLUTIONS</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Everything Your<br>Store Needs.</div>
+        <div class="prod-grid rv">
+          <div class="prod-card"><span class="prod-icon">🛍️</span><span class="badge-live">● LIVE</span>
+            <h3>Shoper 9 POS</h3>
+            <p>India's most trusted retail POS. Billing, inventory, barcode, loyalty, reports — all in one.</p>
+            <ul>
+              <li>Multi-counter billing</li>
+              <li>Barcode / RFID</li>
+              <li>Customer loyalty</li>
+              <li>GST returns ready</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">🏢</span><span class="badge-live">● LIVE</span>
+            <h3>Head Office / Chain</h3>
+            <p>Link all your stores. Central inventory, price updates, consolidated reports — from one dashboard.</p>
+            <ul>
+              <li>Multi-store management</li>
+              <li>Central price control</li>
+              <li>Inter-store transfers</li>
+              <li>Chain-level analytics</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">📊</span><span class="badge-live">● LIVE</span>
+            <h3>Reports & Analytics</h3>
+            <p>Know exactly what sells, what doesn't, and what your best customers buy.</p>
+            <ul>
+              <li>Daily / weekly / monthly</li>
+              <li>Stock movement reports</li>
+              <li>Customer purchase analysis</li>
+              <li>Profit & loss by item</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sec" id="contact">
+        <div class="sh rv"><span class="snum">02 — CONTACT</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">See It First.<br>Then Decide.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>We offer a <strong>free demo for all retailers</strong> — no payment, no commitment required. See Shoper
+              working with your actual data.</p>
+            <div class="clinks">
+              <a href="mailto:retail@aitdl.com" class="clink"><span class="cll">Email</span><span
+                  class="clv">retail@aitdl.com</span><span class="cla">↗</span></a>
+              <a href="#" class="clink"><span class="cll">Mumbai</span><span class="clv">Mumbai, Maharashtra</span><span
+                  class="cla">↗</span></a>
+              <a href="#" class="clink"><span class="cll">Nashik</span><span class="clv">Nashik, Maharashtra</span><span
+                  class="cla">↗</span></a>
+            </div>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)">
+            <input type="hidden" name="section" value="retail" />
+            <div class="frow">
+              <div class="ff"><label>Your Name</label><input type="text" name="name" placeholder="Your name" required />
+              </div>
+              <div class="ff"><label>WhatsApp Number</label><input type="tel" name="phone" placeholder="Mobile number"
+                  required /></div>
+            </div>
+            <div class="ff"><label>Business Name</label><input type="text" name="business"
+                placeholder="Your shop / store name" /></div>
+            <div class="ff"><label>Message</label><textarea name="message"
+                placeholder="What do you need? Any specific requirements?"></textarea></div>
+            <button type="submit" class="bsend"><span>Book a Free Demo →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · Retail Technology</p>
+        <div class="fl">AITDL</div>
+        <p>Mumbai · Nashik · Surat · Gorakhpur · Pan India</p>
+      </footer>
+    </div><!-- /retail -->
+
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ERP SECTION (stub — expand as needed)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="aud-section" id="s-erp">
+      <div class="aud-hero">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="hero-eyebrow"><span class="etag">ERP & Business</span>
+          <div class="eline"></div><span class="esub">TallyPrime · ERPNext · Odoo · TallyTDL</span>
+        </div>
+        <div class="hero-h rv">BUSINESS.<br>RUN <span class="acc">SMART.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">From TallyPrime licences to full ERPNext implementations. <strong>18 years of helping
+              Indian businesses run better.</strong></p>
+          <div class="hero-acts"><button class="btn-ghost" onclick="scrollToId('contact')">Book a free consultation
+              →</button></div>
+        </div>
+      </div>
+      <div class="sec" id="contact">
+        <div class="sh rv"><span class="snum">01 — CONTACT</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Let's Talk Business.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>Get a <strong>free consultation</strong> on the right ERP for your business size and industry.</p>
+            <div class="clinks"><a href="mailto:erp@aitdl.com" class="clink"><span class="cll">Email</span><span
+                  class="clv">erp@aitdl.com</span><span class="cla">↗</span></a></div>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)">
+            <input type="hidden" name="section" value="erp" />
+            <div class="frow">
+              <div class="ff"><label>Your Name</label><input type="text" name="name" placeholder="Your name" required />
+              </div>
+              <div class="ff"><label>WhatsApp</label><input type="tel" name="phone" placeholder="Mobile number"
+                  required /></div>
+            </div>
+            <div class="ff"><label>Business Type</label><select name="business_type">
+                <option>Manufacturing</option>
+                <option>Trading</option>
+                <option>Services</option>
+                <option>Retail</option>
+                <option>Other</option>
+              </select></div>
+            <div class="ff"><label>Message</label><textarea name="message"
+                placeholder="What do you currently use for accounts / ERP?"></textarea></div>
+            <button type="submit" class="bsend"><span>Book Free Consultation →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · ERP & Business Solutions</p>
+        <div class="fl">AITDL</div>
+        <p>Mumbai · Nashik · Surat · Gorakhpur · Pan India</p>
+      </footer>
+    </div><!-- /erp -->
+
+
+    <!-- Education, Teacher, Student, Home sections (stubs) -->
+    <div class="aud-section" id="s-education">
+      <div class="aud-hero">
+        <div class="hero-eyebrow"><span class="etag">Education Technology</span></div>
+        <div class="hero-h rv">SCHOOLS.<br>RUN <span class="acc">BETTER.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">School ERP · coaching management · fee collection · digital classrooms.
+            <strong>Everything a modern school needs.</strong></p>
+          <div class="hero-acts"><button class="btn-ghost" onclick="scrollToId('contact')">Book a free demo →</button>
+          </div>
+        </div>
+      </div>
+      <div class="sec" id="contact">
+        <div class="sh rv"><span class="snum">01 — CONTACT</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">See It First.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>We offer a <strong>free demo</strong> for all schools and coaching institutes.</p>
+            <div class="clinks"><a href="mailto:schools@aitdl.com" class="clink"><span class="cll">Email</span><span
+                  class="clv">schools@aitdl.com</span><span class="cla">↗</span></a></div>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)"><input type="hidden" name="section" value="education" />
+            <div class="frow">
+              <div class="ff"><label>Name</label><input type="text" name="name" required /></div>
+              <div class="ff"><label>WhatsApp</label><input type="tel" name="phone" required /></div>
+            </div><button type="submit" class="bsend"><span>Book a Free Demo →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · Education Technology</p>
+        <div class="fl">AITDL</div>
+      </footer>
+    </div>
+
+    <div class="aud-section" id="s-teacher">
+      <div class="aud-hero">
+        <div class="hero-eyebrow"><span class="etag">AI for Teachers</span></div>
+        <div class="hero-h rv">TEACH.<br>WITH <span class="acc">AI.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">AI lesson planning, auto question banks, and personalised learning — built for Indian
+            teachers and their students.</p>
+          <div class="hero-acts"><button class="btn-ghost" onclick="scrollToId('contact')">Get early access →</button>
+          </div>
+        </div>
+      </div>
+      <div class="sec" id="contact">
+        <div class="sh rv"><span class="snum">01 — CONTACT</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Get Early Access.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>Be among the first teachers to experience <strong>AITDL AI tools</strong> for educators.</p>
+            <div class="clinks"><a href="mailto:schools@aitdl.com" class="clink"><span class="cll">Email</span><span
+                  class="clv">schools@aitdl.com</span><span class="cla">↗</span></a></div>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)"><input type="hidden" name="section" value="teacher" />
+            <div class="frow">
+              <div class="ff"><label>Name</label><input type="text" name="name" required /></div>
+              <div class="ff"><label>WhatsApp</label><input type="tel" name="phone" required /></div>
+            </div><button type="submit" class="bsend"><span>Get Early Access →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · AI for Teachers</p>
+        <div class="fl">AITDL</div>
+      </footer>
+    </div>
+
+    <div class="aud-section" id="s-student">
+      <div class="aud-hero">
+        <div class="hero-eyebrow"><span class="etag">AI Learning</span></div>
+        <div class="hero-h rv">LEARN.<br>WITH <span class="acc">AI.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">Ganitsutram · My AI Pathsala · Saathi Book. India's own AI-powered personalised learning
+            platform. <strong>Built for Indian students, in Indian languages.</strong></p>
+          <div class="hero-acts"><button class="btn-ghost" onclick="scrollToId('contact')">Try for free →</button></div>
+        </div>
+      </div>
+      <div class="sec" id="contact">
+        <div class="sh rv"><span class="snum">01 — TRY FOR FREE</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Start Learning Today.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>Try <strong>Ganitsutram or My AI Pathsala</strong> free — no credit card needed.</p>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)"><input type="hidden" name="section" value="student" />
+            <div class="frow">
+              <div class="ff"><label>Your Name</label><input type="text" name="name" required /></div>
+              <div class="ff"><label>WhatsApp</label><input type="tel" name="phone" required /></div>
+            </div>
+            <div class="ff"><label>Class / Grade</label><select name="grade">
+                <option>Class 6</option>
+                <option>Class 7</option>
+                <option>Class 8</option>
+                <option>Class 9</option>
+                <option>Class 10</option>
+                <option>Class 11</option>
+                <option>Class 12</option>
+              </select></div><button type="submit" class="bsend"><span>Get Free Access →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · AI Learning</p>
+        <div class="fl">AITDL</div>
+      </footer>
+    </div>
+
+    <div class="aud-section" id="s-home">
+      <div class="aud-hero">
+        <div class="hero-eyebrow"><span class="etag">Home & Family AI</span></div>
+        <div class="hero-h rv">STUDY AT<br><span class="acc">HOME.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">Home Study Buddy — an AI tutor for your child. Available 24/7, patient, personalised.
+            <strong>Real learning. No tuition fees.</strong></p>
+          <div class="hero-acts"><button class="btn-ghost" onclick="scrollToId('contact')">Try for free →</button></div>
+        </div>
+      </div>
+      <div class="sec" id="contact">
+        <div class="sh rv"><span class="snum">01 — GET STARTED</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Your Child Deserves<br>An AI Tutor.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>Let your child try <strong>Home Study Buddy free for 7 days</strong> — no commitment.</p>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)"><input type="hidden" name="section" value="home" />
+            <div class="frow">
+              <div class="ff"><label>Parent Name</label><input type="text" name="name" required /></div>
+              <div class="ff"><label>WhatsApp</label><input type="tel" name="phone" required /></div>
+            </div><button type="submit" class="bsend"><span>Start Free Trial →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · Home & Family AI</p>
+        <div class="fl">AITDL</div>
+      </footer>
+    </div>
+
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     NGO SECTION — id="s-ngo" (Bug Fix: was missing in some builds)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="aud-section" id="s-ngo">
+      <div class="aud-hero">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="hero-eyebrow"><span class="etag">NGO & Social Sector</span>
+          <div class="eline"></div><span class="esub">Donation Tracking · Fund Accounting · Member Management · Temple
+            ERP</span>
+        </div>
+        <div class="hero-h rv">SERVE.<br>WITH <span class="acc">CLARITY.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">Donation tracking, fund accounting, 80G receipts, and impact reports — <strong>built for
+              NGOs, charitable trusts, and temples</strong> across India.</p>
+          <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollToId('products')">See Our Solutions
+              ↓</a><button class="btn-ghost" onclick="scrollToId('contact')">Book a free demo →</button></div>
+        </div>
+      </div>
+      <div class="trust-row rv">
+        <div class="ti"><span class="ti-ico">🕌</span>
+          <div>
+            <h4>Temple & Trust Ready</h4>
+            <p>Built for Indian religious & charitable trusts</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">💰</span>
+          <div>
+            <h4>Donation Tracking</h4>
+            <p>Every rupee in, every rupee out — transparent</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">📊</span>
+          <div>
+            <h4>Impact Reports</h4>
+            <p>Show donors where their money went</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">🤲</span>
+          <div>
+            <h4>See It First</h4>
+            <p>Free demo, zero advance required</p>
+          </div>
+        </div>
+      </div>
+      <div class="stats rv">
+        <div class="sb"><span class="sn" data-target="18">0+</span><span class="sl">Years Experience</span></div>
+        <div class="sb"><span class="sn" data-target="4">0</span><span class="sl">Core NGO Modules</span></div>
+        <div class="sb"><span class="sn" data-target="100">0+</span><span class="sl">Organisations Served</span></div>
+        <div class="sb"><span class="sn" data-target="99">0%</span><span class="sl">Satisfaction</span></div>
+      </div>
+      <div class="sec" id="products">
+        <div class="sh rv"><span class="snum">01 — OUR SOLUTIONS</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Four Modules.<br>One Mission.</div>
+        <div class="prod-grid rv">
+          <div class="prod-card"><span class="prod-icon">💰</span>
+            <h3>Donation & Fund Tracking</h3>
+            <p>Record every donation — cash, cheque, UPI, bank transfer. Generate 80G receipts instantly.</p>
+            <ul>
+              <li>Donor database & history</li>
+              <li>80G tax exemption receipts</li>
+              <li>Fund-wise segregation</li>
+              <li>UPI & online donation</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">👥</span>
+            <h3>Member & Volunteer Management</h3>
+            <p>Track members, life members, volunteers and committee members. Send automated reminders.</p>
+            <ul>
+              <li>Member profiles & categories</li>
+              <li>Volunteer hours tracking</li>
+              <li>Renewal reminders</li>
+              <li>ID card generation</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">📊</span>
+            <h3>Project & Impact Reporting</h3>
+            <p>Create projects, assign budgets, track spending and generate impact reports.</p>
+            <ul>
+              <li>Project-wise budget tracking</li>
+              <li>Beneficiary records</li>
+              <li>Impact metrics dashboard</li>
+              <li>FCRA & annual return support</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">🕌</span>
+            <h3>Temple & Trust Accounting</h3>
+            <p>Specifically for temples, mutts, gurudwaras — with puja booking, prasad inventory, hundi collection.</p>
+            <ul>
+              <li>Hundi & collection tracking</li>
+              <li>Puja booking & scheduling</li>
+              <li>Prasad inventory</li>
+              <li>Trust fund accounting</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sec" id="contact">
+        <div class="sh rv"><span class="snum">02 — CONTACT</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">See It First.<br>Then Decide.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>We offer a <strong>free demo for all NGOs, trusts and temples</strong> — no payment, no commitment.</p>
+            <div class="clinks"><a href="mailto:ngo@aitdl.com" class="clink"><span class="cll">Email</span><span
+                  class="clv">ngo@aitdl.com</span><span class="cla">↗</span></a></div>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)">
+            <input type="hidden" name="section" value="ngo" />
+            <div class="frow">
+              <div class="ff"><label>Organisation Name</label><input type="text" name="name"
+                  placeholder="Your NGO / Trust name" required /></div>
+              <div class="ff"><label>Contact Person</label><input type="text" name="contact" placeholder="Your name"
+                  required /></div>
+            </div>
+            <div class="frow">
+              <div class="ff"><label>WhatsApp Number</label><input type="tel" name="phone" placeholder="Mobile number"
+                  required /></div>
+              <div class="ff"><label>City</label><input type="text" name="city" placeholder="Your city" required />
+              </div>
+            </div>
+            <div class="ff"><label>Organisation Type</label><select name="org_type">
+                <option>Charitable Trust</option>
+                <option>Temple / Religious Trust</option>
+                <option>NGO / Non-Profit</option>
+                <option>Social Welfare Organisation</option>
+                <option>Other</option>
+              </select></div>
+            <button type="submit" class="bsend"><span>Book a Free Demo →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · NGO & Social Sector Solutions</p>
+        <div class="fl">AITDL</div>
+        <p>Mumbai · Nashik · Surat · Gorakhpur · Pan India</p>
+      </footer>
+    </div><!-- /ngo — id="s-ngo" confirmed -->
+
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ECOMMERCE SECTION — id="s-ecom" (Bug Fix: was missing in some builds)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="aud-section" id="s-ecom">
+      <div class="aud-hero">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div style="display:inline-flex;align-items:center;gap:.6rem;margin-bottom:2rem">
+          <span
+            style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.4);color:#b0aaff;padding:.35rem .85rem;animation:live-pulse 2s infinite">●
+            COMING SOON</span>
+          <span
+            style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted)">Launching
+            2025 · Join the Waitlist</span>
+        </div>
+        <div class="hero-h rv">SELL ONLINE.<br>BUILT FOR<br><span class="acc">BHARAT.</span></div>
+        <div class="hero-body rv">
+          <p class="hero-desc">India deserves an ecommerce platform that understands Indian business —
+            <strong>GST-native, UPI-first, regional language ready</strong>. <strong>Join the waitlist. Shape the
+              product.</strong></p>
+          <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollToId('waitlist')">Join the Waitlist
+              ↓</a></div>
+        </div>
+      </div>
+      <div class="sec" id="waitlist">
+        <div class="sh rv"><span class="snum">01 — JOIN THE WAITLIST</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Be First.<br>Shape the Product.</div>
+        <div class="contact-grid">
+          <div class="cl rv">
+            <p>Waitlist members get <strong>early access before public launch</strong>, founding member pricing, and a
+              direct line to our product team.</p>
+          </div>
+          <form class="cf rv" onsubmit="sendForm(event)">
+            <input type="hidden" name="section" value="ecom-waitlist" />
+            <div class="frow">
+              <div class="ff"><label>Your Name</label><input type="text" name="name" placeholder="Full name" required />
+              </div>
+              <div class="ff"><label>WhatsApp Number</label><input type="tel" name="phone" placeholder="Mobile number"
+                  required /></div>
+            </div>
+            <div class="ff"><label>Business Name</label><input type="text" name="business"
+                placeholder="Your business or brand name" /></div>
+            <div class="ff"><label>What do you sell?</label><input type="text" name="products"
+                placeholder="Briefly describe your products or services" /></div>
+            <div class="ff"><label>The one thing you wish existed</label><textarea name="message"
+                placeholder="What's the biggest problem you have with selling online today?"></textarea></div>
+            <button type="submit" class="bsend"><span>Join the Waitlist →</span></button>
+          </form>
+        </div>
+      </div>
+      <footer>
+        <p>© 2026 AITDL · Ecommerce Platform · Coming Soon</p>
+        <div class="fl">AITDL</div>
+        <p>Mumbai · Nashik · Surat · Gorakhpur · Pan India</p>
+      </footer>
+    </div><!-- /ecom — id="s-ecom" confirmed -->
+
+
+  </div><!-- /wrap -->
+
+  <!-- Scripts: config first, then canvas, then picker, then forms, then router -->
+  <script src="js/config.js"></script>
+  <script src="js/canvas.js"></script>
+  <script src="js/picker.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>

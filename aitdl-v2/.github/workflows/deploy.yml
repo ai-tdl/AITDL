@@ -1,0 +1,75 @@
+# || ॐ श्री गणेशाय नमः ||
+#
+# Organization: AITDL
+# AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
+#
+# Creator: Jawahar R. Mallah
+# Founder, Author & System Architect
+#
+# Email: jawahar@aitdl.com
+# GitHub: https://github.com/jawahar-mallah
+#
+# Websites:
+# https://ganitsutram.com
+# https://aitdl.com
+#
+# Then: 628 CE · Brahmasphuṭasiddhānta
+# Now: 8 March MMXXVI · Vikram Samvat 2082
+#
+# Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+
+name: AITDL v2 — Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          cd aitdl-v2/backend
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          cd aitdl-v2
+          python -m pytest tests/ -v
+
+  deploy-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: aitdl-v2/frontend
+          vercel-args: '--prod'
+
+  deploy-backend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd aitdl-v2/backend
+          railway up --service aitdl-api

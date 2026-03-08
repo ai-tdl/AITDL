@@ -1,0 +1,55 @@
+{
+    "_aitdl": {
+        "description": "PIL — Dependency Map: what depends on what",
+        "creator": "Jawahar R. Mallah",
+        "updated": "2026-03-09"
+    },
+    "dependencies": {
+        "frontend.main": [
+            "frontend.config",
+            "core.segments",
+            "core.brand"
+        ],
+        "frontend.picker": [
+            "core.segments",
+            "frontend.main"
+        ],
+        "frontend.forms": [
+            "frontend.config",
+            "core.brand"
+        ],
+        "frontend.canvas": [
+            "frontend.main"
+        ],
+        "frontend.themes": [
+            "core.segments"
+        ],
+        "backend.main": [
+            "backend.config",
+            "backend.cors",
+            "backend.contact",
+            "backend.partner"
+        ],
+        "backend.contact": [
+            "backend.m_contact",
+            "backend.database",
+            "backend.config"
+        ],
+        "backend.partner": [
+            "backend.m_partner",
+            "backend.database",
+            "backend.config"
+        ],
+        "backend.m_contact": [
+            "core.segments"
+        ],
+        "backend.database": [
+            "backend.config"
+        ]
+    },
+    "protected_from_changes": [
+        "core.identity",
+        "backend.identity",
+        "rules.rulesbook"
+    ]
+}
