@@ -1,0 +1,158 @@
+{
+    "_aitdl": {
+        "org": "AITDL — A Living Knowledge Ecosystem",
+        "creator": "Jawahar R. Mallah",
+        "copyright": "© aitdl.com · AITDL | GANITSUTRAM.com",
+        "epoch": "628 CE · Brahmasphuṭasiddhānta → 8 March MMXXVI"
+    },
+    "products": [
+        {
+            "id": "shoper-pos",
+            "name": "Shoper 9 POS",
+            "section": "retail",
+            "status": "live",
+            "icon": "🖥️",
+            "tags": [
+                "POS",
+                "Billing",
+                "GST",
+                "Retail"
+            ],
+            "url": null
+        },
+        {
+            "id": "shoper-ho",
+            "name": "Shoper Head Office",
+            "section": "retail",
+            "status": "live",
+            "icon": "🏢",
+            "tags": [
+                "Multi-Store",
+                "Inventory",
+                "Central Control"
+            ],
+            "url": null
+        },
+        {
+            "id": "ai-retail-pos",
+            "name": "AI-Powered Retail POS",
+            "section": "retail",
+            "status": "coming-soon",
+            "icon": "🤖",
+            "tags": [
+                "AI",
+                "POS",
+                "Indigenous",
+                "Prediction"
+            ],
+            "url": null
+        },
+        {
+            "id": "tallyprime",
+            "name": "TallyPrime",
+            "section": "erp",
+            "status": "live",
+            "icon": "📒",
+            "tags": [
+                "Tally",
+                "GST",
+                "Accounting",
+                "ERP"
+            ],
+            "url": null
+        },
+        {
+            "id": "tallytdl",
+            "name": "TallyTDL Development",
+            "section": "erp",
+            "status": "live",
+            "icon": "🔩",
+            "tags": [
+                "TallyTDL",
+                "Custom",
+                "Integration"
+            ],
+            "url": null
+        },
+        {
+            "id": "erpnext-odoo",
+            "name": "ERPNext & Odoo",
+            "section": "erp",
+            "status": "live",
+            "icon": "🌐",
+            "tags": [
+                "ERPNext",
+                "Odoo",
+                "Open Source"
+            ],
+            "url": null
+        },
+        {
+            "id": "prathamone",
+            "name": "PrathamOne Academy",
+            "section": "education",
+            "status": "live",
+            "icon": "🎓",
+            "tags": [
+                "Coaching",
+                "Live Classes",
+                "Batch",
+                "Fees"
+            ],
+            "url": "https://prathamone.com"
+        },
+        {
+            "id": "ganitsutram",
+            "name": "Ganitsutram — AI Maths",
+            "section": "student",
+            "status": "live",
+            "icon": "🧮",
+            "tags": [
+                "AI",
+                "Maths",
+                "Gamified",
+                "Students"
+            ],
+            "url": "https://ganitsutram.com"
+        },
+        {
+            "id": "myaipathasala",
+            "name": "My AI Pathasala",
+            "section": "student",
+            "status": "live",
+            "icon": "📚",
+            "tags": [
+                "AI Tutor",
+                "All Subjects",
+                "Personalised"
+            ],
+            "url": "https://myaipathsala.com"
+        },
+        {
+            "id": "home-study-buddy",
+            "name": "Home Study Buddy",
+            "section": "home",
+            "status": "coming-soon",
+            "icon": "📖",
+            "tags": [
+                "AI",
+                "Home Learning",
+                "Parents"
+            ],
+            "url": null
+        },
+        {
+            "id": "saathi-book",
+            "name": "Saathi Book",
+            "section": "home",
+            "status": "coming-soon",
+            "icon": "📒",
+            "tags": [
+                "Home Accounts",
+                "Family Budget",
+                "AI"
+            ],
+            "url": null
+        }
+    ]
+}
