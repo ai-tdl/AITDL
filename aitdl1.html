@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="description" content="AITDL — Technology Solutions for Retail, ERP, Education & AI. Pan India. Since 2007. See it. Love it. Then pay for it."/>
+<title>AITDL — Choose Your World</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME VARIABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root{
+  --bg:#03040a;--deep:#080c18;--card:#0d1121;
+  --a:#c9a84c;--a2:#f0d080;
+  --text:#e8e4da;--muted:#6a6860;--border:rgba(255,255,255,0.07);
+  --pr:201,168,76;--btn-text:#03040a;
+}
+.t-retail{--bg:#060200;--deep:#0f0500;--card:#180a00;--a:#ff6b1a;--a2:#ffb07a;--text:#fff5ee;--muted:#8a6a55;--border:rgba(255,107,26,0.12);--pr:255,107,26;--btn-text:#fff}
+.t-erp{--bg:#00050f;--deep:#000c1e;--card:#001127;--a:#1a8fff;--a2:#70caff;--text:#e0f0ff;--muted:#4a7090;--border:rgba(26,143,255,0.12);--pr:26,143,255;--btn-text:#fff}
+.t-education{--bg:#010a04;--deep:#031208;--card:#05180b;--a:#22c565;--a2:#7ffaaa;--text:#e0f8eb;--muted:#458060;--border:rgba(34,197,101,0.12);--pr:34,197,101;--btn-text:#fff}
+.t-ai{--bg:#030108;--deep:#070315;--card:#0c0620;--a:#a259ff;--a2:#d4a0ff;--text:#f0e8ff;--muted:#6a5090;--border:rgba(162,89,255,0.12);--pr:162,89,255;--btn-text:#fff}
+.t-home{--bg:#070203;--deep:#110405;--card:#1a0708;--a:#ff4d6a;--a2:#ff9aaa;--text:#fff0f2;--muted:#8a5060;--border:rgba(255,77,106,0.12);--pr:255,77,106;--btn-text:#fff}
+
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;transition:background .6s,color .4s;cursor:none}
+@media(max-width:768px){body{cursor:auto}}
+
+/* CANVAS */
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;transition:opacity .5s}
+
+/* CURSOR */
+#cur,#curR{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur{width:9px;height:9px;background:var(--a);transition:background .4s,width .2s,height .2s}
+#curR{width:34px;height:34px;border:1px solid rgba(var(--pr),.5);transition:border-color .4s,width .2s,height .2s}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:5px;height:5px}
+body:has(a:hover) #curR,body:has(button:hover) #curR{width:52px;height:52px}
+@media(max-width:768px){#cur,#curR{display:none}}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LAYOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.wrap{position:relative;z-index:2}
+
+/* NAV */
+nav{position:fixed;top:0;inset-inline:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:rgba(0,0,0,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:border-color .5s}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.12em;background:linear-gradient(130deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--a);transform:scaleX(0);transition:transform .3s}
+.nav-links a:hover{color:var(--text)}.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{border:1px solid var(--a);color:var(--a)!important;padding:.45rem 1.1rem;transition:background .3s,color .3s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--a);color:var(--btn-text)!important}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:3px}
+.burger span{width:22px;height:2px;background:var(--text);display:block;border-radius:2px;transition:background .4s}
+@media(max-width:768px){
+  nav{padding:.9rem 1.2rem}
+  .burger{display:flex}
+  .nav-links{display:none;position:fixed;inset:0;background:var(--bg);flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;z-index:600;transition:background .5s}
+  .nav-links.open{display:flex}
+  .nav-links a{font-size:1rem}
+  .xbtn{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SHARED ORB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.o1{width:600px;height:600px;background:rgba(201,168,76,.05);top:-200px;right:-150px}
+.o2{width:400px;height:400px;background:rgba(201,168,76,.03);bottom:-100px;left:-100px}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GATE — full-viewport, always visible
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#gate{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:stretch;
+  position:relative;overflow:hidden;
+}
+
+/* Brand strip */
+.gate-brand{
+  text-align:center;margin-bottom:3.5rem;
+  opacity:0;animation:fU .8s ease .2s forwards;
+}
+.gate-brand .logo{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,5rem);
+  letter-spacing:.2em;background:linear-gradient(130deg,#c9a84c,#f0d080);
+  background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:sh 5s linear 2s infinite;display:block;margin-bottom:.6rem;
+}
+.gate-brand .tagline{
+  font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:#555;
+}
+.gate-brand .tagline em{color:#c9a84c;font-style:normal}
+
+/* Two-door layout */
+.gate-doors{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:rgba(255,255,255,.05);
+  opacity:0;animation:fU .7s ease .55s forwards;
+}
+@media(max-width:700px){.gate-doors{grid-template-columns:1fr}}
+
+.door{
+  position:relative;overflow:hidden;cursor:pointer;
+  padding:3.5rem 3rem;display:flex;flex-direction:column;
+  justify-content:space-between;min-height:340px;
+  background:var(--deep);
+  transition:background .35s;
+}
+@media(max-width:768px){.door{padding:2.5rem 1.5rem;min-height:260px}}
+.door:hover{background:var(--card)}
+
+/* Door glow on hover */
+.door::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 110%,rgba(201,168,76,.1),transparent 70%);
+  opacity:0;transition:opacity .5s;
+}
+.door:hover::after{opacity:1}
+
+/* Left door — universe */
+.door-universe{border-right:1px solid rgba(255,255,255,.04)}
+@media(max-width:700px){.door-universe{border-right:none;border-bottom:1px solid rgba(255,255,255,.04)}}
+
+/* Top accent line */
+.door-line{
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--dl,#c9a84c),transparent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.door:hover .door-line{transform:scaleX(1)}
+
+/* Door content */
+.door-top{}
+.door-icon{font-size:2.8rem;line-height:1;display:block;margin-bottom:1.4rem;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.door:hover .door-icon{transform:scale(1.12) rotate(-4deg)}
+.door-label{
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dl,#c9a84c);margin-bottom:.7rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.door-label::before{content:'';width:18px;height:1px;background:currentColor;opacity:.5}
+.door h2{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3.2rem);
+  letter-spacing:.03em;line-height:.95;margin-bottom:.9rem;
+  transition:color .3s;
+}
+.door:hover h2{color:var(--dl,#c9a84c)}
+.door-desc{font-size:.8rem;color:#4a4a5a;line-height:1.75;max-width:360px;margin-bottom:1.6rem}
+.door-desc strong{color:#888}
+
+.door-cta{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;
+  color:var(--dl,#c9a84c);position:relative;z-index:1;
+  transition:gap .3s;
+}
+.door:hover .door-cta{gap:.9rem}
+.door-cta .arr{transition:transform .3s}
+.door:hover .door-cta .arr{transform:translateX(4px)}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OVERVIEW DASHBOARD (Whole Universe)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#overview{display:none;position:relative;z-index:2}
+#overview.on{display:block}
+
+.ov-hero{
+  min-height:52vh;display:flex;flex-direction:column;
+  justify-content:center;padding:7rem 3rem 3rem;
+  position:relative;overflow:hidden;
+}
+@media(max-width:768px){.ov-hero{padding:6rem 1.2rem 2.5rem}}
+.ov-tag{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.ov-tag .pd{width:7px;height:7px;border-radius:50%;background:#c9a84c;animation:pd 2s infinite;flex-shrink:0}
+.ov-tag span{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c}
+.ov-tag .dl{width:36px;height:1px;background:#c9a84c;opacity:.4}
+.ov-tag .sb{color:#555}
+.ov-head{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,8vw,9rem);
+  line-height:.88;letter-spacing:-.01em;margin-bottom:1.5rem;
+}
+.ov-head .gold{background:linear-gradient(135deg,#c9a84c,#f0d080);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:sh 5s linear infinite}
+.ov-sub{color:#4a4a5a;font-size:.88rem;line-height:1.8;max-width:480px}
+.ov-sub strong{color:#888}
+
+/* Overview 6-world grid */
+.ov-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.05);
+}
+@media(max-width:900px){.ov-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ov-grid{grid-template-columns:1fr}}
+
+.ov-card{
+  background:var(--deep);padding:2.2rem 1.8rem;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:background .3s;display:flex;flex-direction:column;gap:.8rem;
+}
+.ov-card:hover{background:var(--card)}
+.ov-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--oc,#c9a84c);transform:scaleX(0);transform-origin:left;
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+}
+.ov-card:hover::before{transform:scaleX(1)}
+.ov-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 100%,rgba(255,255,255,.015),transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.ov-card:hover::after{opacity:1}
+.ov-ico{font-size:2.4rem;line-height:1;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.ov-card:hover .ov-ico{transform:scale(1.12) rotate(-5deg)}
+.ov-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;color:var(--oc,#c9a84c);transition:color .3s}
+.ov-card p{font-size:.74rem;color:#4a4a5a;line-height:1.7;flex:1}
+.ov-foot{display:flex;justify-content:space-between;align-items:center;padding-top:.6rem;border-top:1px solid rgba(255,255,255,.04)}
+.ov-tags{font-family:'Space Mono',monospace;font-size:.54rem;color:var(--oc,#c9a84c);opacity:.65;letter-spacing:.06em}
+.ov-arr{color:#333;font-size:1.1rem;transition:transform .3s,color .3s}
+.ov-card:hover .ov-arr{transform:translate(5px,-5px);color:var(--oc,#c9a84c)}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ROLE PICKER (Specific Destination)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#picker{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(28px);
+  flex-direction:column;justify-content:center;align-items:center;
+  padding:2rem 1.5rem;overflow-y:auto;
+}
+#picker.on{display:flex}
+
+.pk-close{
+  position:absolute;top:1.4rem;right:1.4rem;
+  background:none;border:none;color:#444;font-size:1.3rem;
+  cursor:pointer;transition:color .3s;line-height:1;padding:.3rem;
+}
+.pk-close:hover{color:#c9a84c}
+
+.pk-wrap{width:100%;max-width:780px}
+
+/* Step indicator */
+.pk-steps{
+  display:flex;align-items:center;gap:.8rem;margin-bottom:2.5rem;
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.pk-step{color:#333;transition:color .4s}
+.pk-step.act{color:#c9a84c}
+.pk-step.done{color:#555}
+.pk-sdiv{width:24px;height:1px;background:#222}
+
+/* Heading */
+.pk-head{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,3.5rem);
+  letter-spacing:.03em;line-height:.95;margin-bottom:.5rem;
+}
+.pk-sub{
+  font-size:.77rem;color:#4a4a5a;margin-bottom:2rem;line-height:1.7;
+}
+.pk-sub em{color:#c9a84c;font-style:normal}
+
+/* Role grid */
+.pk-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-bottom:1.8rem;
+}
+@media(max-width:680px){.pk-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.pk-grid{grid-template-columns:1fr}}
+
+.pk-role{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  padding:1.2rem 1rem;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:background .25s,border-color .25s,transform .2s;
+  display:flex;align-items:flex-start;gap:.75rem;
+}
+.pk-role:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);transform:translateY(-2px)}
+.pk-role.primary{
+  background:rgba(201,168,76,.1)!important;
+  border-color:#c9a84c!important;
+  box-shadow:0 0 0 1px rgba(201,168,76,.3),inset 0 0 30px rgba(201,168,76,.03);
+}
+.pk-role.secondary{
+  background:rgba(201,168,76,.04)!important;
+  border-color:rgba(201,168,76,.4)!important;
+}
+/* Color overrides per role */
+.pk-role[data-c="retail"].primary{background:rgba(255,107,26,.12)!important;border-color:#ff6b1a!important;box-shadow:0 0 0 1px rgba(255,107,26,.3)}
+.pk-role[data-c="retail"].secondary{background:rgba(255,107,26,.05)!important;border-color:rgba(255,107,26,.35)!important}
+.pk-role[data-c="erp"].primary{background:rgba(26,143,255,.12)!important;border-color:#1a8fff!important;box-shadow:0 0 0 1px rgba(26,143,255,.3)}
+.pk-role[data-c="erp"].secondary{background:rgba(26,143,255,.05)!important;border-color:rgba(26,143,255,.35)!important}
+.pk-role[data-c="edu"].primary{background:rgba(34,197,101,.12)!important;border-color:#22c565!important;box-shadow:0 0 0 1px rgba(34,197,101,.3)}
+.pk-role[data-c="edu"].secondary{background:rgba(34,197,101,.05)!important;border-color:rgba(34,197,101,.35)!important}
+.pk-role[data-c="teacher"].primary{background:rgba(34,197,101,.12)!important;border-color:#22c565!important;box-shadow:0 0 0 1px rgba(34,197,101,.3)}
+.pk-role[data-c="teacher"].secondary{background:rgba(34,197,101,.05)!important;border-color:rgba(34,197,101,.35)!important}
+.pk-role[data-c="student"].primary{background:rgba(162,89,255,.12)!important;border-color:#a259ff!important;box-shadow:0 0 0 1px rgba(162,89,255,.3)}
+.pk-role[data-c="student"].secondary{background:rgba(162,89,255,.05)!important;border-color:rgba(162,89,255,.35)!important}
+.pk-role[data-c="home"].primary{background:rgba(255,77,106,.12)!important;border-color:#ff4d6a!important;box-shadow:0 0 0 1px rgba(255,77,106,.3)}
+.pk-role[data-c="home"].secondary{background:rgba(255,77,106,.05)!important;border-color:rgba(255,77,106,.35)!important}
+
+/* Badge inside role card */
+.pk-badge{
+  position:absolute;top:.45rem;right:.5rem;
+  font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:.15rem .4rem;border:1px solid currentColor;
+  opacity:0;transition:opacity .2s;
+}
+.pk-role.primary .pk-badge{opacity:1;color:#c9a84c}
+.pk-role[data-c="retail"].primary .pk-badge{color:#ff6b1a}
+.pk-role[data-c="erp"].primary .pk-badge{color:#1a8fff}
+.pk-role[data-c="edu"].primary .pk-badge{color:#22c565}
+.pk-role[data-c="teacher"].primary .pk-badge{color:#22c565}
+.pk-role[data-c="student"].primary .pk-badge{color:#a259ff}
+.pk-role[data-c="home"].primary .pk-badge{color:#ff4d6a}
+.pk-role.secondary .pk-badge{opacity:.7;font-size:.42rem}
+.pk-role.secondary .pk-badge::before{content:'+'}
+
+.pk-r-ico{font-size:1.6rem;flex-shrink:0;line-height:1;transition:transform .3s}
+.pk-role:hover .pk-r-ico{transform:scale(1.1)}
+.pk-r-txt h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.04em;line-height:1.1;margin-bottom:.2rem;transition:color .3s}
+.pk-r-txt p{font-size:.64rem;color:#444;line-height:1.5;transition:color .3s}
+.pk-role:hover .pk-r-txt h4{color:#ccc}
+.pk-role:hover .pk-r-txt p{color:#555}
+
+/* Hint line under grid */
+.pk-hint{
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;flex-wrap:wrap;
+}
+.pk-hint-item{font-family:'Space Mono',monospace;font-size:.55rem;color:#333;letter-spacing:.07em;display:flex;align-items:center;gap:.4rem}
+.pk-hint-item .dot{width:8px;height:8px;border-radius:50%;border:1px solid}
+.pk-hint-item.h-pri .dot{background:rgba(201,168,76,.3);border-color:#c9a84c}
+.pk-hint-item.h-sec .dot{background:transparent;border-color:#555}
+
+/* CTA row */
+.pk-actions{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.pk-go{
+  padding:.9rem 2.5rem;background:#c9a84c;color:#060400;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:.76rem;
+  letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;
+  position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,opacity .3s;
+  opacity:.35;pointer-events:none;
+}
+.pk-go.ready{opacity:1;pointer-events:auto}
+.pk-go.ready:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(201,168,76,.35)}
+.pk-go::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-101%);transition:transform .38s}
+.pk-go.ready:hover::before{transform:translateX(0)}
+.pk-go span{position:relative;z-index:1}
+.pk-skip{
+  font-family:'Space Mono',monospace;font-size:.58rem;color:#333;letter-spacing:.1em;
+  background:none;border:none;border-bottom:1px solid #2a2a2a;padding-bottom:2px;cursor:pointer;
+  transition:color .3s,border-color .3s;
+}
+.pk-skip:hover{color:#c9a84c;border-color:#c9a84c}
+
+/* Selection summary */
+.pk-summary{
+  font-family:'Space Mono',monospace;font-size:.58rem;color:#444;
+  letter-spacing:.08em;min-height:1.2em;transition:color .3s;
+  margin-left:auto;
+}
+.pk-summary.has{color:#c9a84c}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   AUDIENCE SECTIONS — hidden by default
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.aud-section{display:none;min-height:100vh}
+.aud-section.active{display:block}
+
+/* HERO */
+.aud-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:7rem 3rem 4rem;position:relative;overflow:hidden}
+@media(max-width:768px){.aud-hero{padding:6rem 1.2rem 4rem}}
+.hero-eyebrow{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.hero-eyebrow .etag{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+.hero-eyebrow .eline{width:36px;height:1px;background:var(--a);opacity:.4}
+.hero-eyebrow .esub{color:var(--muted);font-size:.6rem;letter-spacing:.08em}
+.hero-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,12rem);line-height:.88;letter-spacing:-.01em;margin-bottom:2rem}
+.hero-h .acc{color:var(--a)}
+.hero-body{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+.hero-desc{max-width:420px;color:var(--muted);line-height:1.85;font-size:.88rem}
+.hero-desc strong{color:var(--text);font-weight:600}
+.hero-acts{display:flex;flex-direction:column;gap:.75rem;align-items:flex-end}
+@media(max-width:600px){.hero-acts{align-items:flex-start}}
+.btn-primary{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2.2rem;background:var(--a);color:var(--btn-text);font-weight:700;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s,background .5s}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 55px rgba(var(--pr),.3)}
+.btn-ghost{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .3s,border-color .3s;background:none;border-left:none;border-right:none;border-top:none;cursor:pointer}
+.btn-ghost:hover{color:var(--a);border-color:var(--a)}
+.hint{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em}
+
+/* TRUST */
+.trust-row{display:flex;gap:1px;background:var(--border)}
+.ti{flex:1;background:var(--deep);padding:1.1rem 1.2rem;display:flex;align-items:center;gap:.7rem;min-width:0;transition:background .3s}
+.ti:hover{background:var(--card)}
+.ti-ico{font-size:1.2rem;flex-shrink:0}
+.ti h4{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.06em;color:var(--a);transition:color .5s;white-space:nowrap}
+.ti p{font-size:.64rem;color:var(--muted);line-height:1.3}
+@media(max-width:800px){.trust-row{flex-wrap:wrap}.ti{flex:1 1 45%}}
+@media(max-width:420px){.ti{flex:1 1 100%}}
+
+/* MARQUEE */
+.mq{padding:.85rem 0;overflow:hidden;border-bottom:1px solid var(--border);background:rgba(var(--pr),.03);transition:background .5s}
+.mq-t{display:flex;gap:2.5rem;white-space:nowrap;animation:mq 28s linear infinite}
+.mq-t span{font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:.15em;color:var(--muted)}
+.mq-t .dot{color:var(--a);margin:0 .2rem;transition:color .5s}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.sb{background:var(--deep);padding:2.2rem 1rem;text-align:center;position:relative;overflow:hidden;transition:background .3s}
+.sb:hover{background:var(--card)}
+.sb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(var(--pr),.09),transparent 70%);opacity:0;transition:opacity .4s}
+.sb:hover::before{opacity:1}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:3rem;background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;display:block;margin-bottom:.3rem;transition:background .5s}
+.sl{font-size:.62rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:580px){.stats{grid-template-columns:1fr 1fr}.sn{font-size:2.2rem}}
+
+/* SECTION */
+.sec{padding:5rem 3rem}
+@media(max-width:768px){.sec{padding:4rem 1.2rem}}
+.sh{display:flex;align-items:center;gap:1.5rem;margin-bottom:.7rem}
+.snum{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--a);letter-spacing:.15em;white-space:nowrap;transition:color .5s}
+.sline{flex:1;height:1px;background:var(--border)}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4rem);letter-spacing:.02em;line-height:1;margin-bottom:2rem}
+.sdesc{color:var(--muted);font-size:.87rem;line-height:1.8;margin-bottom:2rem;max-width:600px}
+.sdesc strong{color:var(--text)}
+
+/* PRODUCT CARDS */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+@media(max-width:900px){.prod-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.prod-grid{grid-template-columns:1fr}}
+.prod-card{background:var(--deep);padding:2.2rem;position:relative;overflow:hidden;transition:background .3s;cursor:default}
+.prod-card:hover{background:var(--card)}
+.prod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--a),transparent);opacity:0;transition:opacity .3s}
+.prod-card:hover::before{opacity:1}
+.prod-icon{font-size:2.2rem;margin-bottom:1rem;display:block}
+.prod-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;color:var(--a);margin-bottom:.5rem;transition:color .5s}
+.prod-card p{font-size:.78rem;color:var(--muted);line-height:1.75}
+.prod-card p strong{color:var(--text)}
+.prod-card ul{list-style:none;margin-top:.8rem;display:flex;flex-direction:column;gap:.3rem}
+.prod-card ul li{font-size:.72rem;color:var(--muted);padding-left:.9rem;position:relative}
+.prod-card ul li::before{content:'↳';position:absolute;left:0;color:var(--a);font-size:.6rem}
+.badge-cs{display:inline-block;background:rgba(var(--pr),.12);border:1px solid var(--a);color:var(--a);font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;padding:.2rem .55rem;margin-bottom:.8rem;transition:background .5s,border-color .5s,color .5s}
+.badge-live{display:inline-block;background:rgba(45,200,100,.1);border:1px solid #2dc864;color:#2dc864;font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;padding:.2rem .55rem;margin-bottom:.8rem;animation:lp 2s infinite}
+
+/* PROJECT LIST */
+.proj-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.pi{background:var(--deep);display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:1.5rem;padding:1.8rem 2rem;cursor:pointer;transition:background .3s,padding-left .3s;position:relative;overflow:hidden}
+.pi::after{content:'';position:absolute;left:0;inset-block:0;width:0;background:linear-gradient(to right,rgba(var(--pr),.08),transparent);transition:width .4s}
+.pi:hover{background:var(--card);padding-left:2.5rem}.pi:hover::after{width:100%}
+.pn{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);z-index:1;position:relative}
+.pb{z-index:1;position:relative}
+.pb h3{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.04em;margin-bottom:.2rem;transition:color .3s}
+.pi:hover .pb h3{color:var(--a)}
+.pb p{font-size:.75rem;color:var(--muted);max-width:500px;line-height:1.6}
+.pt{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.ptag{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--a);border:1px solid rgba(var(--pr),.22);padding:.14rem .44rem;transition:border-color .5s,color .5s}
+.ptag.live{background:rgba(45,200,100,.09);color:#3dd87a;border-color:rgba(45,200,100,.28);animation:lp 2s infinite}
+.pa{font-size:1.1rem;color:var(--muted);transition:transform .3s,color .3s;z-index:1;position:relative}
+.pi:hover .pa{transform:translate(4px,-4px);color:var(--a)}
+@media(max-width:580px){.pi{grid-template-columns:1fr auto;gap:.8rem;padding:1.4rem 1.2rem}.pn{display:none}.pi:hover{padding-left:1.2rem}}
+
+/* PROMISE BOX */
+.promise{background:linear-gradient(135deg,rgba(var(--pr),.08),rgba(var(--pr),.02));border:1px solid rgba(var(--pr),.3);padding:2rem 2.5rem;margin:3rem 0;position:relative;overflow:hidden;transition:background .5s,border-color .5s}
+.promise::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--a);transition:background .5s}
+.promise h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em;color:var(--a);margin-bottom:.5rem;transition:color .5s}
+.promise p{font-size:.86rem;color:var(--muted);line-height:1.8}
+.promise p strong{color:var(--text)}
+
+/* TESTIMONY STRIP */
+.testi-row{display:flex;gap:1px;background:var(--border);margin:2rem 0}
+.testi{flex:1;background:var(--deep);padding:1.8rem;transition:background .3s}
+.testi:hover{background:var(--card)}
+.testi p{font-size:.8rem;color:var(--muted);line-height:1.75;font-style:italic;margin-bottom:.8rem}
+.testi .name{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--a);letter-spacing:.08em;transition:color .5s}
+@media(max-width:680px){.testi-row{flex-direction:column}}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr;gap:2rem}}
+.cl p{color:var(--muted);font-size:.86rem;line-height:1.8;margin-bottom:1.2rem}
+.cl p strong{color:var(--text)}
+.clinks{display:flex;flex-direction:column}
+.clink{display:flex;justify-content:space-between;align-items:center;padding:.85rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:padding-left .3s,color .3s}
+.clink:hover{padding-left:.5rem;color:var(--a)}
+.cll{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:70px;flex-shrink:0}
+.clv{font-size:.8rem}
+.cla{color:var(--muted);transition:transform .3s,color .3s}
+.clink:hover .cla{transform:translate(3px,-3px);color:var(--a)}
+.cf{display:flex;flex-direction:column;gap:.9rem}
+.ff{display:flex;flex-direction:column;gap:.35rem}
+.ff label{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);transition:color .5s}
+.ff input,.ff textarea,.ff select{background:rgba(var(--pr),.04);border:1px solid var(--border);padding:.8rem .9rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.84rem;outline:none;transition:border-color .3s,background .3s;-webkit-appearance:none;resize:none}
+.ff input:focus,.ff textarea:focus,.ff select:focus{border-color:var(--a);background:rgba(var(--pr),.07)}
+.ff textarea{min-height:110px}
+.ff select option{background:#03040a;color:#e8e4da}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media(max-width:460px){.frow{grid-template-columns:1fr}}
+.bsend{align-self:flex-start;padding:.85rem 2rem;background:transparent;border:1px solid var(--a);color:var(--a);font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color .35s,border-color .5s}
+.bsend::before{content:'';position:absolute;inset:0;background:var(--a);transform:translateX(-101%);transition:transform .38s cubic-bezier(.16,1,.3,1),background .5s}
+.bsend:hover::before{transform:translateX(0)}.bsend:hover{color:var(--btn-text)}
+.bsend span{position:relative;z-index:1}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+footer p{font-size:.64rem;color:var(--muted)}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+@media(max-width:768px){footer{padding:1.2rem 1.2rem 5rem;flex-direction:column;text-align:center}}
+
+/* BACK BTN */
+.back-btn{position:fixed;bottom:2rem;left:2rem;z-index:400;display:none;align-items:center;gap:.5rem;background:rgba(0,0,0,.8);border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.6rem 1rem;cursor:pointer;transition:color .3s,border-color .3s;backdrop-filter:blur(10px)}
+.back-btn:hover{color:var(--a);border-color:var(--a)}
+.back-btn.show{display:flex}
+@media(max-width:768px){.back-btn{bottom:4.5rem;left:1rem}}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv2{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.rv2.on{opacity:1;transform:translateY(0)}
+
+/* ANIMATIONS */
+@keyframes sU{from{opacity:0;transform:translateY(110%)}to{opacity:1;transform:translateY(0)}}
+@keyframes fU{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pd{0%,100%{box-shadow:0 0 0 0 rgba(var(--pr),.4)}50%{box-shadow:0 0 0 7px rgba(var(--pr),0)}}
+@keyframes sh{0%{background-position:0%}100%{background-position:200%}}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes lp{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* SELECTOR HOVER GLOW */
+.sel-card:hover{
+  box-shadow:0 0 0 1px var(--sel-color,#c9a84c),
+             inset 0 0 40px rgba(255,255,255,.01);
+}
+.sel-card:hover .sel-emoji{transform:scale(1.15) rotate(-5deg);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.sel-emoji{transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.sel-card:hover h3{color:var(--sel-color,#c9a84c)}
+.sel-card:hover p{color:#888}
+
+/* EXTRA RESPONSIVE */
+@media(max-width:480px){
+  .hero-h{font-size:clamp(2.6rem,14vw,5rem)!important}
+  .big-title{font-size:clamp(3rem,13vw,6rem)!important}
+  .stitle,.st-h{font-size:clamp(1.8rem,8vw,3rem)!important}
+  .prod-grid,.hc-wrap{grid-template-columns:1fr!important}
+  .stats{grid-template-columns:1fr 1fr!important}
+  .frow{grid-template-columns:1fr!important}
+  .contact-grid,.ct-grid{grid-template-columns:1fr!important}
+  .about-grid{grid-template-columns:1fr!important}
+  .trust-row,.trust{grid-template-columns:1fr!important}
+  .pi{grid-template-columns:1fr auto!important}
+  .back-btn{bottom:4.5rem!important;left:1rem!important;font-size:.55rem!important;padding:.5rem .9rem!important}
+  footer{padding-bottom:5rem!important}
+  .ft{padding-bottom:5rem!important}
+}
+
+/* NICE SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg,#03040a)}
+::-webkit-scrollbar-thumb{background:var(--a,#c9a84c);border-radius:2px}
+
+/* SELECTION COLOR */
+::selection{background:rgba(var(--pr,201,168,76),.25);color:var(--text,#e8e4da)}
+
+/* LINK VISITED */
+a:visited{color:inherit}
+</style>
+</head>
+<body>
+
+<canvas id="cv"></canvas>
+<div id="cur"></div><div id="curR"></div>
+
+<!-- BACK BUTTON -->
+<button class="back-btn" id="backBtn" onclick="goHome()">← Back to Gate</button>
+
+<div class="wrap">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="goHome()" title="Back to Gate">AITDL</div>
+  <div class="nav-links" id="navL">
+    <button class="xbtn" onclick="closeMenu()">✕</button>
+    <a href="#" onclick="scrollTo('about');closeMenu()">About</a>
+    <a href="#" onclick="scrollTo('products');closeMenu()">Products</a>
+    <a href="#" onclick="scrollTo('clients');closeMenu()">Clients</a>
+    <a href="#" onclick="scrollTo('contact');closeMenu()">Contact</a>
+    <a href="#" onclick="goHome();closeMenu()" class="nav-cta">← Gate</a>
+  </div>
+  <button class="burger" onclick="openMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     THE GATE — Entry Screen
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="gate">
+  <div class="orb o1"></div><div class="orb o2"></div>
+
+  <!-- Brand -->
+  <div class="gate-brand" style="padding:7rem 3rem 0">
+    <span class="logo">AITDL</span>
+    <div class="tagline">Since <em>2007</em> · Mumbai & Gorakhpur · 100+ Clients · Pan India</div>
+  </div>
+
+  <!-- Two Doors -->
+  <div style="padding:2.5rem 0 5rem">
+    <div class="gate-doors">
+
+      <!-- Door 1 — Universe -->
+      <div class="door door-universe" onclick="enterUniverse()" style="--dl:#c9a84c">
+        <div class="door-line"></div>
+        <div class="door-top">
+          <span class="door-icon">🌌</span>
+          <div class="door-label">WHOLE UNIVERSE</div>
+          <h2>EXPLORE<br>EVERYTHING</h2>
+          <p class="door-desc">Browse all our solutions freely — <strong>no filter, no restrictions</strong>. See retail, ERP, education, AI tools and everything in between. For the curious, the undecided, or anyone who wants the full picture.</p>
+        </div>
+        <div class="door-cta">Overview Dashboard <span class="arr">→</span></div>
+      </div>
+
+      <!-- Door 2 — Destination -->
+      <div class="door door-destination" onclick="openPicker()" style="--dl:#c9a84c">
+        <div class="door-line"></div>
+        <div class="door-top">
+          <span class="door-icon">🎯</span>
+          <div class="door-label">SPECIFIC DESTINATION</div>
+          <h2>GO TO<br>MY WORLD</h2>
+          <p class="door-desc">You know what you need. <strong>Pick your role</strong> — retailer, business, school, teacher, student, or parent. We'll show you only what's relevant to you. Clean. Focused. Personal.</p>
+        </div>
+        <div class="door-cta">Choose My Role <span class="arr">→</span></div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /gate -->
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     OVERVIEW DASHBOARD — Whole Universe
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="overview">
+
+  <div class="ov-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="ov-tag">
+      <div class="ov-tag pd"></div>
+      <span>Full Overview</span>
+      <div class="dl"></div>
+      <span class="sb">All Solutions · All Audiences · Pan India</span>
+    </div>
+    <div class="ov-head">EVERY<br>WORLD.<br><span class="gold">ONE AITDL.</span></div>
+    <p class="ov-sub">18 years · 100+ clients · Retail · ERP · Education · AI. <strong>Everything we build</strong> — in one place. Click any world to go deep.</p>
+  </div>
+
+  <!-- 6-World Grid -->
+  <div class="ov-grid">
+    <div class="ov-card" style="--oc:#ff6b1a" onclick="activate('retail')">
+      <div class="ov-ico">🛍️</div>
+      <h3>Retail Technology</h3>
+      <p>Shoper POS, Head Office & our upcoming AI Retail POS. From single shops to 100-store chains. Titan, Raymond, GVK Airport and 95+ more.</p>
+      <div class="ov-foot"><span class="ov-tags">Shoper · Multi-Store · AI POS</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#1a8fff" onclick="activate('erp')">
+      <div class="ov-ico">⚙️</div>
+      <h3>ERP & Business</h3>
+      <p>TallyPrime, TallyTDL, ERPNext & Odoo. GST, payroll, custom modules, API integrations. 100+ businesses trust AITDL Pan India.</p>
+      <div class="ov-foot"><span class="ov-tags">Tally · ERPNext · Odoo</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#22c565" onclick="activate('education')">
+      <div class="ov-ico">🏫</div>
+      <h3>Schools & Coaching</h3>
+      <p>Complete AI-powered school ERP & coaching management. Admissions, fees, exams, timetables, parent portal. PrathamOne live now.</p>
+      <div class="ov-foot"><span class="ov-tags">School ERP · Coaching · PrathamOne</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#22c565" onclick="activate('teacher')">
+      <div class="ov-ico">👩‍🏫</div>
+      <h3>AI Tools for Teachers</h3>
+      <p>Lesson plans, question papers, student tracking, parent updates — all automated. You teach. AI does the rest.</p>
+      <div class="ov-foot"><span class="ov-tags">Lesson Plans · Auto-Admin · EdTech</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#a259ff" onclick="activate('student')">
+      <div class="ov-ico">🎓</div>
+      <h3>AI Learning for Students</h3>
+      <p>Ganitsutram for Maths. My AI Pathasala for every subject. Home Study Buddy coming. India's own AI learning ecosystem.</p>
+      <div class="ov-foot"><span class="ov-tags">Ganitsutram · AI Pathasala · Study Buddy</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#ff4d6a" onclick="activate('home')">
+      <div class="ov-ico">👨‍👩‍👧</div>
+      <h3>Home & Family AI</h3>
+      <p>Saathi Book for home accounts & tasks. Home Study Buddy for your child's education. Simple AI for every Indian family.</p>
+      <div class="ov-foot"><span class="ov-tags">Saathi Book · Study Buddy · Family</span><span class="ov-arr">↗</span></div>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid rgba(255,255,255,.06);padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem">
+    <p style="font-size:.64rem;color:#444">© 2026 AITDL · Technology Solutions · Pan India · Since 2007</p>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;background:linear-gradient(135deg,#c9a84c,#f0d080);-webkit-background-clip:text;-webkit-text-fill-color:transparent">AITDL</div>
+    <p style="font-size:.64rem;color:#444">Mumbai & Gorakhpur, India</p>
+  </footer>
+</div><!-- /overview -->
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ROLE PICKER MODAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="picker">
+  <button class="pk-close" onclick="closePicker()">✕</button>
+
+  <div class="pk-wrap">
+
+    <!-- Step indicator -->
+    <div class="pk-steps">
+      <span class="pk-step act" id="pkStep1">01 · Primary Role</span>
+      <div class="pk-sdiv"></div>
+      <span class="pk-step" id="pkStep2">02 · Add More (Optional)</span>
+      <div class="pk-sdiv"></div>
+      <span class="pk-step" id="pkStep3">03 · Enter</span>
+    </div>
+
+    <!-- Heading -->
+    <div class="pk-head">CHOOSE YOUR<br><span style="background:linear-gradient(135deg,#c9a84c,#f0d080);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:sh 4s linear infinite">PRIMARY ROLE.</span></div>
+    <p class="pk-sub">One click = your personalised world. <em>First click = primary</em> (mandatory). Second click on others = add them too. We'll show only what's relevant to you.</p>
+
+    <!-- Role grid -->
+    <div class="pk-grid">
+      <div class="pk-role" data-role="retail" data-c="retail" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🛍️</span>
+        <div class="pk-r-txt">
+          <h4>Retailer</h4>
+          <p>Shops, malls, POS systems</p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="erp" data-c="erp" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">⚙️</span>
+        <div class="pk-r-txt">
+          <h4>Business</h4>
+          <p>Tally, ERPNext, Odoo</p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="education" data-c="edu" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🏫</span>
+        <div class="pk-r-txt">
+          <h4>School / Coaching</h4>
+          <p>Institutions & academies</p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="teacher" data-c="teacher" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">👩‍🏫</span>
+        <div class="pk-r-txt">
+          <h4>Teacher</h4>
+          <p>AI tools, save admin time</p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="student" data-c="student" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🎓</span>
+        <div class="pk-r-txt">
+          <h4>Student</h4>
+          <p>AI tutor, study smarter</p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="home" data-c="home" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">👨‍👩‍👧</span>
+        <div class="pk-r-txt">
+          <h4>Parent / Family</h4>
+          <p>Saathi Book, Study Buddy</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="pk-hint">
+      <div class="pk-hint-item h-pri"><span class="dot"></span> First click = Primary role</div>
+      <div class="pk-hint-item h-sec"><span class="dot"></span> Click again on others = Add secondary</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="pk-actions">
+      <button class="pk-go" id="pkGo" onclick="enterMyWorld()"><span>Enter My World →</span></button>
+      <button class="pk-skip" onclick="enterUniverse();closePicker()">Show me everything instead</button>
+      <span class="pk-summary" id="pkSummary"></span>
+    </div>
+
+  </div>
+</div><!-- /picker -->
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     RETAIL SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="aud-section" id="s-retail">
+  <div class="aud-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="hero-eyebrow"><div class="pulse-dot"></div><span class="etag">Retail Technology</span><div class="eline"></div><span class="esub">18 Years · 100+ Retail Clients · Pan India</span></div>
+    <div class="hero-h">YOUR<br>STORE.<br><span class="acc">SMARTER.</span></div>
+    <div class="hero-body">
+      <p class="hero-desc">India's most trusted retail technology partner. From your first POS to a 100-store chain — we've built it all. <strong>Shoper POS, Shoper Head Office</strong>, and our coming <strong>AI-Powered Retail POS</strong> — built from 18 years of real retail floors. <strong>See it. Love it. Then pay for it.</strong></p>
+      <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollTo('clients')">See Our Retail Work ↓</a><button class="btn-ghost" onclick="scrollTo('contact')">Talk to us today →</button></div>
+    </div>
+  </div>
+
+  <div class="trust-row rv">
+    <div class="ti"><span class="ti-ico">🏪</span><div><h4>100+ Stores</h4><p>Deployed across Pan India</p></div></div>
+    <div class="ti"><span class="ti-ico">🧾</span><div><h4>GST Ready</h4><p>Fully compliant billing</p></div></div>
+    <div class="ti"><span class="ti-ico">📦</span><div><h4>Live Inventory</h4><p>Real-time across all stores</p></div></div>
+    <div class="ti"><span class="ti-ico">👀</span><div><h4>See It First</h4><p>Pay only after you love it</p></div></div>
+  </div>
+
+  <div class="mq"><div class="mq-t"><span>Shoper POS</span><span class="dot">✦</span><span>Shoper Head Office</span><span class="dot">✦</span><span>Multi-Store</span><span class="dot">✦</span><span>Barcode Billing</span><span class="dot">✦</span><span>GST Automation</span><span class="dot">✦</span><span>Inventory Control</span><span class="dot">✦</span><span>Loyalty Programs</span><span class="dot">✦</span><span>AI Retail POS — Coming Soon</span><span class="dot">✦</span><span>Pan India</span><span class="dot">✦</span><span>Since 2007</span><span class="dot">✦</span><span>Shoper POS</span><span class="dot">✦</span><span>Shoper Head Office</span><span class="dot">✦</span><span>Multi-Store</span><span class="dot">✦</span><span>Barcode Billing</span><span class="dot">✦</span><span>GST Automation</span><span class="dot">✦</span><span>Inventory Control</span><span class="dot">✦</span><span>Loyalty Programs</span><span class="dot">✦</span><span>AI Retail POS — Coming Soon</span><span class="dot">✦</span><span>Pan India</span><span class="dot">✦</span><span>Since 2007</span><span class="dot">✦</span></div></div>
+
+  <div class="stats rv"><div class="sb"><span class="sn" data-target="18">0</span><span class="sl">Years in Retail</span></div><div class="sb"><span class="sn" data-target="100">0</span><span class="sl">Retail Clients</span></div><div class="sb"><span class="sn" data-target="8">0</span><span class="sl">Major Brands</span></div><div class="sb"><span class="sn" data-target="99">0</span><span class="sl">% Satisfaction</span></div></div>
+
+  <div class="sec" id="clients">
+    <div class="sh rv"><span class="snum">01 — OUR RETAIL CLIENTS</span><div class="sline"></div></div>
+    <div class="stitle rv">Trusted By India's Best.</div>
+    <p class="sdesc rv">From iconic national brands to premium airport stores — we've implemented retail technology for the best. And we'll do the same for you.</p>
+    <div class="proj-list rv">
+      <div class="pi"><span class="pn">001</span><div class="pb"><h3>Titan Company Ltd.</h3><p>Shoper POS, inventory & loyalty systems across multiple outlets for India's most iconic watch & jewellery brand.</p><div class="pt"><span class="ptag">Shoper POS</span><span class="ptag">Multi-Store</span><span class="ptag">Loyalty</span><span class="ptag">Inventory</span></div></div><span class="pa">↗</span></div>
+      <div class="pi"><span class="pn">002</span><div class="pb"><h3>Allen Solly</h3><p>Premium fashion retail — Shoper billing, stock replenishment & sales reporting across outlets.</p><div class="pt"><span class="ptag">Shoper POS</span><span class="ptag">Fashion</span><span class="ptag">Billing</span></div></div><span class="pa">↗</span></div>
+      <div class="pi"><span class="pn">003</span><div class="pb"><h3>Raymond</h3><p>Fabric billing, tailoring orders & multi-store inventory for Raymond's exclusive showrooms.</p><div class="pt"><span class="ptag">Shoper</span><span class="ptag">Textile</span><span class="ptag">Tailoring Orders</span></div></div><span class="pa">↗</span></div>
+      <div class="pi"><span class="pn">004</span><div class="pb"><h3>Krishna Textiles</h3><p>Fabric stock, wholesale & retail billing, GST compliance & supplier management for a textile major.</p><div class="pt"><span class="ptag">Textile</span><span class="ptag">Wholesale</span><span class="ptag">GST</span></div></div><span class="pa">↗</span></div>
+      <div class="pi"><span class="pn">005</span><div class="pb"><h3>RiteBazaar — Silvassa</h3><p>Full-scale supermarket — barcode POS, live stock tracking, promotions engine & daily analytics.</p><div class="pt"><span class="ptag">Supermarket</span><span class="ptag">Barcode POS</span><span class="ptag">Analytics</span></div></div><span class="pa">↗</span></div>
+      <div class="pi"><span class="pn">006</span><div class="pb"><h3>Empress Mall</h3><p>Mall-wide tech — multi-tenant POS, footfall tracking, centralised reporting & tenant billing.</p><div class="pt"><span class="ptag">Mall</span><span class="ptag">Multi-Tenant POS</span><span class="ptag">Dashboard</span></div></div><span class="pa">↗</span></div>
+      <div class="pi"><span class="pn">007</span><div class="pb"><h3>Jaya He — GVK Airport Museum Store</h3><p>Luxury airport retail — curated catalogue, high-value billing & premium visitor experience at GVK.</p><div class="pt"><span class="ptag">Airport Retail</span><span class="ptag">Luxury</span><span class="ptag">Museum Store</span></div></div><span class="pa">↗</span></div>
+      <div class="pi"><span class="pn">008</span><div class="pb"><h3>GVK Airport Retail</h3><p>High-throughput POS for GVK Airport stores — real-time sales monitoring & multi-outlet reporting.</p><div class="pt"><span class="ptag">Airport</span><span class="ptag">High-Volume</span><span class="ptag">GVK</span></div></div><span class="pa">↗</span></div>
+    </div>
+  </div>
+
+  <div class="sec" id="products">
+    <div class="sh rv"><span class="snum">02 — RETAIL PRODUCTS</span><div class="sline"></div></div>
+    <div class="stitle rv">What We Use & What's Coming.</div>
+    <div class="prod-grid rv">
+      <div class="prod-card"><span class="prod-icon">🖥️</span><h3>Shoper 9 POS</h3><p>India's leading retail POS. We implement, customise & support Shoper across all retail formats.</p><ul><li>Single & multi-store billing</li><li>Barcode & touch-screen POS</li><li>GST-compliant invoicing</li><li>Returns & exchange handling</li><li>End-of-day reports</li></ul></div>
+      <div class="prod-card"><span class="prod-icon">🏢</span><h3>Shoper Head Office</h3><p>Central control for multi-store chains — manage all your stores from one dashboard.</p><ul><li>Centralised inventory control</li><li>Inter-store stock transfer</li><li>Consolidated reporting</li><li>Pricing & offer management</li><li>Multi-location visibility</li></ul></div>
+      <div class="prod-card" style="border:1px solid rgba(var(--pr),.2)"><span class="badge-cs">COMING SOON</span><span class="prod-icon">🤖</span><h3>AI-Powered Retail POS</h3><p>Our own <strong>indigenous AI POS</strong> — built from 18 years of retail floors. The smartest POS India has ever seen.</p><ul><li>AI inventory demand prediction</li><li>Smart customer profiling</li><li>Automated GST & reports</li><li>Voice & gesture billing</li><li>Real-time business insights</li></ul></div>
+    </div>
+    <div class="promise rv"><h3>👀 See It. Love It. Then Pay For It.</h3><p>We implement your complete retail system, train your team, run it live — <strong>you pay only after you're completely satisfied</strong>. Zero advance. Not a rupee before you say yes. That's the AITDL promise — 18 years strong.</p></div>
+  </div>
+
+  <div class="sec" id="contact">
+    <div class="sh rv"><span class="snum">03 — TALK TO US</span><div class="sline"></div></div>
+    <div class="stitle rv">Ready To Upgrade Your Store?</div>
+    <div class="contact-grid">
+      <div class="cl rv">
+        <p>Whether you run a single shop or a 50-store chain — <strong>we have the right solution for you</strong>. Shoper POS, Head Office setup, or early access to our AI Retail POS. Let's talk.</p>
+        <div class="clinks">
+          <a href="mailto:contact@aitdl.com" class="clink"><span class="cll">Email</span><span class="clv">contact@aitdl.com</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Mumbai</span><span class="clv">Mumbai, Maharashtra</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Gorakhpur</span><span class="clv">Gorakhpur, Uttar Pradesh</span><span class="cla">↗</span></a>
+        </div>
+      </div>
+      <form class="cf rv" onsubmit="sendForm(event)">
+        <div class="frow"><div class="ff"><label>Your Name</label><input type="text" placeholder="Store owner name" required/></div><div class="ff"><label>Phone</label><input type="tel" placeholder="Your mobile number" required/></div></div>
+        <div class="ff"><label>Store Type</label><select><option>Fashion / Apparel</option><option>Grocery / Supermarket</option><option>Electronics</option><option>Textiles / Fabric</option><option>Jewellery / Watches</option><option>Mall / Multi-Tenant</option><option>Other</option></select></div>
+        <div class="ff"><label>Number of Outlets</label><select><option>1 Store</option><option>2-5 Stores</option><option>5-20 Stores</option><option>20+ Stores</option></select></div>
+        <div class="ff"><label>Message</label><textarea placeholder="Tell us about your current billing system and what you need..."></textarea></div>
+        <button type="submit" class="bsend"><span id="bt-retail">Get a Free Demo →</span></button>
+      </form>
+    </div>
+  </div>
+  <footer><p>© 2026 AITDL · Retail Technology Specialists</p><div class="fl">AITDL</div><p>Mumbai & Gorakhpur · Pan India</p></footer>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ERP SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="aud-section" id="s-erp">
+  <div class="aud-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="hero-eyebrow"><div class="pulse-dot"></div><span class="etag">ERP & Accounting</span><div class="eline"></div><span class="esub">TallyPrime · TallyTDL · ERPNext · Odoo</span></div>
+    <div class="hero-h">YOUR<br>BUSINESS.<br><span class="acc">STREAMLINED.</span></div>
+    <div class="hero-body">
+      <p class="hero-desc">18 years of ERP implementation across 100+ businesses Pan India. <strong>TallyPrime customisation, TallyTDL development, ERPNext & Odoo</strong> — we speak your business language. GST, payroll, inventory, custom modules — done right. <strong>See it. Love it. Then pay for it.</strong></p>
+      <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollTo('products')">See Our ERP Solutions ↓</a><button class="btn-ghost" onclick="scrollTo('contact')">Book Free Consultation →</button></div>
+    </div>
+  </div>
+  <div class="trust-row rv">
+    <div class="ti"><span class="ti-ico">📊</span><div><h4>TallyPrime</h4><p>Certified implementation experts</p></div></div>
+    <div class="ti"><span class="ti-ico">🔧</span><div><h4>TallyTDL</h4><p>Custom development specialists</p></div></div>
+    <div class="ti"><span class="ti-ico">🌐</span><div><h4>ERPNext & Odoo</h4><p>Open-source ERP masters</p></div></div>
+    <div class="ti"><span class="ti-ico">👀</span><div><h4>See It First</h4><p>Zero advance. Pay after delivery.</p></div></div>
+  </div>
+  <div class="mq"><div class="mq-t"><span>TallyPrime</span><span class="dot">✦</span><span>TallyTDL</span><span class="dot">✦</span><span>ERPNext</span><span class="dot">✦</span><span>Odoo</span><span class="dot">✦</span><span>GST Automation</span><span class="dot">✦</span><span>Payroll</span><span class="dot">✦</span><span>Custom Modules</span><span class="dot">✦</span><span>API Integration</span><span class="dot">✦</span><span>Inventory Sync</span><span class="dot">✦</span><span>100+ Businesses Pan India</span><span class="dot">✦</span><span>TallyPrime</span><span class="dot">✦</span><span>TallyTDL</span><span class="dot">✦</span><span>ERPNext</span><span class="dot">✦</span><span>Odoo</span><span class="dot">✦</span><span>GST Automation</span><span class="dot">✦</span><span>Payroll</span><span class="dot">✦</span><span>Custom Modules</span><span class="dot">✦</span><span>API Integration</span><span class="dot">✦</span><span>Inventory Sync</span><span class="dot">✦</span><span>100+ Businesses Pan India</span><span class="dot">✦</span></div></div>
+  <div class="stats rv"><div class="sb"><span class="sn" data-target="18">0</span><span class="sl">Years in ERP</span></div><div class="sb"><span class="sn" data-target="100">0</span><span class="sl">Businesses Served</span></div><div class="sb"><span class="sn" data-target="4">0</span><span class="sl">ERP Platforms</span></div><div class="sb"><span class="sn" data-target="99">0</span><span class="sl">% Satisfaction</span></div></div>
+  <div class="sec" id="products">
+    <div class="sh rv"><span class="snum">01 — ERP SOLUTIONS</span><div class="sline"></div></div>
+    <div class="stitle rv">Every Business. Every Need.</div>
+    <div class="prod-grid rv">
+      <div class="prod-card"><span class="prod-icon">📒</span><h3>TallyPrime</h3><p>Full TallyPrime implementation, migration & ongoing support for businesses of all sizes.</p><ul><li>GST returns & e-invoicing</li><li>Multi-company accounting</li><li>Inventory & purchase management</li><li>Bank reconciliation</li><li>MIS & financial reports</li></ul></div>
+      <div class="prod-card"><span class="prod-icon">🔩</span><h3>TallyTDL Development</h3><p>Custom TallyTDL coding to make Tally work exactly the way your business needs.</p><ul><li>Custom voucher formats</li><li>Industry-specific reports</li><li>Third-party API integration</li><li>Automated data import/export</li><li>Custom dashboard & alerts</li></ul></div>
+      <div class="prod-card"><span class="prod-icon">🌐</span><h3>ERPNext & Odoo</h3><p>Open-source ERP implementation for businesses that need more than Tally can offer.</p><ul><li>Full business suite setup</li><li>CRM, HR & payroll modules</li><li>Manufacturing & supply chain</li><li>E-commerce integration</li><li>Custom module development</li></ul></div>
+    </div>
+    <div class="promise rv"><h3>👀 See It. Love It. Then Pay For It.</h3><p>We implement your complete ERP, migrate your data, train your team and run it live — <strong>you pay only after you're 100% satisfied</strong>. Not a rupee before. That's 18 years of confidence in every project.</p></div>
+  </div>
+  <div class="sec" id="contact">
+    <div class="sh rv"><span class="snum">02 — TALK TO US</span><div class="sline"></div></div>
+    <div class="stitle rv">Ready To Streamline Your Business?</div>
+    <div class="contact-grid">
+      <div class="cl rv">
+        <p>Whether you need a <strong>basic TallyPrime setup</strong> or a <strong>full ERPNext implementation</strong> — we'll build it, customise it, and hand it over only when you love it.</p>
+        <div class="clinks">
+          <a href="mailto:contact@aitdl.com" class="clink"><span class="cll">Email</span><span class="clv">contact@aitdl.com</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Mumbai</span><span class="clv">Mumbai, Maharashtra</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Gorakhpur</span><span class="clv">Gorakhpur, Uttar Pradesh</span><span class="cla">↗</span></a>
+        </div>
+      </div>
+      <form class="cf rv" onsubmit="sendForm(event)">
+        <div class="frow"><div class="ff"><label>Your Name</label><input type="text" placeholder="Business owner / Manager" required/></div><div class="ff"><label>Phone</label><input type="tel" placeholder="Mobile number" required/></div></div>
+        <div class="ff"><label>Current Software</label><select><option>Using Tally (need customisation)</option><option>No ERP yet</option><option>Using other software</option><option>Want to migrate to ERPNext/Odoo</option></select></div>
+        <div class="ff"><label>Business Type</label><input type="text" placeholder="e.g. Manufacturing, Trading, Services..."/></div>
+        <div class="ff"><label>Message</label><textarea placeholder="Describe your accounting / ERP challenge..."></textarea></div>
+        <button type="submit" class="bsend"><span id="bt-erp">Book Free Consultation →</span></button>
+      </form>
+    </div>
+  </div>
+  <footer><p>© 2026 AITDL · ERP & Accounting Specialists</p><div class="fl">AITDL</div><p>Mumbai & Gorakhpur · Pan India</p></footer>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     EDUCATION SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="aud-section" id="s-education">
+  <div class="aud-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="hero-eyebrow"><div class="pulse-dot"></div><span class="etag">Education Technology</span><div class="eline"></div><span class="esub">Schools · Coaching · Institutes · Academies</span></div>
+    <div class="hero-h">TRANSFORM<br>YOUR<br><span class="acc">INSTITUTION.</span></div>
+    <div class="hero-body">
+      <p class="hero-desc">Complete AI-powered management for <strong>schools, coaching classes, small academies & large institutes</strong>. From admissions to results, fees to communication — one system, every need. Indigenous. Affordable. Built for India. <strong>See it. Love it. Then pay for it.</strong></p>
+      <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollTo('products')">See Our Solutions ↓</a><button class="btn-ghost" onclick="scrollTo('contact')">Get a Free Demo →</button></div>
+    </div>
+  </div>
+  <div class="trust-row rv">
+    <div class="ti"><span class="ti-ico">🏫</span><div><h4>Schools & Colleges</h4><p>Complete School ERP system</p></div></div>
+    <div class="ti"><span class="ti-ico">📚</span><div><h4>Coaching Classes</h4><p>Simple platform for any size</p></div></div>
+    <div class="ti"><span class="ti-ico">🤖</span><div><h4>AI-Powered</h4><p>Smart tools for modern education</p></div></div>
+    <div class="ti"><span class="ti-ico">👀</span><div><h4>See It First</h4><p>Zero advance. Pay after delivery.</p></div></div>
+  </div>
+  <div class="mq"><div class="mq-t"><span>School Management</span><span class="dot">✦</span><span>Coaching Platform</span><span class="dot">✦</span><span>Admissions</span><span class="dot">✦</span><span>Fee Management</span><span class="dot">✦</span><span>Attendance</span><span class="dot">✦</span><span>Timetable</span><span class="dot">✦</span><span>Exams & Results</span><span class="dot">✦</span><span>Parent Portal</span><span class="dot">✦</span><span>WhatsApp Alerts</span><span class="dot">✦</span><span>Payroll</span><span class="dot">✦</span><span>School Management</span><span class="dot">✦</span><span>Coaching Platform</span><span class="dot">✦</span><span>Admissions</span><span class="dot">✦</span><span>Fee Management</span><span class="dot">✦</span><span>Attendance</span><span class="dot">✦</span><span>Timetable</span><span class="dot">✦</span><span>Exams & Results</span><span class="dot">✦</span><span>Parent Portal</span><span class="dot">✦</span><span>WhatsApp Alerts</span><span class="dot">✦</span><span>Payroll</span><span class="dot">✦</span></div></div>
+  <div class="sec" id="products">
+    <div class="sh rv"><span class="snum">01 — OUR LIVE PLATFORMS</span><div class="sline"></div></div>
+    <div class="stitle rv">Already Live. Already Working.</div>
+    <div class="proj-list rv">
+      <div class="pi" onclick="window.open('https://prathamone.com','_blank')"><span class="pn">LIVE</span><div class="pb"><h3>PrathamOne Academy</h3><p>Complete online academy — batch management, live classes, test series, fee collection & student tracking for coaching institutes of all sizes.</p><div class="pt"><span class="ptag">Coaching</span><span class="ptag">Live Classes</span><span class="ptag">Batch Mgmt</span><span class="ptag">Fee Collection</span><span class="ptag live">● LIVE</span></div></div><span class="pa">↗</span></div>
+    </div>
+    <div class="sh rv" style="margin-top:2.5rem"><span class="snum">02 — COMING SOON</span><div class="sline"></div></div>
+    <div class="stitle rv">Built For Every Institution.</div>
+    <div class="prod-grid rv">
+      <div class="prod-card"><span class="badge-cs">COMING SOON</span><span class="prod-icon">🏛️</span><h3>School Management System</h3><p>Complete indigenous School ERP for schools of every size — from 100 to 5,000 students.</p><ul><li>Admissions & enrolments</li><li>Timetable & attendance</li><li>Exams, marks & report cards</li><li>Fee collection & receipts</li><li>Staff payroll & HR</li><li>Parent communication portal</li></ul></div>
+      <div class="prod-card"><span class="badge-cs">COMING SOON</span><span class="prod-icon">🏫</span><h3>Coaching Classes Management</h3><p>Affordable, powerful platform for any coaching class — from a single tutor to a large institute.</p><ul><li>Student enrolment & batches</li><li>Attendance & schedule</li><li>Test series & results</li><li>Fee management & receipts</li><li>WhatsApp & SMS alerts</li><li>Performance dashboards</li></ul></div>
+      <div class="prod-card"><span class="prod-icon">🤖</span><h3>Teacher AI Assistant</h3><p>Cut admin time so teachers focus on what they love — teaching.</p><ul><li>AI lesson plan generator</li><li>Auto question paper builder</li><li>Student progress analyser</li><li>Assignment management</li><li>Class communication tools</li><li>Parent update automation</li></ul></div>
+    </div>
+    <div class="promise rv"><h3>👀 See It. Love It. Then Pay For It.</h3><p>We set up your complete school or coaching management system, train your staff, and go live — <strong>you pay only when you're completely happy</strong>. Zero advance. Zero risk. The AITDL promise.</p></div>
+  </div>
+  <div class="sec" id="contact">
+    <div class="sh rv"><span class="snum">03 — TALK TO US</span><div class="sline"></div></div>
+    <div class="stitle rv">Let's Transform Your Institution.</div>
+    <div class="contact-grid">
+      <div class="cl rv">
+        <p>Whether you run a <strong>small coaching class or a large school</strong> — we have the right solution. Affordable, AI-powered, and made for India.</p>
+        <div class="clinks">
+          <a href="mailto:contact@aitdl.com" class="clink"><span class="cll">Email</span><span class="clv">contact@aitdl.com</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Mumbai</span><span class="clv">Mumbai, Maharashtra</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Gorakhpur</span><span class="clv">Gorakhpur, Uttar Pradesh</span><span class="cla">↗</span></a>
+        </div>
+      </div>
+      <form class="cf rv" onsubmit="sendForm(event)">
+        <div class="frow"><div class="ff"><label>Your Name</label><input type="text" placeholder="Principal / Director" required/></div><div class="ff"><label>Phone</label><input type="tel" placeholder="Mobile number" required/></div></div>
+        <div class="ff"><label>Institution Type</label><select><option>School</option><option>Coaching Institute</option><option>College</option><option>Small Academy / Tutor</option><option>Other</option></select></div>
+        <div class="ff"><label>No. of Students</label><select><option>Below 100</option><option>100-500</option><option>500-2000</option><option>2000+</option></select></div>
+        <div class="ff"><label>Message</label><textarea placeholder="Tell us about your institution and what you need..."></textarea></div>
+        <button type="submit" class="bsend"><span id="bt-edu">Get a Free Demo →</span></button>
+      </form>
+    </div>
+  </div>
+  <footer><p>© 2026 AITDL · Education Technology</p><div class="fl">AITDL</div><p>Mumbai & Gorakhpur · Pan India</p></footer>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     TEACHER SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="aud-section" id="s-teacher">
+  <div class="aud-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="hero-eyebrow"><div class="pulse-dot"></div><span class="etag">For Teachers</span><div class="eline"></div><span class="esub">AI Tools · Less Admin · More Teaching</span></div>
+    <div class="hero-h">YOU<br>TEACH.<br><span class="acc">AI HANDLES THE REST.</span></div>
+    <div class="hero-body">
+      <p class="hero-desc">You became a teacher to teach — not to spend hours on lesson plans, question papers, attendance sheets & progress reports. Our <strong>AI-powered tools do the admin</strong> so you can focus on your students. <strong>See it. Love it. Then pay for it.</strong></p>
+      <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollTo('products')">See What AI Can Do ↓</a><button class="btn-ghost" onclick="scrollTo('contact')">Try It Free →</button></div>
+    </div>
+  </div>
+  <div class="trust-row rv">
+    <div class="ti"><span class="ti-ico">⏱️</span><div><h4>Save Hours Daily</h4><p>AI does your paperwork</p></div></div>
+    <div class="ti"><span class="ti-ico">📝</span><div><h4>Auto Question Papers</h4><p>Ready in seconds, not hours</p></div></div>
+    <div class="ti"><span class="ti-ico">📊</span><div><h4>Student Insights</h4><p>Know every student's progress</p></div></div>
+    <div class="ti"><span class="ti-ico">👀</span><div><h4>Try It First</h4><p>Use it, love it, then pay</p></div></div>
+  </div>
+  <div class="mq"><div class="mq-t"><span>AI Lesson Plans</span><span class="dot">✦</span><span>Auto Question Papers</span><span class="dot">✦</span><span>Student Progress Tracking</span><span class="dot">✦</span><span>Assignment Management</span><span class="dot">✦</span><span>Parent Updates</span><span class="dot">✦</span><span>Attendance Automation</span><span class="dot">✦</span><span>Class Communication</span><span class="dot">✦</span><span>AI Lesson Plans</span><span class="dot">✦</span><span>Auto Question Papers</span><span class="dot">✦</span><span>Student Progress Tracking</span><span class="dot">✦</span><span>Assignment Management</span><span class="dot">✦</span><span>Parent Updates</span><span class="dot">✦</span><span>Attendance Automation</span><span class="dot">✦</span><span>Class Communication</span><span class="dot">✦</span></div></div>
+  <div class="sec" id="products">
+    <div class="sh rv"><span class="snum">01 — AI TOOLS FOR TEACHERS</span><div class="sline"></div></div>
+    <div class="stitle rv">Your AI Teaching Assistant.</div>
+    <div class="prod-grid rv">
+      <div class="prod-card"><span class="prod-icon">📋</span><h3>AI Lesson Planner</h3><p>Generate complete lesson plans in seconds — topic, objectives, activities, timing & resources. Customised to your syllabus & class level.</p></div>
+      <div class="prod-card"><span class="prod-icon">📝</span><h3>Question Paper Generator</h3><p>Build question papers instantly — choose topic, difficulty, marks & format. MCQ, short answer, long answer — mixed in seconds.</p></div>
+      <div class="prod-card"><span class="prod-icon">📊</span><h3>Student Progress Tracker</h3><p>Track every student's performance, identify weak areas, and get AI suggestions for who needs extra attention and what to focus on.</p></div>
+      <div class="prod-card"><span class="prod-icon">📱</span><h3>Parent Update System</h3><p>Automated WhatsApp & SMS updates to parents — attendance, marks, homework, notices & behaviour reports without any manual effort.</p></div>
+      <div class="prod-card"><span class="prod-icon">📁</span><h3>Assignment Manager</h3><p>Create, distribute, collect & evaluate assignments digitally. Students submit online. You grade with AI assistance. Save days of work.</p></div>
+      <div class="prod-card"><span class="prod-icon">🎯</span><h3>Doubt Solving AI</h3><p>An AI assistant your students can ask doubts to — so you're not answering the same questions 20 times. Available 24×7 for your class.</p></div>
+    </div>
+  </div>
+  <div class="sec" id="contact">
+    <div class="sh rv"><span class="snum">02 — GET STARTED</span><div class="sline"></div></div>
+    <div class="stitle rv">Teach More. Admin Less.</div>
+    <div class="contact-grid">
+      <div class="cl rv"><p>Tell us about your class and we'll show you how much time you'll save. <strong>Free demo. No advance. No commitment until you love it.</strong></p>
+        <div class="clinks"><a href="mailto:contact@aitdl.com" class="clink"><span class="cll">Email</span><span class="clv">contact@aitdl.com</span><span class="cla">↗</span></a></div>
+      </div>
+      <form class="cf rv" onsubmit="sendForm(event)">
+        <div class="frow"><div class="ff"><label>Your Name</label><input type="text" placeholder="Teacher name" required/></div><div class="ff"><label>Phone</label><input type="tel" placeholder="Mobile" required/></div></div>
+        <div class="ff"><label>Subject You Teach</label><input type="text" placeholder="e.g. Maths, Science, English..."/></div>
+        <div class="ff"><label>No. of Students</label><select><option>Below 30</option><option>30-100</option><option>100-300</option><option>300+</option></select></div>
+        <div class="ff"><label>Message</label><textarea placeholder="What takes up most of your admin time?"></textarea></div>
+        <button type="submit" class="bsend"><span id="bt-teacher">Get Free Access →</span></button>
+      </form>
+    </div>
+  </div>
+  <footer><p>© 2026 AITDL · Teacher AI Tools</p><div class="fl">AITDL</div><p>Mumbai & Gorakhpur · Pan India</p></footer>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     STUDENT SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="aud-section" id="s-student">
+  <div class="aud-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="hero-eyebrow"><div class="pulse-dot"></div><span class="etag">For Students</span><div class="eline"></div><span class="esub">AI Learning · Smart Study · Better Scores</span></div>
+    <div class="hero-h">STUDY<br>SMARTER.<br><span class="acc">SCORE HIGHER.</span></div>
+    <div class="hero-body">
+      <p class="hero-desc">India's own AI-powered learning tools — made by Indians, for Indian students. <strong>Ganitsutram</strong> for Maths, <strong>My AI Pathasala</strong> for personalised tutoring, and the upcoming <strong>Home Study Buddy</strong>. Your AI best friend for studies is here.</p>
+      <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollTo('products')">Explore Tools ↓</a><button class="btn-ghost" onclick="scrollTo('contact')">Start Learning Free →</button></div>
+    </div>
+  </div>
+  <div class="trust-row rv">
+    <div class="ti"><span class="ti-ico">🤖</span><div><h4>AI Tutor</h4><p>Available 24×7, never impatient</p></div></div>
+    <div class="ti"><span class="ti-ico">🎯</span><div><h4>Personalised</h4><p>Adapts to your pace & level</p></div></div>
+    <div class="ti"><span class="ti-ico">🇮🇳</span><div><h4>Made in India</h4><p>For Indian syllabus & students</p></div></div>
+    <div class="ti"><span class="ti-ico">✅</span><div><h4>Try Free</h4><p>Explore before you pay</p></div></div>
+  </div>
+  <div class="mq"><div class="mq-t"><span>AI Tutor</span><span class="dot">✦</span><span>Maths Made Easy</span><span class="dot">✦</span><span>Doubt Solving</span><span class="dot">✦</span><span>Personalised Study Plans</span><span class="dot">✦</span><span>Exam Preparation</span><span class="dot">✦</span><span>Test Series</span><span class="dot">✦</span><span>Progress Tracking</span><span class="dot">✦</span><span>Indian Syllabus</span><span class="dot">✦</span><span>CBSE · ICSE · State Boards</span><span class="dot">✦</span><span>AI Tutor</span><span class="dot">✦</span><span>Maths Made Easy</span><span class="dot">✦</span><span>Doubt Solving</span><span class="dot">✦</span><span>Personalised Study Plans</span><span class="dot">✦</span><span>Exam Preparation</span><span class="dot">✦</span><span>Test Series</span><span class="dot">✦</span><span>Progress Tracking</span><span class="dot">✦</span><span>Indian Syllabus</span><span class="dot">✦</span><span>CBSE · ICSE · State Boards</span><span class="dot">✦</span></div></div>
+  <div class="sec" id="products">
+    <div class="sh rv"><span class="snum">01 — LIVE NOW</span><div class="sline"></div></div>
+    <div class="stitle rv">Start Learning Today.</div>
+    <div class="proj-list rv">
+      <div class="pi" onclick="window.open('https://ganitsutram.com','_blank')"><span class="pn">LIVE</span><div class="pb"><h3>Ganitsutram — AI Maths Platform</h3><p>Fear Maths no more. Ganitsutram uses AI to make Maths engaging, step-by-step, and gamified. Practice, solve, learn. Visit ganitsutram.com</p><div class="pt"><span class="ptag">AI</span><span class="ptag">Maths</span><span class="ptag">Gamified</span><span class="ptag">All Levels</span><span class="ptag live">● LIVE</span></div></div><span class="pa">↗</span></div>
+      <div class="pi" onclick="window.open('https://myaipathsala.com','_blank')"><span class="pn">LIVE</span><div class="pb"><h3>My AI Pathasala — AI Tutor</h3><p>Your personal AI tutor — ask any doubt, get personalised study plans, adaptive tests & exam preparation. All boards, all subjects. Visit myaipathsala.com</p><div class="pt"><span class="ptag">AI Tutor</span><span class="ptag">All Subjects</span><span class="ptag">Personalised</span><span class="ptag">Exam Prep</span><span class="ptag live">● LIVE</span></div></div><span class="pa">↗</span></div>
+    </div>
+    <div class="sh rv" style="margin-top:2.5rem"><span class="snum">02 — COMING SOON</span><div class="sline"></div></div>
+    <div class="stitle rv">Even More Coming For You.</div>
+    <div class="prod-grid rv">
+      <div class="prod-card"><span class="badge-cs">COMING SOON</span><span class="prod-icon">📚</span><h3>Home Study Buddy</h3><p>Your AI best friend for studies at home — available 24×7 for doubts, homework, revision & exam prep.</p><ul><li>Subject-wise AI tutoring</li><li>Homework help & explanations</li><li>Personalised daily study plan</li><li>Exam countdown & revision</li><li>Progress reports for parents</li></ul></div>
+      <div class="prod-card"><span class="prod-icon">🎯</span><h3>PrathamOne Test Series</h3><p>Practice with real exam-style tests, get instant AI analysis, and know exactly what to improve.</p><ul><li>Chapter & full syllabus tests</li><li>AI performance analysis</li><li>Weak topic identification</li><li>Rank & percentile tracker</li><li>Free & premium packs</li></ul></div>
+      <div class="prod-card"><span class="prod-icon">🧮</span><h3>Ganitsutram Advanced</h3><p>More levels, more concepts, more challenges — advanced Maths AI for competitive exam aspirants.</p><ul><li>JEE & NEET Maths prep</li><li>Speed & accuracy drills</li><li>Concept videos + AI practice</li><li>Daily challenge problems</li></ul></div>
+    </div>
+  </div>
+  <div class="sec" id="contact">
+    <div class="sh rv"><span class="snum">03 — GET STARTED</span><div class="sline"></div></div>
+    <div class="stitle rv">Your AI Study Partner Awaits.</div>
+    <div class="contact-grid">
+      <div class="cl rv"><p>Start with <strong>Ganitsutram or My AI Pathasala</strong> — both are live right now. Or sign up below for early access to Home Study Buddy.</p>
+        <div class="clinks">
+          <a href="https://ganitsutram.com" target="_blank" class="clink"><span class="cll">Maths</span><span class="clv">ganitsutram.com</span><span class="cla">↗</span></a>
+          <a href="https://myaipathsala.com" target="_blank" class="clink"><span class="cll">AI Tutor</span><span class="clv">myaipathsala.com</span><span class="cla">↗</span></a>
+          <a href="https://prathamone.com" target="_blank" class="clink"><span class="cll">Academy</span><span class="clv">prathamone.com</span><span class="cla">↗</span></a>
+        </div>
+      </div>
+      <form class="cf rv" onsubmit="sendForm(event)">
+        <div class="frow"><div class="ff"><label>Your Name</label><input type="text" placeholder="Student name" required/></div><div class="ff"><label>Phone / Parent's Phone</label><input type="tel" placeholder="Mobile" required/></div></div>
+        <div class="ff"><label>Class / Grade</label><select><option>Class 1-5</option><option>Class 6-8</option><option>Class 9-10</option><option>Class 11-12</option><option>Competitive Exams</option></select></div>
+        <div class="ff"><label>I Need Help With</label><input type="text" placeholder="e.g. Maths, all subjects, exam prep..."/></div>
+        <div class="ff"><label>Message</label><textarea placeholder="Tell us what you find difficult in studies..."></textarea></div>
+        <button type="submit" class="bsend"><span id="bt-student">Get Early Access →</span></button>
+      </form>
+    </div>
+  </div>
+  <footer><p>© 2026 AITDL · Student AI Tools</p><div class="fl">AITDL</div><p>Mumbai & Gorakhpur · Pan India</p></footer>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     HOME / PARENT SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="aud-section" id="s-home">
+  <div class="aud-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="hero-eyebrow"><div class="pulse-dot"></div><span class="etag">For Parents & Home</span><div class="eline"></div><span class="esub">Saathi Book · Study Buddy · Family AI</span></div>
+    <div class="hero-h">LIFE,<br>FAMILY,<br><span class="acc">ORGANISED.</span></div>
+    <div class="hero-body">
+      <p class="hero-desc">Simple, powerful AI tools for every Indian family. <strong>Saathi Book</strong> for your home accounts & daily tasks. <strong>Home Study Buddy</strong> for your child's learning. <strong>Parent Dashboard</strong> to stay connected to their education — all in one place. <strong>See it. Love it. Then pay for it.</strong></p>
+      <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollTo('products')">See Our Products ↓</a><button class="btn-ghost" onclick="scrollTo('contact')">Get Early Access →</button></div>
+    </div>
+  </div>
+  <div class="trust-row rv">
+    <div class="ti"><span class="ti-ico">🏠</span><div><h4>Home Accounts</h4><p>Saathi Book for every family</p></div></div>
+    <div class="ti"><span class="ti-ico">📚</span><div><h4>Child's Studies</h4><p>AI Study Buddy at home</p></div></div>
+    <div class="ti"><span class="ti-ico">📊</span><div><h4>Progress Alerts</h4><p>Know your child's performance</p></div></div>
+    <div class="ti"><span class="ti-ico">🇮🇳</span><div><h4>Made for India</h4><p>Simple enough for everyone</p></div></div>
+  </div>
+  <div class="mq"><div class="mq-t"><span>Saathi Book</span><span class="dot">✦</span><span>Home Accounts</span><span class="dot">✦</span><span>Daily Tasks</span><span class="dot">✦</span><span>Grocery Lists</span><span class="dot">✦</span><span>Family Budget</span><span class="dot">✦</span><span>Home Study Buddy</span><span class="dot">✦</span><span>Child Progress</span><span class="dot">✦</span><span>Parent Dashboard</span><span class="dot">✦</span><span>AI for Every Home</span><span class="dot">✦</span><span>Saathi Book</span><span class="dot">✦</span><span>Home Accounts</span><span class="dot">✦</span><span>Daily Tasks</span><span class="dot">✦</span><span>Grocery Lists</span><span class="dot">✦</span><span>Family Budget</span><span class="dot">✦</span><span>Home Study Buddy</span><span class="dot">✦</span><span>Child Progress</span><span class="dot">✦</span><span>Parent Dashboard</span><span class="dot">✦</span><span>AI for Every Home</span><span class="dot">✦</span></div></div>
+  <div class="sec" id="products">
+    <div class="sh rv"><span class="snum">01 — PRODUCTS FOR YOU</span><div class="sline"></div></div>
+    <div class="stitle rv">Everything Your Family Needs.</div>
+    <div class="prod-grid rv">
+      <div class="prod-card"><span class="badge-cs">COMING SOON</span><span class="prod-icon">📒</span><h3>Saathi Book</h3><p>India's own AI-powered home companion. <strong>Your Saathi for everyday life.</strong></p><ul><li>Daily task & to-do management</li><li>Grocery & shopping lists</li><li>Home expense tracking</li><li>Family budget planner</li><li>Personal accounts & savings</li><li>Bill reminders & payments log</li><li>Simple for every family member</li></ul></div>
+      <div class="prod-card"><span class="badge-cs">COMING SOON</span><span class="prod-icon">📚</span><h3>Home Study Buddy</h3><p>Your child's AI tutor at home — available 24×7, never tires, never loses patience.</p><ul><li>Subject-wise AI tutoring</li><li>Homework help & explanations</li><li>Personalised study plans</li><li>Exam prep & revision</li><li>Real-time progress for parents</li><li>All boards — CBSE, ICSE, State</li></ul></div>
+      <div class="prod-card"><span class="prod-icon">📊</span><h3>Parent Dashboard</h3><p>Stay truly connected to your child's education — know what's happening, when it's happening.</p><ul><li>Attendance & punctuality alerts</li><li>Test marks & progress reports</li><li>Teacher communication</li><li>Homework completion tracker</li><li>Fee payment reminders</li><li>WhatsApp & app notifications</li></ul></div>
+    </div>
+    <div class="promise rv"><h3>👀 See It. Love It. Then Pay For It.</h3><p>Try our tools for your family completely free. <strong>Pay only when you're completely happy with what you see.</strong> That's the AITDL promise for every home, every family.</p></div>
+  </div>
+  <div class="sec" id="contact">
+    <div class="sh rv"><span class="snum">02 — GET EARLY ACCESS</span><div class="sline"></div></div>
+    <div class="stitle rv">Be The First. Get It Free.</div>
+    <div class="contact-grid">
+      <div class="cl rv"><p>Register now for <strong>early access to Saathi Book & Home Study Buddy</strong>. Be among the first families to experience it — completely free. We'll reach out personally.</p>
+        <div class="clinks"><a href="mailto:contact@aitdl.com" class="clink"><span class="cll">Email</span><span class="clv">contact@aitdl.com</span><span class="cla">↗</span></a></div>
+      </div>
+      <form class="cf rv" onsubmit="sendForm(event)">
+        <div class="frow"><div class="ff"><label>Your Name</label><input type="text" placeholder="Parent / Family name" required/></div><div class="ff"><label>Phone</label><input type="tel" placeholder="WhatsApp number" required/></div></div>
+        <div class="ff"><label>I'm Interested In</label><select><option>Saathi Book (Home Accounts)</option><option>Home Study Buddy (Child's Studies)</option><option>Both!</option></select></div>
+        <div class="ff"><label>Child's Age / Class (if applicable)</label><input type="text" placeholder="e.g. 12 years, Class 7"/></div>
+        <div class="ff"><label>Message</label><textarea placeholder="Tell us about your family's needs..."></textarea></div>
+        <button type="submit" class="bsend"><span id="bt-home">Register for Early Access →</span></button>
+      </form>
+    </div>
+  </div>
+  <footer><p>© 2026 AITDL · Home & Family AI</p><div class="fl">AITDL</div><p>Mumbai & Gorakhpur · Pan India</p></footer>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ── CURSOR ──
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function aR(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(aR)})();
+
+// ── CANVAS ──
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W,H,pColor=[201,168,76],pts=[];
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+resize();addEventListener('resize',resize);
+class P{constructor(){this.r()}r(){this.x=Math.random()*W;this.y=Math.random()*H;this.s=Math.random()*1.2+.3;this.vx=(Math.random()-.5)*.28;this.vy=(Math.random()-.5)*.28;this.o=Math.random()*.4+.1;this.sp=Math.random()>.85}u(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.r()}d(){const[r,g,b]=pColor;ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,Math.PI*2);ctx.fillStyle=this.sp?`rgba(${r},${g},${b},${this.o})`:`rgba(255,255,255,${this.o*.2})`;ctx.fill()}}
+for(let i=0;i<90;i++)pts.push(new P());
+function drawLines(){const[r,g,b]=pColor;for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(${r},${g},${b},${.06*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke()}}}
+(function aC(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.u();p.d()});drawLines();requestAnimationFrame(aC)})();
+
+// ── THEME CONFIG ──
+const themes={
+  retail:{cls:'t-retail',color:[255,107,26]},
+  erp:{cls:'t-erp',color:[26,143,255]},
+  education:{cls:'t-education',color:[34,197,101]},
+  teacher:{cls:'t-education',color:[34,197,101]},
+  student:{cls:'t-ai',color:[162,89,255]},
+  home:{cls:'t-home',color:[255,77,106]},
+};
+const pageTitles={
+  retail:'AITDL — Retail Technology',erp:'AITDL — ERP & Business',
+  education:'AITDL — Education Technology',teacher:'AITDL — AI for Teachers',
+  student:'AITDL — AI Learning',home:'AITDL — Home & Family AI',
+};
+const roleNames={retail:'Retailer',erp:'Business',education:'School/Coaching',teacher:'Teacher',student:'Student',home:'Parent'};
+let current=null;
+
+// ── HELPERS ──
+function hideAll(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('overview').classList.remove('on');
+  document.querySelectorAll('.aud-section').forEach(s=>s.classList.remove('active'));
+}
+function showBack(){document.getElementById('backBtn').classList.add('show')}
+function hideBack(){document.getElementById('backBtn').classList.remove('show')}
+function applyTheme(name){
+  document.body.className='';
+  const t=themes[name];
+  if(t){document.body.classList.add(t.cls);pColor=t.color}
+}
+
+// ── DOOR 1: Universe → Overview Dashboard ──
+function enterUniverse(){
+  hideAll();
+  document.body.className='';pColor=[201,168,76];
+  document.getElementById('overview').classList.add('on');
+  window.scrollTo({top:0,behavior:'instant'});
+  showBack();document.title='AITDL — All Solutions';
+  current='overview';
+  setTimeout(()=>{runReveals();runCounters()},80);
+}
+
+// ── DOOR 2: Open Picker ──
+function openPicker(){
+  document.getElementById('picker').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closePicker(){
+  document.getElementById('picker').classList.remove('on');
+  document.body.style.overflow='';
+}
+
+// ── PICKER STATE ──
+let primaryRole=null, secondaryRoles=[];
+
+function pickRole(el){
+  const role=el.dataset.role;
+  if(!primaryRole){
+    // First tap → PRIMARY
+    primaryRole=role;
+    el.classList.add('primary');
+    el.querySelector('.pk-badge').textContent='PRIMARY';
+    document.getElementById('pkStep1').classList.add('done');
+    document.getElementById('pkStep2').classList.add('act');
+    document.getElementById('pkGo').classList.add('ready');
+    updatePickerSummary();
+  } else if(el.classList.contains('primary')){
+    // Tap primary again → full reset
+    primaryRole=null;secondaryRoles=[];
+    document.querySelectorAll('.pk-role').forEach(r=>{r.classList.remove('primary','secondary');r.querySelector('.pk-badge').textContent='PRIMARY'});
+    document.getElementById('pkStep1').classList.remove('done');
+    document.getElementById('pkStep2').classList.remove('act','done');
+    document.getElementById('pkStep3').classList.remove('act');
+    document.getElementById('pkGo').classList.remove('ready');
+    updatePickerSummary();
+  } else if(el.classList.contains('secondary')){
+    // Tap secondary → remove
+    el.classList.remove('secondary');
+    el.querySelector('.pk-badge').textContent='PRIMARY';
+    secondaryRoles=secondaryRoles.filter(r=>r!==role);
+    updatePickerSummary();
+  } else {
+    // Tap other → add secondary
+    secondaryRoles.push(role);
+    el.classList.add('secondary');
+    el.querySelector('.pk-badge').textContent='+ADD';
+    updatePickerSummary();
+  }
+}
+
+function updatePickerSummary(){
+  const el=document.getElementById('pkSummary');
+  if(!primaryRole){el.textContent='';el.classList.remove('has');return}
+  let txt=roleNames[primaryRole];
+  if(secondaryRoles.length)txt+=` + ${secondaryRoles.map(r=>roleNames[r]).join(' + ')}`;
+  el.textContent=txt;el.classList.add('has');
+  document.getElementById('pkStep3').classList.add('act');
+}
+
+function enterMyWorld(){
+  if(!primaryRole)return;
+  const p=primaryRole,s=[...secondaryRoles];
+  closePicker();
+  setTimeout(()=>resetPicker(),500);
+  if(s.length===0){activate(p);}
+  else{activateMulti(p,s);}
+}
+
+function resetPicker(){
+  primaryRole=null;secondaryRoles=[];
+  document.querySelectorAll('.pk-role').forEach(r=>{r.classList.remove('primary','secondary');r.querySelector('.pk-badge').textContent='PRIMARY'});
+  document.getElementById('pkGo').classList.remove('ready');
+  ['pkStep1','pkStep2','pkStep3'].forEach(id=>{
+    document.getElementById(id).classList.remove('done','act');
+  });
+  document.getElementById('pkStep1').classList.add('act');
+  document.getElementById('pkSummary').textContent='';
+  document.getElementById('pkSummary').classList.remove('has');
+}
+
+// ── ACTIVATE SINGLE ──
+function activate(name){
+  hideAll();
+  applyTheme(name);
+  const sec=document.getElementById('s-'+name);
+  if(sec){sec.classList.add('active');window.scrollTo({top:0,behavior:'instant'})}
+  showBack();
+  if(pageTitles[name])document.title=pageTitles[name];
+  current=name;
+  setTimeout(()=>{runReveals();runCounters()},80);
+}
+
+// ── ACTIVATE MULTI ──
+function activateMulti(primary,secondaries){
+  hideAll();
+  applyTheme(primary);// primary theme dominates
+  const pSec=document.getElementById('s-'+primary);
+  if(pSec)pSec.classList.add('active');
+  secondaries.forEach(role=>{
+    const sec=document.getElementById('s-'+role);
+    if(sec)sec.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'instant'});
+  showBack();
+  document.title=`AITDL — ${[primary,...secondaries].map(r=>roleNames[r]).join(' + ')}`;
+  current=primary;
+  setTimeout(()=>{runReveals();runCounters()},80);
+}
+
+// ── GO HOME → back to Gate ──
+function goHome(){
+  hideAll();
+  document.getElementById('gate').style.display='flex';
+  document.body.className='';document.body.style.overflow='';
+  pColor=[201,168,76];
+  hideBack();
+  document.title='AITDL — Choose Your World';
+  window.scrollTo({top:0,behavior:'smooth'});
+  current=null;
+}
+
+// ── SCROLL HELPER ──
+function scrollTo(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── NAV ──
+function openMenu(){document.getElementById('navL').classList.add('open')}
+function closeMenu(){document.getElementById('navL').classList.remove('open')}
+
+// ── REVEAL ──
+let revObs=null;
+function runReveals(){
+  if(revObs)revObs.disconnect();
+  revObs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting)setTimeout(()=>{e.target.classList.add('on');revObs.unobserve(e.target)},i*55);
+    });
+  },{threshold:.06,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('.rv:not(.on)').forEach(el=>revObs.observe(el));
+}
+
+// ── COUNT UP ──
+let cntObs=null;
+function runCounters(){
+  if(cntObs)cntObs.disconnect();
+  cntObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.sn[data-target]').forEach(el=>{
+          if(el._counted)return;el._counted=true;
+          const tgt=parseInt(el.dataset.target),sfx=tgt===99?'%':'+';
+          const step=tgt/1600*16;let v=0,timer;
+          timer=setInterval(()=>{v+=step;if(v>=tgt){v=tgt;clearInterval(timer)}el.textContent=Math.floor(v)+sfx},16);
+        });
+        cntObs.unobserve(e.target);
+      }
+    });
+  },{threshold:.25});
+  document.querySelectorAll('.stats,.sb').forEach(el=>cntObs.observe(el));
+}
+
+// ── FORM ──
+function sendForm(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('.bsend span');
+  if(!btn)return;
+  const orig=btn.textContent;btn.textContent='Sending...';
+  setTimeout(()=>{btn.textContent='✓ Sent! We\'ll WhatsApp you soon.';e.target.reset();setTimeout(()=>{btn.textContent=orig},5000)},1200);
+}
+
+// ── INIT ──
+document.getElementById('gate').style.display='flex';
+document.getElementById('pkStep1').classList.add('act');
+
+</script>
+</body>
+</html>

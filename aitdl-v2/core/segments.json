@@ -1,0 +1,145 @@
+{
+    "_aitdl": {
+        "org": "AITDL — A Living Knowledge Ecosystem",
+        "creator": "Jawahar R. Mallah",
+        "copyright": "© aitdl.com · AITDL | GANITSUTRAM.com",
+        "epoch": "628 CE · Brahmasphuṭasiddhānta → 8 March MMXXVI"
+    },
+    "segments": [
+        {
+            "id": "retail",
+            "name": "Retailer",
+            "icon": "🛍️",
+            "color": "#ff6b1a",
+            "rgb": [
+                255,
+                107,
+                26
+            ],
+            "theme": "t-retail",
+            "status": "live",
+            "section_id": "s-retail",
+            "visible": true
+        },
+        {
+            "id": "erp",
+            "name": "Business",
+            "icon": "⚙️",
+            "color": "#1a8fff",
+            "rgb": [
+                26,
+                143,
+                255
+            ],
+            "theme": "t-erp",
+            "status": "live",
+            "section_id": "s-erp",
+            "visible": true
+        },
+        {
+            "id": "education",
+            "name": "School/Coaching",
+            "icon": "🏫",
+            "color": "#22c565",
+            "rgb": [
+                34,
+                197,
+                101
+            ],
+            "theme": "t-education",
+            "status": "live",
+            "section_id": "s-education",
+            "visible": true
+        },
+        {
+            "id": "teacher",
+            "name": "Teacher",
+            "icon": "👩‍🏫",
+            "color": "#22c565",
+            "rgb": [
+                34,
+                197,
+                101
+            ],
+            "theme": "t-education",
+            "status": "live",
+            "section_id": "s-teacher",
+            "visible": true
+        },
+        {
+            "id": "student",
+            "name": "Student",
+            "icon": "🎓",
+            "color": "#a259ff",
+            "rgb": [
+                162,
+                89,
+                255
+            ],
+            "theme": "t-ai",
+            "status": "live",
+            "section_id": "s-student",
+            "visible": true
+        },
+        {
+            "id": "home",
+            "name": "Parent/Family",
+            "icon": "👨‍👩‍👧",
+            "color": "#ff4d6a",
+            "rgb": [
+                255,
+                77,
+                106
+            ],
+            "theme": "t-home",
+            "status": "live",
+            "section_id": "s-home",
+            "visible": true
+        },
+        {
+            "id": "partner",
+            "name": "Partner/Reseller",
+            "icon": "🤝",
+            "color": "#39e07a",
+            "rgb": [
+                57,
+                224,
+                122
+            ],
+            "theme": "t-partner",
+            "status": "live",
+            "section_id": "partner-landing",
+            "visible": true
+        },
+        {
+            "id": "ngo",
+            "name": "NGO/Trust",
+            "icon": "🏛️",
+            "color": "#0eb8a0",
+            "rgb": [
+                14,
+                184,
+                160
+            ],
+            "theme": "t-ngo",
+            "status": "stub",
+            "section_id": "s-ngo",
+            "visible": true
+        },
+        {
+            "id": "ecom",
+            "name": "Ecommerce",
+            "icon": "🛒",
+            "color": "#6c63ff",
+            "rgb": [
+                108,
+                99,
+                255
+            ],
+            "theme": "t-ecom",
+            "status": "waitlist",
+            "section_id": "s-ecom",
+            "visible": true
+        }
+    ]
+}

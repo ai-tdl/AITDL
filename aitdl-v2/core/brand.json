@@ -1,0 +1,37 @@
+{
+    "_aitdl": {
+        "org": "AITDL — A Living Knowledge Ecosystem",
+        "creator": "Jawahar R. Mallah",
+        "copyright": "© aitdl.com · AITDL | GANITSUTRAM.com",
+        "epoch": "628 CE · Brahmasphuṭasiddhānta → 8 March MMXXVI"
+    },
+    "name_short": "AITDL",
+    "name_full": "AI Technology Development Lab",
+    "tagline": "A Living Knowledge Ecosystem",
+    "promise": "See it. Love it. Then pay for it.",
+    "founded": "2007",
+    "email_general": "contact@aitdl.com",
+    "email_partner": "partners@aitdl.com",
+    "email_creator": "jawahar@aitdl.com",
+    "websites": {
+        "main": "https://aitdl.com",
+        "ganitsutram": "https://ganitsutram.com",
+        "myaipathasala": "https://myaipathsala.com",
+        "prathamone": "https://prathamone.com"
+    },
+    "cities": [
+        "Mumbai",
+        "Nashik",
+        "Surat",
+        "Gorakhpur"
+    ],
+    "tagline_locations": "Pan India · Since 2007",
+    "social": {
+        "github": "https://github.com/jawahar-mallah"
+    },
+    "epoch": {
+        "then": "628 CE · Brahmasphuṭasiddhānta",
+        "now": "8 March MMXXVI · Vikram Samvat 2082"
+    },
+    "copyright": "© aitdl.com · AITDL | GANITSUTRAM.com"
+}
