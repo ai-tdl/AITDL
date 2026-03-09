@@ -34,6 +34,7 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
         partner: { cls: 't-partner', color: [57, 224, 122] },
         ngo: { cls: 't-ngo', color: [14, 184, 160] },
         ecom: { cls: 't-ecom', color: [108, 99, 255] },
+        learn: { cls: 't-ai', color: [162, 89, 255] },
     };
 
     const PAGE_TITLES = {
@@ -46,6 +47,7 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
         partner: 'AITDL — Become a Partner',
         ngo: 'AITDL — NGO & Social Sector',
         ecom: 'AITDL — Ecommerce Platform',
+        learn: 'AITDL — Learn • Earn • Fun',
     };
 
     const ROLE_NAMES = {
@@ -103,6 +105,14 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
         document.title = 'AITDL — Become a Partner';
         currentSection = 'partner-landing';
         setTimeout(() => { runReveals(); runCounters(); }, 80);
+    };
+
+    /* ─────────────────────────────────────────
+       DOOR 4 — Learn • Earn • Fun
+    ───────────────────────────────────────── */
+    window.setView = activate;
+    window.enterLearn = function () {
+        setView('learn');
     };
 
     /* ───────────────────────────────────────
