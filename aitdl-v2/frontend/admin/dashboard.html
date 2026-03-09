@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AITDL - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span>AITDL Admin</span>
+                <button onclick="Auth.logout()" class="logout-btn">Log out</button>
+            </div>
+            <nav class="nav-links">
+                <a class="nav-item active" data-tab="stats" onclick="switchTab('stats')">Overview</a>
+                <a class="nav-item" data-tab="leads" onclick="switchTab('leads')">Contact Leads</a>
+                <a class="nav-item" data-tab="partners" onclick="switchTab('partners')">Partner Apps</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Stats Tab -->
+            <div id="stats" class="tab-content active">
+                <h2 class="section-title">Dashboard Overview</h2>
+                <div class="stats-grid" id="statsContainer">
+                    <div class="loader"></div>
+                </div>
+            </div>
+
+            <!-- Leads Tab -->
+            <div id="leads" class="tab-content">
+                <h2 class="section-title">Contact Leads</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Section</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loader"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Partners Tab -->
+            <div id="partners" class="tab-content">
+                <h2 class="section-title">Partner Applications</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>City</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="partnersTableBody">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loader"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="./js/admin-auth.js"></script>
+    <script src="./js/admin-stats.js"></script>
+    <script src="./js/admin-leads.js"></script>
+    <script>
+        // Check auth immediately
+        if (!Auth.isAuthenticated()) {
+            window.location.href = 'index.html';
+        }
+
+        function switchTab(tabId) {
+            // Update nav active states
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.tab === tabId);
+            });
+
+            // Update tab contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.toggle('active', el.id === tabId);
+            });
+
+            // Trigger load if needed
+            if (tabId === 'stats') AdminStats.load();
+            if (tabId === 'leads') AdminLeads.loadLeads();
+            if (tabId === 'partners') AdminLeads.loadPartners();
+        }
+
+        // Auto-load initial tab
+        document.addEventListener('DOMContentLoaded', () => {
+            AdminStats.load();
+        });
+    </script>
+</body>
+
+</html>

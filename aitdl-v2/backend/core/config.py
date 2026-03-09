@@ -24,10 +24,25 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    DATABASE_URL: str = "postgresql+asyncpg://user:pass@localhost/aitdl_db"
-    CORS_ORIGINS: str = "http://localhost:5500,https://aitdl.com"
+    # Database
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5434/aitdl_dev"
+
+    # CORS
+    CORS_ORIGINS: str = "http://localhost:5500,http://localhost:7700,https://aitdl.com"
+
+    # App
     SECRET_KEY: str   = "change-me-in-production"
     DEBUG: bool       = False
 
+    # JWT (Phase 3)
+    JWT_SECRET_KEY: str  = "change-this-to-a-64-char-random-hex-string"
+    JWT_ALGORITHM: str   = "HS256"
+    JWT_EXPIRE_HOURS: int = 24
+
+    # Admin seed (Phase 3) — read by scripts/create_admin.py only
+    ADMIN_EMAIL: str    = ""
+    ADMIN_PASSWORD: str = ""
+
 
 settings = Settings()
+

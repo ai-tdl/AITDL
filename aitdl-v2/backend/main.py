@@ -23,12 +23,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import settings
 from core.cors import cors_origins
-from routers import contact, partner
+from routers import contact, partner, auth, admin
 
 app = FastAPI(
     title="AITDL API",
-    description="AITDL v2 Backend — contact forms, partner applications",
-    version="2.0.0",
+    description="AITDL v2 Backend — contact forms, partner applications, admin dashboard",
+    version="2.1.0",
     docs_url="/docs",
     redoc_url="/redoc",
 )
@@ -45,8 +45,10 @@ app.add_middleware(
 # Routers
 app.include_router(contact.router, prefix="/api")
 app.include_router(partner.router, prefix="/api")
+app.include_router(auth.router)      # prefix already set in router: /api/auth
+app.include_router(admin.router)     # prefix already set in router: /api/admin
 
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "version": "2.0.0", "org": "AITDL"}
+    return {"status": "ok", "version": "2.1.0", "org": "AITDL"}
