@@ -1,0 +1,26 @@
+{
+    "version": 2,
+    "public": true,
+    "name": "aitdl-portal-v3",
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "https://api.aitdl.com/api/$1"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/$1"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*).html",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "no-cache"
+                }
+            ]
+        }
+    ]
+}

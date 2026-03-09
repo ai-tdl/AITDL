@@ -1,0 +1,65 @@
+{
+    "_aitdl": {
+        "description": "PIL — Module Index: all platform modules and their paths for V3.0.0",
+        "creator": "Jawahar R. Mallah",
+        "updated": "2026-03-10",
+        "version": "3.0.0"
+    },
+    "modules": {
+        "backend.main": {
+            "path": "backend/main.py",
+            "type": "entry",
+            "description": "FastAPI entry point — thin wrapper that boots the Platform Kernel"
+        },
+        "backend.kernel": {
+            "path": "backend/platform_kernel.py",
+            "type": "kernel",
+            "description": "Central Platform Kernel — manages init, DB, and dynamic ecosystems"
+        },
+        "backend.api.contact": {
+            "path": "backend/api/contact.py",
+            "type": "router",
+            "description": "Core API: Contact form submission"
+        },
+        "backend.api.auth": {
+            "path": "backend/api/auth.py",
+            "type": "router",
+            "description": "Core API: Authentication & JWT verification"
+        },
+        "backend.api.admin": {
+            "path": "backend/api/admin.py",
+            "type": "router",
+            "description": "Core API: Administrative dashboard operations"
+        },
+        "backend.services.product_loader": {
+            "path": "backend/services/product_loader.py",
+            "type": "loader",
+            "description": "Dynamic product loading and mounting engine"
+        },
+        "backend.services.plugin_loader": {
+            "path": "backend/services/plugin_loader.py",
+            "type": "loader",
+            "description": "Dynamic plugin discovery and registration engine"
+        },
+        "backend.core.config": {
+            "path": "backend/core/config.py",
+            "type": "infra",
+            "description": "System settings and environment management"
+        },
+        "backend.core.database": {
+            "path": "backend/core/database.py",
+            "type": "infra",
+            "description": "Async SQLAlchemy connection and session management"
+        },
+        "core.identity": {
+            "path": "core/aitdl_identity.json",
+            "type": "fingerprint",
+            "description": "Canonical Platform Identity — V3.0.0"
+        },
+        "rules.master": {
+            "path": "rules/RULESBOOK.md",
+            "type": "governance",
+            "description": "Master AITDL Rulesbook — The source of truth for platform rules"
+        }
+    }
+}

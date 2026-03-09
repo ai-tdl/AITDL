@@ -1,0 +1,65 @@
+{
+    "_aitdl": {
+        "description": "PIL — Project Map: full directory and file listing for AITDL Platform V3",
+        "creator": "Jawahar R. Mallah",
+        "updated": "2026-03-10",
+        "version": "3.0.0"
+    },
+    "project": "AITDL Platform",
+    "architecture": {
+        "hierarchy": "Infrastructure → Backend Kernel → Core Platform → Plugins → Products → Frontend Apps",
+        "locked_root_dirs": [
+            "apps",
+            "backend",
+            "core",
+            "plugins",
+            "products",
+            "agents",
+            "guardian",
+            "scripts",
+            "infrastructure",
+            "tests",
+            "docs",
+            "archive",
+            ".github",
+            "rules",
+            "pil"
+        ]
+    },
+    "directory_map": {
+        "apps/": {
+            "portal/": "Main Role-based Gateway (3-door entry)",
+            "admin/": "Central Administrative Dashboard",
+            "cms/": "Content Management System App"
+        },
+        "backend/": {
+            "main.py": "FastAPI entry point (thin wrapper for Kernel)",
+            "platform_kernel.py": "Platform Central Nervous System (Init, DB, Loaders)",
+            "api/": "Core Platform API Routers (Contact, Auth, Admin, AI)",
+            "services/": "Dynamic Loaders & Platform Logic",
+            "core/": "Infrastructure (Config, Logging, Security)",
+            "models/": "Pydantic & SQLAlchemy Models",
+            "db/migrations/": "Database Schema History"
+        },
+        "core/": {
+            "aitdl_identity.json": "Platform Identity Fingerprint",
+            "segments.json": "Audience Segments Data",
+            "brand.json": "Brand Logic & Identity Assets"
+        },
+        "plugins/": {
+            "cms_core/": "Core CMS functionality plugin",
+            "ai-assistant/": "Dynamic AI utility plugin"
+        },
+        "products/": {
+            "ganitsutram/": "GanitSūtram Product Universe"
+        },
+        "rules/": {
+            "RULESBOOK.md": "Master Platform Governance"
+        },
+        "pil/": {
+            "project_map.json": "Full Repository Layout (This file)",
+            "module_index.json": "Module-level cross-reference",
+            "dependency_map.json": "Module dependency graph"
+        }
+    }
+}

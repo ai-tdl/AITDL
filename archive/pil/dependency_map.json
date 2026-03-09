@@ -1,0 +1,107 @@
+{
+    "_aitdl": {
+        "description": "PIL — Dependency Map: what imports/depends on what",
+        "creator": "Jawahar R. Mallah",
+        "updated": "2026-03-09",
+        "version": "2.1.0"
+    },
+    "dependencies": {
+        "frontend.main": [
+            "frontend.config",
+            "core.segments",
+            "core.brand"
+        ],
+        "frontend.picker": [
+            "core.segments",
+            "frontend.main"
+        ],
+        "frontend.forms": [
+            "frontend.config",
+            "core.brand"
+        ],
+        "frontend.canvas": [
+            "frontend.main"
+        ],
+        "frontend.themes": [
+            "core.segments"
+        ],
+        "backend.main": [
+            "backend.config",
+            "backend.cors",
+            "backend.contact",
+            "backend.partner"
+        ],
+        "backend.contact": [
+            "backend.m_contact",
+            "backend.db_tables",
+            "backend.database",
+            "backend.config"
+        ],
+        "backend.partner": [
+            "backend.m_partner",
+            "backend.db_tables",
+            "backend.database",
+            "backend.config"
+        ],
+        "backend.db_tables": [
+            "backend.database"
+        ],
+        "backend.database": [
+            "backend.config"
+        ],
+        "backend.identity": [],
+        "tests.conftest": [
+            "backend.main",
+            "backend.database",
+            "backend.db_tables"
+        ],
+        "tests.contact": [
+            "tests.conftest",
+            "backend.main"
+        ],
+        "tests.partner": [
+            "tests.conftest",
+            "backend.main"
+        ],
+        "scripts.migrate": [],
+        "scripts.seed": [],
+        "scripts.signature": [
+            "core.identity"
+        ]
+    },
+    "protected_from_changes": [
+        "core.identity",
+        "backend.identity",
+        "scripts.signature",
+        "docs.signature",
+        "rules.rulesbook"
+    ],
+    "phase_status": {
+        "phase_1_live": [
+            "frontend.*",
+            "backend.main",
+            "backend.contact",
+            "backend.partner",
+            "backend.m_contact",
+            "backend.m_partner",
+            "backend.db_tables",
+            "backend.database",
+            "backend.cors",
+            "backend.config",
+            "tests.*",
+            "scripts.*"
+        ],
+        "phase_2_planned": [
+            "guardian.*",
+            "ade.*",
+            "agents.*"
+        ],
+        "phase_3_planned": [
+            "admin_dashboard",
+            "whatsapp_integration"
+        ],
+        "phase_4_planned": [
+            "supabase_auth"
+        ]
+    }
+}
