@@ -109,21 +109,35 @@ def require_admin(
     credentials: HTTPAuthorizationCredentials = Depends(_bearer),
 ) -> dict:
     """
-    Purpose : FastAPI dependency — validates Supabase JWT and returns payload.
+    Purpose : FastAPI dependency — validates JWT and returns payload.
+    Input   : Authorization: Bearer <token>
+    Output  : Dict with 'sub' (email) and 'role'
+    Errors  : 401 Unauthorized, 403 Forbidden for bad roles
     """
     token = credentials.credentials
-    try:
-        if token == "test_token":
-            return {"sub": "test@aitdl.com", "role": "admin"}
-            
-        from core.supabase_client import supabase
-        res = supabase.auth.get_user(token)
-        if not res or not res.user:
-            raise Exception("Invalid user")
-            
-        return {"sub": res.user.email, "role": "admin"}
-    except Exception:
+    payload = decode_jwt(token)
+    
+    role = payload.get("role")
+    if role not in ("superadmin", "admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin access required",
         )
+    return payload
+
+
+def require_superadmin(
+    payload: dict = Depends(require_admin),
+) -> dict:
+    """
+    Purpose : FastAPI dependency — ensures the admin has 'superadmin' role.
+    Input   : Decoded JWT payload (from require_admin)
+    Output  : Decoded payload
+    Errors  : 403 Forbidden if not superadmin
+    """
+    if payload.get("role") != "superadmin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Superadmin access required",
+        )
+    return payload

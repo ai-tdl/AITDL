@@ -24,6 +24,7 @@ import re
 
 class ContactForm(BaseModel):
     name:    str
+    email:   str
     phone:   str
     section: str           # which audience section sent this
     business: str = ""

@@ -66,21 +66,29 @@ class MeResponse(BaseModel):
 @router.post("/login", response_model=TokenResponse)
 async def login(
     body: LoginRequest,
+    db: AsyncSession = Depends(get_db),
 ):
     """
-    Delegates login to Supabase Authentication instead of local DB.
+    Purpose : Validate credentials and issue a signed JWT.
+    Input   : LoginRequest (email, password)
+    Output  : TokenResponse (access_token, token_type, role)
+    Errors  : 401 if email not found, password wrong, or account inactive
     """
-    if body.email == "iamadmin@aitdl.com" and body.password == "testpass123":
-        return TokenResponse(access_token="test_token", role="admin")
-        
-    try:
-        from core.supabase_client import supabase
-        res = supabase.auth.sign_in_with_password({"email": body.email, "password": body.password})
-        if not res or not res.session:
-            raise Exception("No session")
-        return TokenResponse(access_token=res.session.access_token, role="admin")
-    except Exception:
+    result = await db.execute(select(AdminUser).where(AdminUser.email == body.email))
+    admin = result.scalar_one_or_none()
+
+    if not admin or not admin.is_active:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+
+    if not verify_password(body.password, admin.password_hash):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+
+    # Update last_login
+    admin.last_login = datetime.now(timezone.utc)
+    await db.commit()
+
+    token = create_jwt({"sub": admin.email, "role": admin.role})
+    return TokenResponse(access_token=token, role=admin.role)
 
 
 @router.get("/me", response_model=MeResponse)

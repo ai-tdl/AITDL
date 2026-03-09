@@ -60,6 +60,7 @@ class ContactRecord(Base):
 
     id:           Mapped[int]               = mapped_column(primary_key=True, autoincrement=True)
     name:         Mapped[str]               = mapped_column(String(120), nullable=False)
+    email:        Mapped[str]               = mapped_column(String(200), nullable=False, default="")
     phone:        Mapped[str]               = mapped_column(String(20),  nullable=False)
     section:      Mapped[str]               = mapped_column(String(60),  nullable=False)
     business:     Mapped[str]               = mapped_column(String(120), nullable=False, default="")
@@ -95,6 +96,7 @@ class PartnerRecord(Base):
 
     id:          Mapped[int]               = mapped_column(primary_key=True, autoincrement=True)
     name:        Mapped[str]               = mapped_column(String(120), nullable=False)
+    email:       Mapped[str]               = mapped_column(String(200), nullable=False, default="")
     phone:       Mapped[str]               = mapped_column(String(20),  nullable=False)
     city:        Mapped[str]               = mapped_column(String(80),  nullable=False)
     occupation:  Mapped[str]               = mapped_column(String(120), nullable=False, default="")

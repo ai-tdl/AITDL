@@ -7,6 +7,7 @@
     <title>AITDL - Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -19,8 +20,14 @@
             </div>
             <nav class="nav-links">
                 <a class="nav-item active" data-tab="stats" onclick="switchTab('stats')">Overview</a>
-                <a class="nav-item" data-tab="leads" onclick="switchTab('leads')">Contact Leads</a>
-                <a class="nav-item" data-tab="partners" onclick="switchTab('partners')">Partner Apps</a>
+                <a class="nav-item" data-tab="leads" onclick="switchTab('leads')">
+                    Contact Leads <span class="nav-badge" id="leadsBadge"></span>
+                </a>
+                <a class="nav-item" data-tab="partners" onclick="switchTab('partners')">
+                    Partner Apps <span class="nav-badge" id="partnersBadge"></span>
+                </a>
+                <a class="nav-item" id="navAdmins" data-tab="admins" onclick="switchTab('admins')"
+                    style="display: none;">Admin Users</a>
             </nav>
         </aside>
 
@@ -33,17 +40,52 @@
                 <div class="stats-grid" id="statsContainer">
                     <div class="loader"></div>
                 </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3 class="stat-title">Submissions Over Time</h3>
+                        <canvas id="leadsChart" height="250"></canvas>
+                    </div>
+                </div>
             </div>
 
             <!-- Leads Tab -->
             <div id="leads" class="tab-content">
-                <h2 class="section-title">Contact Leads</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 class="section-title" style="margin-bottom: 0;">Contact Leads</h2>
+                    <button onclick="AdminLeads.exportCSV('leads')" class="btn-primary"
+                        style="width: auto; padding: 0.5rem 1rem;">Export CSV</button>
+                </div>
+
+                <div class="toolbar">
+                    <input type="text" id="leadsSearch" class="form-input search-input"
+                        placeholder="Search name, email, or message..." onkeyup="AdminLeads.filterLeads()">
+                    <select id="leadsFilter" class="form-input filter-select" onchange="AdminLeads.filterLeads()">
+                        <option value="all">All Statuses</option>
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="follow_up">Follow Up</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+
+                <div id="leadsBulkToolbar" class="bulk-toolbar"
+                    style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid var(--accent); gap: 1rem; align-items: center;">
+                    <span style="font-size: 0.875rem; color: var(--accent); font-weight: 600;">Bulk Actions:</span>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('lead', 'contacted')">Mark
+                        Contacted</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('lead', 'closed')">Close All</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkExport('lead')">Export Selected</button>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Phone</th>
+                                <th style="width: 40px;"><input type="checkbox"
+                                        onchange="AdminLeads.toggleAll('lead', this.checked)"></th>
+                                <th>Name / Business</th>
+                                <th>Contact Info</th>
                                 <th>Section</th>
                                 <th>Date</th>
                                 <th>Status</th>
@@ -63,13 +105,42 @@
 
             <!-- Partners Tab -->
             <div id="partners" class="tab-content">
-                <h2 class="section-title">Partner Applications</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 class="section-title" style="margin-bottom: 0;">Partner Applications</h2>
+                    <button onclick="AdminLeads.exportCSV('partners')" class="btn-primary"
+                        style="width: auto; padding: 0.5rem 1rem;">Export CSV</button>
+                </div>
+
+                <div class="toolbar">
+                    <input type="text" id="partnersSearch" class="form-input search-input"
+                        placeholder="Search name, city, or business..." onkeyup="AdminLeads.filterPartners()">
+                    <select id="partnersFilter" class="form-input filter-select" onchange="AdminLeads.filterPartners()">
+                        <option value="all">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="on_hold">On Hold</option>
+                    </select>
+                </div>
+
+                <div id="partnersBulkToolbar" class="bulk-toolbar"
+                    style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid var(--accent); gap: 1rem; align-items: center;">
+                    <span style="font-size: 0.875rem; color: var(--accent); font-weight: 600;">Bulk Actions:</span>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('partner', 'approved')">Approve
+                        All</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('partner', 'rejected')">Reject
+                        All</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkExport('partner')">Export Selected</button>
+                </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Phone</th>
+                                <th style="width: 40px;"><input type="checkbox"
+                                        onchange="AdminLeads.toggleAll('partner', this.checked)"></th>
+                                <th>Name / Role</th>
+                                <th>Contact Info</th>
                                 <th>City</th>
                                 <th>Date</th>
                                 <th>Status</th>
@@ -93,11 +164,21 @@
     <script src="./js/admin-auth.js"></script>
     <script src="./js/admin-stats.js"></script>
     <script src="./js/admin-leads.js"></script>
+    <script src="./js/admin-users.js"></script>
     <script>
         // Check auth immediately
         if (!Auth.isAuthenticated()) {
             window.location.href = 'index.html';
         }
+
+        // Initialize UI based on role
+        document.addEventListener('DOMContentLoaded', () => {
+            const payload = Auth.getPayload();
+            if (payload && payload.role === 'superadmin') {
+                document.getElementById('navAdmins').style.display = 'block';
+            }
+            AdminStats.load();
+        });
 
         function switchTab(tabId) {
             // Update nav active states
@@ -110,17 +191,69 @@
                 el.classList.toggle('active', el.id === tabId);
             });
 
-            // Trigger load if needed
+            // Trigger load
             if (tabId === 'stats') AdminStats.load();
             if (tabId === 'leads') AdminLeads.loadLeads();
             if (tabId === 'partners') AdminLeads.loadPartners();
+            if (tabId === 'admins') AdminUsers.load();
         }
-
-        // Auto-load initial tab
-        document.addEventListener('DOMContentLoaded', () => {
-            AdminStats.load();
-        });
     </script>
+
+    <!-- Detail View Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="AdminLeads.closeModal()">&times;</span>
+            <h2 id="modalTitle" style="margin-bottom: 1.5rem;">Lead Details</h2>
+
+            <div id="modalBody" class="modal-body">
+                <!-- Populated by JS -->
+            </div>
+
+            <div class="modal-notes" style="margin-top: 1.5rem;">
+                <label for="modalNotesText"
+                    style="display:block; margin-bottom: 0.5rem; color: var(--text-muted); font-weight: 500;">Internal
+                    Notes</label>
+                <textarea id="modalNotesText" class="form-input" rows="4" placeholder="Add a note..."></textarea>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="btn-primary" onclick="AdminLeads.saveNotes()" style="flex: 1;">Save Notes</button>
+                    <button class="btn-primary" onclick="AdminLeads.closeModal()"
+                        style="flex: 1; background: var(--bg-hover);">Close</button>
+                </div>
+            </div>
+            <input type="hidden" id="modalItemId">
+            <input type="hidden" id="modalItemType">
+        </div>
+    </div>
+
+    <!-- Invite Admin Modal -->
+    <div id="inviteModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="AdminUsers.closeInviteModal()">&times;</span>
+            <h2 style="margin-bottom: 1.5rem;">Invite New Admin</h2>
+            <form onsubmit="AdminUsers.invite(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="inviteEmail" class="form-input" required placeholder="admin@aitdl.com">
+                </div>
+                <div class="form-group">
+                    <label>Temporary Password</label>
+                    <input type="password" id="invitePassword" class="form-input" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="inviteRole" class="form-input">
+                        <option value="admin">Admin (View + Manage data)</option>
+                        <option value="superadmin">Superadmin (Full access + Team management)</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button type="submit" class="btn-primary" style="flex: 1;">Create Account</button>
+                    <button type="button" class="btn-primary" onclick="AdminUsers.closeInviteModal()"
+                        style="flex: 1; background: var(--bg-hover);">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -41,6 +41,7 @@ async def submit_contact(
     """
     record = ContactRecord(
         name=form.name,
+        email=form.email,
         phone=form.phone,
         section=form.section,
         business=form.business,

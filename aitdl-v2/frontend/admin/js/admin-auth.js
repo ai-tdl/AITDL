@@ -1,6 +1,6 @@
 class Auth {
     static TOKEN_KEY = 'aitdl_admin_token';
-    static API_BASE = '/api';
+    static API_BASE = 'http://localhost:8000/api';
 
     static async login(email, password) {
         try {
@@ -35,6 +35,18 @@ class Auth {
 
     static isAuthenticated() {
         return !!this.getToken();
+    }
+
+    static getPayload() {
+        const token = this.getToken();
+        if (!token) return null;
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(atob(base64));
+        } catch (e) {
+            return null;
+        }
     }
 
     static getHeaders() {

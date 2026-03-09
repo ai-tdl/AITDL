@@ -1,0 +1,19 @@
+Update .env with real password + JWT secret:
+ADMIN_PASSWORD=Aba108682!@!@
+JWT_SECRET_KEY=<run: python -c "import secrets; print(secrets.token_hex(32))">
+Create DB + tables: python scripts/create_db.py
+Seed admin: python scripts/create_admin.py
+Start backend: cd backend && uvicorn main:app --reload --port 8000
+Open admin: http://localhost:8000/admin/ (or serve via Live Server)
+
+
+
+Backend: I've successfully started the FastAPI backend! It is currently running in the background. 🚀
+How to Login
+Start a server to serve the frontend files using Live Server (or similar). The backend is currently active on port 8000.
+
+URL: http://localhost:5500/frontend/admin/index.html (Change 5500 if your Live Server uses a different port).
+Email: iamadmin@aitdl.com
+Password: Aba108682!@!@
+Let me know if you can successfully log in and see the dashboard stats! Or if you want to move on to Phase 4 (Supabase Auth Migration).
+

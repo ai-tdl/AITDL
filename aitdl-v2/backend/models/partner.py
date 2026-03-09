@@ -24,6 +24,7 @@ import re
 
 class PartnerApplication(BaseModel):
     name:       str
+    email:      str
     phone:      str
     city:       str
     occupation: str = ""

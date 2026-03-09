@@ -41,6 +41,7 @@ async def submit_partner_application(
     """
     record = PartnerRecord(
         name=form.name,
+        email=form.email,
         phone=form.phone,
         city=form.city,
         occupation=form.occupation,

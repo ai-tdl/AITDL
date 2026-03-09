@@ -41,8 +41,8 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
-from core.security import require_admin
-from models.db_tables import ContactRecord, PartnerRecord
+from core.security import require_admin, require_superadmin, hash_password
+from models.db_tables import ContactRecord, PartnerRecord, AdminUser
 
 router = APIRouter(prefix="/api/admin", tags=["Admin"])
 
@@ -52,6 +52,7 @@ router = APIRouter(prefix="/api/admin", tags=["Admin"])
 class LeadOut(BaseModel):
     id:           int
     name:         str
+    email:        str
     phone:        str
     section:      str
     business:     str
@@ -69,6 +70,7 @@ class LeadOut(BaseModel):
 class PartnerOut(BaseModel):
     id:          int
     name:        str
+    email:       str
     phone:       str
     city:        str
     occupation:  str
@@ -98,6 +100,23 @@ class StatsResponse(BaseModel):
     new_leads:      int
     pending_partners: int
     leads_by_section: dict
+
+
+class AdminUserOut(BaseModel):
+    id:         int
+    email:      str
+    role:       str
+    is_active:  bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class AdminUserCreate(BaseModel):
+    email:    str
+    password: str
+    role:     str = "admin"
 
 
 # ── Endpoints ──────────────────────────────────────────────────────────────────
@@ -239,3 +258,69 @@ async def update_partner(
     await db.commit()
     await db.refresh(partner)
     return partner
+
+
+# ── Team Management ───────────────────────────────────────────────────────────
+
+@router.get("/users", response_model=List[AdminUserOut])
+async def get_admin_users(
+    db: AsyncSession = Depends(get_db),
+    _: dict = Depends(require_superadmin),
+):
+    """
+    Purpose : List all admin users (Superadmin only).
+    """
+    result = await db.execute(select(AdminUser).order_by(AdminUser.created_at.desc()))
+    return result.scalars().all()
+
+
+@router.post("/users", response_model=AdminUserOut)
+async def create_admin_user(
+    body: AdminUserCreate,
+    db: AsyncSession = Depends(get_db),
+    _: dict = Depends(require_superadmin),
+):
+    """
+    Purpose : Create a new admin user (Superadmin only).
+    """
+    # Check if exists
+    existing = await db.execute(select(AdminUser).where(AdminUser.email == body.email))
+    if existing.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail="User already exists")
+
+    new_user = AdminUser(
+        email=body.email,
+        password_hash=hash_password(body.password),
+        role=body.role
+    )
+    db.add(new_user)
+    await db.commit()
+    await db.refresh(new_user)
+    return new_user
+
+
+@router.delete("/users/{user_id}")
+async def delete_admin_user(
+    user_id: int,
+    db: AsyncSession = Depends(get_db),
+    payload: dict = Depends(require_superadmin),
+):
+    """
+    Purpose : Delete an admin user (Superadmin only).
+    """
+    # Prevent self-deletion
+    if payload.get("sub") == user_id: # Actually sub is email in the current JWT logic
+         pass
+
+    result = await db.execute(select(AdminUser).where(AdminUser.id == user_id))
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Optional: Prevent deleting the last superadmin or self
+    if user.email == payload.get("sub"):
+        raise HTTPException(status_code=400, detail="Cannot delete your own account")
+
+    await db.delete(user)
+    await db.commit()
+    return {"status": "success"}
