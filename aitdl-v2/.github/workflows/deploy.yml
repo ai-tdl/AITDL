@@ -1,30 +1,9 @@
-# || ॐ श्री गणेशाय नमः ||
-#
-# Organization: AITDL
-# AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
-#
-# Creator: Jawahar R. Mallah
-# Founder, Author & System Architect
-#
-# Email: jawahar@aitdl.com
-# GitHub: https://github.com/jawahar-mallah
-#
-# Websites:
-# https://ganitsutram.com
-# https://aitdl.com
-#
-# Then: 628 CE · Brahmasphuṭasiddhānta
-# Now: 8 March MMXXVI · Vikram Samvat 2082
-#
-# Copyright © aitdl.com · AITDL | GANITSUTRAM.com
-
-name: AITDL v2 — Deploy
+name: Deploy AITDL v2
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -35,19 +14,24 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      
       - name: Install dependencies
         run: |
-          cd aitdl-v2/backend
+          cd backend
           pip install -r requirements.txt
+          pip install pytest pytest-asyncio httpx
+      
       - name: Run tests
+        env:
+          DATABASE_URL: "sqlite+aiosqlite:///:memory:"
+          JWT_SECRET_KEY: testsecret
         run: |
-          cd aitdl-v2
+          cd backend
           python -m pytest tests/ -v
 
   deploy-frontend:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to Vercel
@@ -56,20 +40,17 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: aitdl-v2/frontend
+          working-directory: ./frontend
           vercel-args: '--prod'
 
   deploy-backend:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
       - name: Install Railway CLI
-        run: npm i -g @railway/cli
+        run: npm install -g @railway/cli
       - name: Deploy to Railway
+        run: railway up --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          cd aitdl-v2/backend
-          railway up --service aitdl-api

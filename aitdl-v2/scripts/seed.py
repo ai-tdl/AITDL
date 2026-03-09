@@ -46,7 +46,10 @@ async def seed_data():
             )
             session.add(new_admin)
         else:
-            print(f"Superadmin already exists: {admin_email}")
+            print(f"Updating superadmin password: {admin_email}")
+            admin.password_hash = hash_password(admin_pass)
+            admin.role = "superadmin" # Ensure role is correct
+            admin.is_active = True
 
         # 2. Add Sample Leads if empty
         result = await session.execute(select(ContactRecord).limit(1))
@@ -63,7 +66,7 @@ async def seed_data():
         if not result.scalar_one_or_none():
             print("Adding sample partners...")
             partners = [
-                PartnerRecord(name="Local Tech Solutions", email="partner@tech.com", phone="8888888888", city="Mumbai", occupation="IT Services", message="Want to resell AITDL products", section="partner-apply", status="pending"),
+                PartnerRecord(name="Local Tech Solutions", email="partner@tech.com", phone="8888888888", city="Mumbai", occupation="IT Services", message="Want to resell AITDL products", status="pending"),
             ]
             session.add_all(partners)
 

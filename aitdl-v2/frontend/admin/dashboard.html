@@ -4,63 +4,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AITDL - Admin Dashboard</title>
+
+    <!--
+        Content Security Policy:
+        - Restricts scripts to self + trusted CDN (Chart.js).
+        - Prevents cross-origin data exfiltration.
+        - connect-src locks API calls to the local dev server; update for production.
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+                   script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
+                   style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+                   font-src https://fonts.gstatic.com;
+                   img-src 'self' data:;
+                   connect-src http://localhost:8080;
+                   frame-ancestors 'none';">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>AITDL Admin — Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/admin.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--
+        Chart.js loaded in <head> with defer so it's available before dashboard
+        scripts run but does not block HTML parsing.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 
 <body>
     <div class="dashboard-layout">
-        <!-- Sidebar -->
-        <aside class="sidebar">
+
+        <!-- ── Mobile Header ────────────────────────────────────────────── -->
+        <header class="mobile-header" role="banner">
+            <span aria-label="AITDL Admin">AITDL Admin</span>
+            <button class="mobile-toggle" id="sidebarToggle" aria-label="Open navigation menu" aria-controls="sidebar"
+                aria-expanded="false" onclick="toggleSidebar()">
+                ☰
+            </button>
+        </header>
+
+        <!-- ── Sidebar ──────────────────────────────────────────────────── -->
+        <aside id="sidebar" class="sidebar" aria-label="Admin navigation">
             <div class="sidebar-header">
                 <span>AITDL Admin</span>
-                <button onclick="Auth.logout()" class="logout-btn">Log out</button>
+                <button onclick="Auth.logout()" class="logout-btn" aria-label="Log out">
+                    Log out
+                </button>
             </div>
-            <nav class="nav-links">
-                <a class="nav-item active" data-tab="stats" onclick="switchTab('stats')">Overview</a>
-                <a class="nav-item" data-tab="leads" onclick="switchTab('leads')">
-                    Contact Leads <span class="nav-badge" id="leadsBadge"></span>
+            <nav class="nav-links" aria-label="Dashboard sections">
+                <a role="button" tabindex="0" class="nav-item active" data-tab="stats" id="nav-stats"
+                    aria-current="page" onclick="switchTab('stats')"
+                    onkeydown="if(event.key==='Enter') switchTab('stats')">
+                    Overview
                 </a>
-                <a class="nav-item" data-tab="partners" onclick="switchTab('partners')">
-                    Partner Apps <span class="nav-badge" id="partnersBadge"></span>
+                <a role="button" tabindex="0" class="nav-item" data-tab="leads" id="nav-leads"
+                    onclick="switchTab('leads')" onkeydown="if(event.key==='Enter') switchTab('leads')">
+                    Contact Leads
+                    <span class="nav-badge" id="leadsBadge" aria-label="new leads count" hidden></span>
                 </a>
-                <a class="nav-item" id="navAdmins" data-tab="admins" onclick="switchTab('admins')"
-                    style="display: none;">Admin Users</a>
+                <a role="button" tabindex="0" class="nav-item" data-tab="partners" id="nav-partners"
+                    onclick="switchTab('partners')" onkeydown="if(event.key==='Enter') switchTab('partners')">
+                    Partner Apps
+                    <span class="nav-badge" id="partnersBadge" aria-label="pending partners count" hidden></span>
+                </a>
+                <a role="button" tabindex="0" class="nav-item" id="nav-admins" data-tab="admins"
+                    onclick="switchTab('admins')" onkeydown="if(event.key==='Enter') switchTab('admins')" hidden>
+                    Admin Users
+                </a>
             </nav>
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
+        <!-- ── Main Content ──────────────────────────────────────────────── -->
+        <main class="main-content" id="mainContent" role="main" aria-live="polite">
 
-            <!-- Stats Tab -->
-            <div id="stats" class="tab-content active">
-                <h2 class="section-title">Dashboard Overview</h2>
+            <!-- Overview Tab -->
+            <section id="stats" class="tab-content active" aria-labelledby="statsHeading">
+                <h2 class="section-title" id="statsHeading">Dashboard Overview</h2>
                 <div class="stats-grid" id="statsContainer">
-                    <div class="loader"></div>
+                    <div class="loader" role="status" aria-label="Loading stats…"></div>
                 </div>
-
                 <div class="charts-container">
                     <div class="chart-card">
                         <h3 class="stat-title">Submissions Over Time</h3>
-                        <canvas id="leadsChart" height="250"></canvas>
+                        <canvas id="leadsChart" height="250" role="img" aria-label="Activity chart"></canvas>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Leads Tab -->
-            <div id="leads" class="tab-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h2 class="section-title" style="margin-bottom: 0;">Contact Leads</h2>
-                    <button onclick="AdminLeads.exportCSV('leads')" class="btn-primary"
-                        style="width: auto; padding: 0.5rem 1rem;">Export CSV</button>
+            <section id="leads" class="tab-content" aria-labelledby="leadsHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="leadsHeading">Contact Leads</h2>
+                    <button onclick="AdminLeads.exportCSV('leads')" class="btn-primary btn-sm"
+                        aria-label="Export leads to CSV">
+                        Export CSV
+                    </button>
+                </div>
+
+                <!-- Bulk toolbar — hidden until rows are selected -->
+                <div id="leadsBulkToolbar" class="bulk-toolbar" role="toolbar" aria-label="Bulk actions for leads"
+                    hidden>
+                    <span class="bulk-label">Bulk:</span>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('lead', 'contacted')">Mark
+                        Contacted</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('lead', 'closed')">Close All</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkExport('lead')">Export Selected</button>
                 </div>
 
                 <div class="toolbar">
-                    <input type="text" id="leadsSearch" class="form-input search-input"
-                        placeholder="Search name, email, or message..." onkeyup="AdminLeads.filterLeads()">
-                    <select id="leadsFilter" class="form-input filter-select" onchange="AdminLeads.filterLeads()">
+                    <input type="search" id="leadsSearch" class="form-input search-input"
+                        placeholder="Search name, email, or message…" aria-label="Search leads"
+                        oninput="AdminLeads.filterLeads()">
+                    <select id="leadsFilter" class="form-input filter-select" aria-label="Filter by status"
+                        onchange="AdminLeads.filterLeads()">
                         <option value="all">All Statuses</option>
                         <option value="new">New</option>
                         <option value="contacted">Contacted</option>
@@ -69,52 +129,59 @@
                     </select>
                 </div>
 
-                <div id="leadsBulkToolbar" class="bulk-toolbar"
-                    style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid var(--accent); gap: 1rem; align-items: center;">
-                    <span style="font-size: 0.875rem; color: var(--accent); font-weight: 600;">Bulk Actions:</span>
-                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('lead', 'contacted')">Mark
-                        Contacted</button>
-                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('lead', 'closed')">Close All</button>
-                    <button class="logout-btn" onclick="AdminLeads.bulkExport('lead')">Export Selected</button>
-                </div>
-
-                <div class="table-container">
-                    <table>
+                <div class="table-container" role="region" aria-label="Leads table">
+                    <table aria-label="Contact leads">
                         <thead>
                             <tr>
-                                <th style="width: 40px;"><input type="checkbox"
-                                        onchange="AdminLeads.toggleAll('lead', this.checked)"></th>
-                                <th>Name / Business</th>
-                                <th>Contact Info</th>
-                                <th>Section</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th scope="col" style="width:40px;">
+                                    <input type="checkbox" aria-label="Select all leads"
+                                        onchange="AdminLeads.toggleAll('lead', this.checked)">
+                                </th>
+                                <th scope="col">Name / Business</th>
+                                <th scope="col">Contact Info</th>
+                                <th scope="col">Section</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody id="leadsTableBody">
                             <tr>
-                                <td colspan="6">
-                                    <div class="loader"></div>
+                                <td colspan="7">
+                                    <div class="loader" role="status" aria-label="Loading leads…"></div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </section>
 
             <!-- Partners Tab -->
-            <div id="partners" class="tab-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h2 class="section-title" style="margin-bottom: 0;">Partner Applications</h2>
-                    <button onclick="AdminLeads.exportCSV('partners')" class="btn-primary"
-                        style="width: auto; padding: 0.5rem 1rem;">Export CSV</button>
+            <section id="partners" class="tab-content" aria-labelledby="partnersHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="partnersHeading">Partner Applications</h2>
+                    <button onclick="AdminLeads.exportCSV('partners')" class="btn-primary btn-sm"
+                        aria-label="Export partner applications to CSV">
+                        Export CSV
+                    </button>
+                </div>
+
+                <div id="partnersBulkToolbar" class="bulk-toolbar" role="toolbar"
+                    aria-label="Bulk actions for partner applications" hidden>
+                    <span class="bulk-label">Bulk:</span>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('partner', 'approved')">Approve
+                        All</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('partner', 'rejected')">Reject
+                        All</button>
+                    <button class="logout-btn" onclick="AdminLeads.bulkExport('partner')">Export Selected</button>
                 </div>
 
                 <div class="toolbar">
-                    <input type="text" id="partnersSearch" class="form-input search-input"
-                        placeholder="Search name, city, or business..." onkeyup="AdminLeads.filterPartners()">
-                    <select id="partnersFilter" class="form-input filter-select" onchange="AdminLeads.filterPartners()">
+                    <input type="search" id="partnersSearch" class="form-input search-input"
+                        placeholder="Search name, city, or business…" aria-label="Search partner applications"
+                        oninput="AdminLeads.filterPartners()">
+                    <select id="partnersFilter" class="form-input filter-select" aria-label="Filter by status"
+                        onchange="AdminLeads.filterPartners()">
                         <option value="all">All Statuses</option>
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
@@ -123,137 +190,206 @@
                     </select>
                 </div>
 
-                <div id="partnersBulkToolbar" class="bulk-toolbar"
-                    style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid var(--accent); gap: 1rem; align-items: center;">
-                    <span style="font-size: 0.875rem; color: var(--accent); font-weight: 600;">Bulk Actions:</span>
-                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('partner', 'approved')">Approve
-                        All</button>
-                    <button class="logout-btn" onclick="AdminLeads.bulkUpdate('partner', 'rejected')">Reject
-                        All</button>
-                    <button class="logout-btn" onclick="AdminLeads.bulkExport('partner')">Export Selected</button>
-                </div>
-
-                <div class="table-container">
-                    <table>
+                <div class="table-container" role="region" aria-label="Partner applications table">
+                    <table aria-label="Partner applications">
                         <thead>
                             <tr>
-                                <th style="width: 40px;"><input type="checkbox"
-                                        onchange="AdminLeads.toggleAll('partner', this.checked)"></th>
-                                <th>Name / Role</th>
-                                <th>Contact Info</th>
-                                <th>City</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th scope="col" style="width:40px;">
+                                    <input type="checkbox" aria-label="Select all partners"
+                                        onchange="AdminLeads.toggleAll('partner', this.checked)">
+                                </th>
+                                <th scope="col">Name / Role</th>
+                                <th scope="col">Contact Info</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody id="partnersTableBody">
                             <tr>
-                                <td colspan="6">
-                                    <div class="loader"></div>
+                                <td colspan="7">
+                                    <div class="loader" role="status" aria-label="Loading partners…"></div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </section>
+
+            <!-- Admin Users Tab (superadmin only) -->
+            <section id="admins" class="tab-content" aria-labelledby="adminsHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="adminsHeading">Admin Management</h2>
+                    <button onclick="AdminUsers.openInviteModal()" class="btn-primary btn-sm"
+                        aria-label="Invite a new admin user">
+                        Invite Admin
+                    </button>
+                </div>
+                <div class="table-container" role="region" aria-label="Admin users table">
+                    <table aria-label="Admin users">
+                        <thead>
+                            <tr>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Joined</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminsTableBody">
+                            <tr>
+                                <td colspan="5">
+                                    <div class="loader" role="status" aria-label="Loading admins…"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
         </main>
     </div>
 
-    <script src="./js/admin-auth.js"></script>
-    <script src="./js/admin-stats.js"></script>
-    <script src="./js/admin-leads.js"></script>
-    <script src="./js/admin-users.js"></script>
-    <script>
-        // Check auth immediately
-        if (!Auth.isAuthenticated()) {
-            window.location.href = 'index.html';
-        }
-
-        // Initialize UI based on role
-        document.addEventListener('DOMContentLoaded', () => {
-            const payload = Auth.getPayload();
-            if (payload && payload.role === 'superadmin') {
-                document.getElementById('navAdmins').style.display = 'block';
-            }
-            AdminStats.load();
-        });
-
-        function switchTab(tabId) {
-            // Update nav active states
-            document.querySelectorAll('.nav-item').forEach(el => {
-                el.classList.toggle('active', el.dataset.tab === tabId);
-            });
-
-            // Update tab contents
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.toggle('active', el.id === tabId);
-            });
-
-            // Trigger load
-            if (tabId === 'stats') AdminStats.load();
-            if (tabId === 'leads') AdminLeads.loadLeads();
-            if (tabId === 'partners') AdminLeads.loadPartners();
-            if (tabId === 'admins') AdminUsers.load();
-        }
-    </script>
-
-    <!-- Detail View Modal -->
-    <div id="detailModal" class="modal">
+    <!-- ── Detail View Modal ─────────────────────────────────────────────── -->
+    <div id="detailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
         <div class="modal-content">
-            <span class="close-modal" onclick="AdminLeads.closeModal()">&times;</span>
-            <h2 id="modalTitle" style="margin-bottom: 1.5rem;">Lead Details</h2>
+            <button class="close-modal" onclick="AdminLeads.closeModal()" aria-label="Close detail modal">
+                &times;
+            </button>
+            <h2 id="modalTitle">Lead Details</h2>
 
-            <div id="modalBody" class="modal-body">
-                <!-- Populated by JS -->
-            </div>
+            <div id="modalBody" class="modal-body"></div>
 
-            <div class="modal-notes" style="margin-top: 1.5rem;">
-                <label for="modalNotesText"
-                    style="display:block; margin-bottom: 0.5rem; color: var(--text-muted); font-weight: 500;">Internal
-                    Notes</label>
-                <textarea id="modalNotesText" class="form-input" rows="4" placeholder="Add a note..."></textarea>
-                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                    <button class="btn-primary" onclick="AdminLeads.saveNotes()" style="flex: 1;">Save Notes</button>
-                    <button class="btn-primary" onclick="AdminLeads.closeModal()"
-                        style="flex: 1; background: var(--bg-hover);">Close</button>
+            <div class="modal-notes">
+                <label for="modalNotesText">Internal Notes</label>
+                <textarea id="modalNotesText" class="form-input" rows="4" placeholder="Add a note…"
+                    aria-label="Internal admin notes"></textarea>
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="AdminLeads.saveNotes()">Save Notes</button>
+                    <button class="btn-secondary" onclick="AdminLeads.closeModal()">Close</button>
                 </div>
             </div>
+
             <input type="hidden" id="modalItemId">
             <input type="hidden" id="modalItemType">
         </div>
     </div>
 
-    <!-- Invite Admin Modal -->
-    <div id="inviteModal" class="modal">
+    <!-- ── Invite Admin Modal ────────────────────────────────────────────── -->
+    <div id="inviteModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="inviteModalTitle" hidden>
         <div class="modal-content">
-            <span class="close-modal" onclick="AdminUsers.closeInviteModal()">&times;</span>
-            <h2 style="margin-bottom: 1.5rem;">Invite New Admin</h2>
-            <form onsubmit="AdminUsers.invite(event)">
+            <button class="close-modal" onclick="AdminUsers.closeInviteModal()" aria-label="Close invite modal">
+                &times;
+            </button>
+            <h2 id="inviteModalTitle">Invite New Admin</h2>
+            <form onsubmit="AdminUsers.invite(event)" novalidate>
                 <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="inviteEmail" class="form-input" required placeholder="admin@aitdl.com">
+                    <label for="inviteEmail">Email Address</label>
+                    <input type="email" id="inviteEmail" class="form-input" required placeholder="admin@aitdl.com"
+                        autocomplete="off" aria-required="true">
                 </div>
                 <div class="form-group">
-                    <label>Temporary Password</label>
-                    <input type="password" id="invitePassword" class="form-input" required placeholder="••••••••">
+                    <label for="invitePassword">Temporary Password</label>
+                    <input type="password" id="invitePassword" class="form-input" required placeholder="••••••••"
+                        autocomplete="new-password" aria-required="true">
                 </div>
                 <div class="form-group">
-                    <label>Role</label>
-                    <select id="inviteRole" class="form-input">
-                        <option value="admin">Admin (View + Manage data)</option>
-                        <option value="superadmin">Superadmin (Full access + Team management)</option>
+                    <label for="inviteRole">Role</label>
+                    <select id="inviteRole" class="form-input" aria-label="Select admin role">
+                        <option value="admin">Admin — View &amp; Manage data</option>
+                        <option value="superadmin">Superadmin — Full access + Team management</option>
                     </select>
                 </div>
-                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                    <button type="submit" class="btn-primary" style="flex: 1;">Create Account</button>
-                    <button type="button" class="btn-primary" onclick="AdminUsers.closeInviteModal()"
-                        style="flex: 1; background: var(--bg-hover);">Cancel</button>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Create Account</button>
+                    <button type="button" class="btn-secondary" onclick="AdminUsers.closeInviteModal()">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
+
+    <!-- ── Scripts ──────────────────────────────────────────────────────── -->
+    <script src="./js/admin-auth.js"></script>
+    <script src="./js/admin-stats.js"></script>
+    <script src="./js/admin-leads.js"></script>
+    <script src="./js/admin-users.js"></script>
+    <script>
+        // ── Auth guard: must run before any UI is shown ───────────────────
+        if (!Auth.isAuthenticated()) {
+            window.location.replace('index.html');
+        }
+
+        // ── Sidebar toggle ────────────────────────────────────────────────
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
+            const isOpen = sidebar.classList.toggle('active');
+            toggle.setAttribute('aria-expanded', String(isOpen));
+            toggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        }
+
+        // ── Tab switching ─────────────────────────────────────────────────
+        function switchTab(tabId) {
+            // Update nav: active state + aria-current
+            document.querySelectorAll('.nav-item').forEach((el) => {
+                const isActive = el.dataset.tab === tabId;
+                el.classList.toggle('active', isActive);
+                isActive
+                    ? el.setAttribute('aria-current', 'page')
+                    : el.removeAttribute('aria-current');
+            });
+
+            // Show matching tab, hide others
+            document.querySelectorAll('.tab-content').forEach((el) => {
+                el.classList.toggle('active', el.id === tabId);
+            });
+
+            // Load tab data
+            const loaders = {
+                stats: () => AdminStats.load(),
+                leads: () => AdminLeads.loadLeads(),
+                partners: () => AdminLeads.loadPartners(),
+                admins: () => AdminUsers.load(),
+            };
+            loaders[tabId]?.();
+
+            // Close sidebar on mobile after selection
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+                document.getElementById('sidebarToggle').setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        // ── Modals: close on backdrop click ───────────────────────────────
+        document.querySelectorAll('.modal').forEach((modal) => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    modal.hidden = true;
+                }
+            });
+        });
+
+        // ── Modals: close on Escape key (accessibility) ───────────────────
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            document.querySelectorAll('.modal.active').forEach((modal) => {
+                modal.classList.remove('active');
+                modal.hidden = true;
+            });
+        });
+
+        // ── Initialise on load ─────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            const payload = Auth.getPayload();
+            if (payload?.role === 'superadmin') {
+                document.getElementById('nav-admins').hidden = false;
+            }
+            AdminStats.load();
+        });
+    </script>
+
 </body>
 
 </html>

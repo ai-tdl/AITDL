@@ -30,15 +30,20 @@ Endpoints:
 """
 
 from datetime import datetime, timezone
+import logging
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, EmailStr
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Request
 
 from core.database import get_db
+from core.rate_limit import limiter
 from core.security import verify_password, create_jwt, require_admin
 from models.db_tables import AdminUser
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/auth", tags=["Auth"])
 
@@ -64,7 +69,9 @@ class MeResponse(BaseModel):
 # ── Endpoints ──────────────────────────────────────────────────────────────────
 
 @router.post("/login", response_model=TokenResponse)
+@limiter.limit("5/minute")
 async def login(
+    request: Request,
     body: LoginRequest,
     db: AsyncSession = Depends(get_db),
 ):
@@ -77,10 +84,13 @@ async def login(
     result = await db.execute(select(AdminUser).where(AdminUser.email == body.email))
     admin = result.scalar_one_or_none()
 
+    # Unified 401 for all failure paths — do not reveal which check failed
     if not admin or not admin.is_active:
+        log.warning("[auth] Login rejected — unknown email or inactive account: %s", body.email)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     if not verify_password(body.password, admin.password_hash):
+        log.warning("[auth] Login rejected — password mismatch for: %s", body.email)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     # Update last_login
@@ -88,6 +98,7 @@ async def login(
     await db.commit()
 
     token = create_jwt({"sub": admin.email, "role": admin.role})
+    log.info("[auth] Successful login: %s (role=%s)", admin.email, admin.role)
     return TokenResponse(access_token=token, role=admin.role)
 
 

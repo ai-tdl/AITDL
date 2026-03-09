@@ -296,6 +296,62 @@ body {
 }
 
 /* ── Tools & Filters ─────────────────────────────────────────────────────── */
+
+/* Tab row: title left, action button right */
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.tab-header .section-title {
+  margin-bottom: 0;
+}
+
+/* Compact button variant for toolbar actions */
+.btn-sm {
+  width: auto;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+/* Secondary (muted) button — e.g. Close / Cancel in modals */
+.btn-secondary {
+  flex: 1;
+  padding: 0.875rem;
+  background: var(--bg-hover);
+  color: var(--text-main);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+/* Modal action button row */
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-actions .btn-primary {
+  flex: 1;
+}
+
+/* Bulk-action toolbar label */
+.bulk-label {
+  font-size: 0.875rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .toolbar {
   display: flex;
   gap: 1rem;
@@ -400,6 +456,12 @@ tr:hover td {
   color: #94a3b8;
 }
 
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .action-select {
   background: var(--bg-dark);
   color: var(--text-main);
@@ -414,6 +476,7 @@ tr:hover td {
   outline: none;
   border-color: var(--accent);
 }
+
 
 .tab-content {
   display: none;
@@ -443,7 +506,7 @@ tr:hover td {
   }
 }
 
-/* ── Modal ───────────────────────────────────────────────────────────────── */
+/* Modal is visible when .active (JS) and [hidden] is not set (HTML) */
 .modal {
   display: none;
   position: fixed;
@@ -458,6 +521,7 @@ tr:hover td {
   animation: fadeIn 0.3s ease;
 }
 
+/* Show when .active is added by JS */
 .modal.active {
   display: flex;
   align-items: center;
@@ -514,6 +578,16 @@ tr:hover td {
   margin-bottom: 0.25rem;
 }
 
+/* Label style inside the notes section of the modal */
+.modal-notes label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+
 .detail-value {
   font-size: 0.95rem;
   font-weight: 500;
@@ -522,4 +596,199 @@ tr:hover td {
 
 .detail-full {
   grid-column: span 2;
+}
+
+/* ── Responsive Overrides ────────────────────────────────────────────────── */
+
+.mobile-header {
+  display: none;
+  background: var(--bg-card);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.mobile-toggle {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .mobile-header {
+    display: flex;
+  }
+
+  /* Sidebar as Drawer */
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    bottom: 0;
+    z-index: 1100;
+    transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .sidebar-header {
+    padding: 1rem;
+  }
+
+  .main-content {
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Grid Stack */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    padding: 1.25rem;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
+  }
+
+  /* Charts Stack */
+  .charts-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Toolbar Stack */
+  .toolbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .search-input,
+  .filter-select {
+    max-width: none;
+    width: 100%;
+  }
+
+  /* Table Responsive Cards */
+  .table-container {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    overflow: visible;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  td {
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    padding-left: 45% !important;
+    text-align: right !important;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  td:last-child {
+    border-bottom: none;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    width: 40%;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .actions-cell {
+    padding-top: 1rem !important;
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+
+  /* Modal Adjustments */
+  .modal-content {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-full {
+    grid-column: span 1;
+  }
+
+  .modal-notes textarea {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-header span {
+    font-size: 1rem;
+  }
+
+  .logout-btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
 }

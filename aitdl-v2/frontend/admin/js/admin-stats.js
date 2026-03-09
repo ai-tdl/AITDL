@@ -1,4 +1,21 @@
+/**
+ * AdminStats — admin-stats.js
+ *
+ * Purpose  : Load and display dashboard overview statistics and an
+ *            activity bar chart (Chart.js) for contacts and partner
+ *            applications over the last 7 active days.
+ *
+ * Dependencies: Auth (admin-auth.js) must be loaded first.
+ *               Chart.js must be available on window.Chart.
+ */
+
 class AdminStats {
+
+    // ── Public API ────────────────────────────────────────────────────────────
+
+    /**
+     * Entry point — fetches stats, renders cards + badges, then loads chart.
+     */
     static async load() {
         const container = document.getElementById('statsContainer');
         if (!container) return;
@@ -10,128 +27,155 @@ class AdminStats {
 
         const data = await res.json();
 
-        container.innerHTML = `
-            <div class="stat-card">
-                <div class="stat-title">Total Leads</div>
-                <div class="stat-value">${data.total_leads}</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">New Leads</div>
-                <div class="stat-value" style="color: var(--accent);">${data.new_leads}</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">Total Partner Apps</div>
-                <div class="stat-value">${data.total_partners}</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">Pending Partners</div>
-                <div class="stat-value" style="color: var(--warning);">${data.pending_partners}</div>
-            </div>
-        `;
+        container.innerHTML = this._buildStatCards(data);
+        this._updateNavBadges(data);
 
-        this.updateBadges(data);
-        this.loadChartData();
+        // Chart loads independently — non-blocking for the stats cards
+        this._loadChartData().catch((err) =>
+            console.error('[AdminStats] Chart load failed:', err)
+        );
     }
 
-    static updateBadges(data) {
-        const leadsBadge = document.getElementById('leadsBadge');
-        const partnersBadge = document.getElementById('partnersBadge');
+    // ── Private: Stats cards ──────────────────────────────────────────────────
 
-        if (leadsBadge) {
-            leadsBadge.innerText = data.new_leads;
-            leadsBadge.style.display = data.new_leads > 0 ? 'inline-block' : 'none';
-        }
+    /**
+     * Build the stat card HTML from the stats API response.
+     *
+     * @param {object} data - Stats payload from /admin/stats
+     * @returns {string} HTML string
+     */
+    static _buildStatCards(data) {
+        const cards = [
+            { title: 'Total Leads', value: data.total_leads, color: null },
+            { title: 'New Leads', value: data.new_leads, color: 'var(--accent)' },
+            { title: 'Total Partner Apps', value: data.total_partners, color: null },
+            { title: 'Pending Partners', value: data.pending_partners, color: 'var(--warning)' },
+        ];
 
-        if (partnersBadge) {
-            partnersBadge.innerText = data.pending_partners;
-            partnersBadge.style.display = data.pending_partners > 0 ? 'inline-block' : 'none';
-        }
+        return cards.map(({ title, value, color }) => `
+            <div class="stat-card">
+                <div class="stat-title">${title}</div>
+                <div class="stat-value" ${color ? `style="color:${color};"` : ''}>${value ?? 0}</div>
+            </div>
+        `).join('');
     }
 
-    static async loadChartData() {
-        // Fetch full leads/partners up to 100 for the chart
+    /**
+     * Update the red notification badges on the sidebar navigation items.
+     *
+     * @param {object} data - Stats payload
+     */
+    static _updateNavBadges(data) {
+        const badges = [
+            { id: 'leadsBadge', count: data.new_leads },
+            { id: 'partnersBadge', count: data.pending_partners },
+        ];
+
+        badges.forEach(({ id, count }) => {
+            const badge = document.getElementById(id);
+            if (!badge) return;
+            badge.innerText = count;
+            badge.style.display = count > 0 ? 'inline-block' : 'none';
+        });
+    }
+
+    // ── Private: Chart ────────────────────────────────────────────────────────
+
+    /**
+     * Fetch compact lead and partner data for the chart and render it.
+     */
+    static async _loadChartData() {
         const [leadsRes, partnersRes] = await Promise.all([
             Auth.apiCall('/admin/leads?page=1&size=100'),
-            Auth.apiCall('/admin/partners?page=1&size=100')
+            Auth.apiCall('/admin/partners?page=1&size=100'),
         ]);
 
         if (!leadsRes || !partnersRes) return;
 
-        const leads = await leadsRes.json();
-        const partners = await partnersRes.json();
-
-        this.renderChart(leads, partners);
+        const [leads, partners] = await Promise.all([leadsRes.json(), partnersRes.json()]);
+        this._renderChart(leads, partners);
     }
 
-    static renderChart(leads, partners) {
+    /**
+     * Aggregate items by date and render a Chart.js bar chart.
+     *
+     * @param {object[]} leads
+     * @param {object[]} partners
+     */
+    static _renderChart(leads, partners) {
         const ctx = document.getElementById('leadsChart');
-        if (!ctx) return;
+        if (!ctx || typeof Chart === 'undefined') return;
 
-        // Group data by Date string (YYYY-MM-DD)
+        // ── Aggregate by date ─────────────────────────────────────────────────
         const dateCounts = {};
 
-        // Helper to format Date wrapper securely
-        const pushDate = (item, type) => {
-            if (!item.created_at) return;
-            const dateStr = new Date(item.created_at).toISOString().split('T')[0];
+        const addToDate = (isoStr, key) => {
+            if (!isoStr) return;
+            const dateStr = isoStr.split('T')[0]; // "YYYY-MM-DD" — no Date object needed
             if (!dateCounts[dateStr]) dateCounts[dateStr] = { leads: 0, partners: 0 };
-            dateCounts[dateStr][type]++;
+            dateCounts[dateStr][key]++;
         };
 
-        leads.forEach(l => pushDate(l, 'leads'));
-        partners.forEach(p => pushDate(p, 'partners'));
+        leads.forEach((l) => addToDate(l.created_at, 'leads'));
+        partners.forEach((p) => addToDate(p.created_at, 'partners'));
 
-        // Sort dates chronologically
-        const sortedDates = Object.keys(dateCounts).sort();
+        // Last 7 active days in chronological order
+        const sortedDates = Object.keys(dateCounts).sort().slice(-7);
+        const leadsData = sortedDates.map((d) => dateCounts[d].leads);
+        const partnerData = sortedDates.map((d) => dateCounts[d].partners);
+        const labels = sortedDates.map((d) =>
+            new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+        );
 
-        // Take last 7 days from the sorted list
-        const labels = sortedDates.slice(-7);
-        const leadsData = labels.map(d => dateCounts[d] ? dateCounts[d].leads : 0);
-        const partnersData = labels.map(d => dateCounts[d] ? dateCounts[d].partners : 0);
+        // ── Destroy previous instance to prevent memory leak ──────────────────
+        if (window._adminChart) {
+            window._adminChart.destroy();
+            window._adminChart = null;
+        }
 
-        // Render Chart.js
-        if (window.adminChart) window.adminChart.destroy();
+        // ── Shared chart theme ────────────────────────────────────────────────
+        const MUTED_COLOR = '#94a3b8';
+        const GRID_COLOR = 'rgba(255,255,255,0.05)';
 
-        window.adminChart = new Chart(ctx, {
+        window._adminChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: labels.map(d => new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })),
+                labels,
                 datasets: [
                     {
                         label: 'Contact Leads',
                         data: leadsData,
                         backgroundColor: '#3b82f6',
-                        borderRadius: 4
+                        borderRadius: 4,
                     },
                     {
                         label: 'Partner Applications',
-                        data: partnersData,
+                        data: partnerData,
                         backgroundColor: '#10b981',
-                        borderRadius: 4
-                    }
-                ]
+                        borderRadius: 4,
+                    },
+                ],
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        labels: { color: '#94a3b8' }
-                    }
+                    legend: { labels: { color: MUTED_COLOR } },
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1, color: '#94a3b8' },
-                        grid: { color: 'rgba(255,255,255,0.05)' }
+                        ticks: { stepSize: 1, color: MUTED_COLOR },
+                        grid: { color: GRID_COLOR },
                     },
                     x: {
-                        ticks: { color: '#94a3b8' },
-                        grid: { display: false }
-                    }
-                }
-            }
+                        ticks: { color: MUTED_COLOR },
+                        grid: { display: false },
+                    },
+                },
+            },
         });
     }
 }
+
 window.AdminStats = AdminStats;
