@@ -33,7 +33,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
@@ -42,17 +42,15 @@ from core.config import settings
 
 # ── Password hashing ───────────────────────────────────────────────────────────
 
-_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
 def hash_password(plain: str) -> str:
     """
     Purpose : Hash a plain-text password using bcrypt.
     Input   : plain — raw password string
     Output  : hashed string safe to store in DB
-    Errors  : None
     """
-    return _pwd_context.hash(plain)
+    pwd_bytes = plain.encode('utf-8')
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(pwd_bytes, salt).decode('utf-8')
 
 
 def verify_password(plain: str, hashed: str) -> bool:
@@ -60,9 +58,11 @@ def verify_password(plain: str, hashed: str) -> bool:
     Purpose : Compare a plain password against a stored bcrypt hash.
     Input   : plain — raw input, hashed — value from DB
     Output  : True if match, False otherwise
-    Errors  : None (passlib handles internally)
     """
-    return _pwd_context.verify(plain, hashed)
+    try:
+        return bcrypt.checkpw(plain.encode('utf-8'), hashed.encode('utf-8'))
+    except Exception:
+        return False
 
 
 # ── JWT ────────────────────────────────────────────────────────────────────────

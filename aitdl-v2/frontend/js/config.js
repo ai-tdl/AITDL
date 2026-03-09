@@ -57,7 +57,7 @@ const AITDL_CONFIG = {
 
   /* Feature flags */
   FEATURES: {
-    useBackendAPI: false,   // false = use Web3Forms; true = use FastAPI backend
+    useBackendAPI: true,   // false = use Web3Forms; true = use FastAPI backend
     useSupabase: false,   // future: Supabase direct auth
     debugMode: false,   // set true to log all form submissions to console
   },

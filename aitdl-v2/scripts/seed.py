@@ -1,56 +1,75 @@
-# || ॐ श्री गणेशाय नमः ||
-#
-# Organization: AITDL
-# AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
-#
-# Creator: Jawahar R. Mallah
-# Founder, Author & System Architect
-#
-# Email: jawahar@aitdl.com
-# GitHub: https://github.com/jawahar-mallah
-#
-# Websites:
-# https://ganitsutram.com
-# https://aitdl.com
-#
-# Then: 628 CE · Brahmasphuṭasiddhānta
-# Now: 8 March MMXXVI · Vikram Samvat 2082
-#
-# Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+import asyncio
+import os
+import sys
+from pathlib import Path
+from datetime import datetime, timezone
 
-import asyncio, os
-import asyncpg
+# Add backend to sys.path for imports
+sys.path.append(str(Path(__file__).parent.parent / "backend"))
 
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).parent.parent / "backend" / ".env")
+load_dotenv(Path(__file__).parent.parent / ".env")
 
-async def seed():
-    db_url = os.environ.get("DATABASE_URL", "").replace("postgresql+asyncpg://", "postgresql://")
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import select
+
+from core.security import hash_password
+from models.db_tables import AdminUser, ContactRecord, PartnerRecord
+
+async def seed_data():
+    db_url = os.environ.get("DATABASE_URL", "")
     if not db_url:
-        print("DATABASE_URL not set — skipping seed.")
+        print("ERROR: DATABASE_URL not set.")
         return
 
-    conn = await asyncpg.connect(db_url)
-    try:
-        # Seed contacts
-        await conn.execute("""
-            INSERT INTO contacts (name, phone, section, business, city, message)
-            VALUES
-                ('Demo Retailer', '9876543210', 'retail', 'Demo Shop', 'Mumbai', 'Test lead'),
-                ('Demo School',   '9876543211', 'education', 'ABC School', 'Nashik', 'School demo')
-            ON CONFLICT DO NOTHING
-        """)
+    db_url = db_url.replace("postgresql://", "postgresql+asyncpg://")
+    engine = create_async_engine(db_url)
+    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
-        # Seed partner applications
-        await conn.execute("""
-            INSERT INTO partner_applications (name, phone, city, occupation, message)
-            VALUES
-                ('Ramesh Sharma', '9876543212', 'Nashik', 'IT Consultant', 'Interested in partnership')
-            ON CONFLICT DO NOTHING
-        """)
+    async with async_session() as session:
+        # 1. Create Superadmin if not exists
+        admin_email = os.environ.get("ADMIN_EMAIL", "iamadmin@aitdl.com")
+        admin_pass = os.environ.get("ADMIN_PASSWORD", "Aitdl@2026")
+        
+        result = await session.execute(select(AdminUser).where(AdminUser.email == admin_email))
+        admin = result.scalar_one_or_none()
+        
+        if not admin:
+            print(f"Creating superadmin: {admin_email}")
+            new_admin = AdminUser(
+                email=admin_email,
+                password_hash=hash_password(admin_pass),
+                role="superadmin",
+                is_active=True
+            )
+            session.add(new_admin)
+        else:
+            print(f"Superadmin already exists: {admin_email}")
 
-        print("Seed data inserted.")
-    finally:
-        await conn.close()
+        # 2. Add Sample Leads if empty
+        result = await session.execute(select(ContactRecord).limit(1))
+        if not result.scalar_one_or_none():
+            print("Adding sample leads...")
+            samples = [
+                ContactRecord(name="Jawahar Mallah", email="jawahar@aitdl.com", phone="9876543210", business="GanitSutram", message="Interested in Retail POS", section="retail", status="new"),
+                ContactRecord(name="Sample Merchant", email="merchant@example.com", phone="9000000001", business="City Mall", message="Need ERP implementation", section="erp", status="contacted", contacted_at=datetime.now(timezone.utc)),
+            ]
+            session.add_all(samples)
 
+        # 3. Add Sample Partners if empty
+        result = await session.execute(select(PartnerRecord).limit(1))
+        if not result.scalar_one_or_none():
+            print("Adding sample partners...")
+            partners = [
+                PartnerRecord(name="Local Tech Solutions", email="partner@tech.com", phone="8888888888", city="Mumbai", occupation="IT Services", message="Want to resell AITDL products", section="partner-apply", status="pending"),
+            ]
+            session.add_all(partners)
+
+        await session.commit()
+    
+    print("\nSeeding complete.")
 
 if __name__ == "__main__":
-    asyncio.run(seed())
+    asyncio.run(seed_data())

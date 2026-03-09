@@ -159,7 +159,7 @@ async def get_stats(
 @router.get("/leads", response_model=List[LeadOut])
 async def get_leads(
     page: int = Query(1, ge=1),
-    size: int = Query(25, ge=1, le=100),
+    size: int = Query(25, ge=1, le=500),
     section: Optional[str] = None,
     status_filter: Optional[str] = Query(None, alias="status"),
     db: AsyncSession = Depends(get_db),
@@ -213,7 +213,7 @@ async def update_lead(
 @router.get("/partners", response_model=List[PartnerOut])
 async def get_partners(
     page: int = Query(1, ge=1),
-    size: int = Query(25, ge=1, le=100),
+    size: int = Query(25, ge=1, le=500),
     status_filter: Optional[str] = Query(None, alias="status"),
     db: AsyncSession = Depends(get_db),
     _: dict = Depends(require_admin),
