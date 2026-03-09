@@ -93,15 +93,40 @@ async def _call_local_model(prompt: str, context: Optional[Dict] = None) -> Dict
 
 
 async def _call_opensource_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:
-    # TODO: Implement real Open Source provider (e.g. HuggingFace)
-    # Falling back to stub for now as per blueprint
-    log.debug("Executing open-source AI model simulation...")
-    return {
-        "provider": "huggingface_stub",
-        "model": "mixtral-8x7b-instruct",
-        "response": f"[Stub] Open-Source AI generated: {prompt[:30]}...",
-        "status": "success"
-    }
+    if STUB_MODE:
+        return {
+            "provider": "groq_stub",
+            "model": "llama3-8b-8192",
+            "response": f"[Stub] Open-Source AI generated: {prompt[:30]}...",
+            "status": "success"
+        }
+    
+    api_key = os.getenv('GROQ_API_KEY')
+    if not api_key:
+        raise ValueError("GROQ_API_KEY not set")
+
+    async with httpx.AsyncClient(timeout=30) as client:
+        try:
+            r = await client.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers={"Authorization": f"Bearer {api_key}"},
+                json={
+                    "model": "llama3-8b-8192",
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.7
+                }
+            )
+            r.raise_for_status()
+            data = r.json()
+            return {
+                "provider": "groq",
+                "model": "llama3-8b-8192",
+                "response": data['choices'][0]['message']['content'],
+                "status": "success"
+            }
+        except Exception as e:
+            log.error(f"Groq call failed: {e}")
+            raise
 
 
 async def _call_premium_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:

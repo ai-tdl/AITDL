@@ -83,6 +83,11 @@
                     Themes
                 </a>
 
+                <!-- Content Management -->
+                <a href="cms.html" class="nav-item" data-tab="cms" id="nav-cms" hidden>
+                    CMS Studio
+                </a>
+
                 <a role="button" tabindex="0" class="nav-item" id="nav-admins" data-tab="admins"
                     onclick="switchTab('admins')" onkeydown="if(event.key==='Enter') switchTab('admins')" hidden>
                     Admin Users
@@ -395,6 +400,10 @@
         // ── Initialise on load ─────────────────────────────────────────────
         document.addEventListener('DOMContentLoaded', () => {
             const payload = Auth.getPayload();
+            if (payload?.role === 'superadmin' || payload?.role === 'admin') {
+                const cmsNav = document.getElementById('nav-cms');
+                if (cmsNav) cmsNav.hidden = false;
+            }
             if (payload?.role === 'superadmin') {
                 document.getElementById('nav-admins').hidden = false;
             }

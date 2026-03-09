@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Security CSP matching admin dashboard -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+                   script-src 'self' 'unsafe-inline';
+                   style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+                   font-src https://fonts.gstatic.com;
+                   img-src 'self' data: https:;
+                   connect-src http://localhost:8000 http://127.0.0.1:8000;
+                   frame-ancestors 'none';">
+    <meta name="robots" content="noindex, nofollow">
+    <title>AITDL CMS Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="./css/cms.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- ── Mobile Header ────────────────────────────────────────────── -->
+        <header class="mobile-header" role="banner">
+            <span aria-label="AITDL CMS Studio">AITDL CMS Studio</span>
+            <button class="mobile-toggle" id="sidebarToggle" aria-label="Open navigation menu" aria-controls="sidebar"
+                aria-expanded="false" onclick="toggleSidebar()">
+                ☰
+            </button>
+        </header>
+
+        <!-- ── Sidebar ──────────────────────────────────────────────────── -->
+        <aside id="sidebar" class="sidebar" aria-label="CMS navigation">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="back-link" aria-label="Back to Dashboard">← Admin</a>
+                <button onclick="Auth.logout()" class="logout-btn" aria-label="Log out">Log out</button>
+            </div>
+            <nav class="nav-links" aria-label="CMS sections">
+                <a role="button" tabindex="0" class="nav-item active" data-tab="pages" id="nav-pages"
+                    aria-current="page" onclick="CMS.switchTab('pages')">
+                    Pages
+                </a>
+                <a role="button" tabindex="0" class="nav-item" data-tab="cards" id="nav-cards"
+                    onclick="CMS.switchTab('cards')">
+                    Cards
+                </a>
+                <a role="button" tabindex="0" class="nav-item" data-tab="blog" id="nav-blog"
+                    onclick="CMS.switchTab('blog')">
+                    Blog
+                </a>
+                <a role="button" tabindex="0" class="nav-item" data-tab="media" id="nav-media"
+                    onclick="CMS.switchTab('media')">
+                    Media
+                </a>
+                <a role="button" tabindex="0" class="nav-item" data-tab="forms" id="nav-forms"
+                    onclick="CMS.switchTab('forms')">
+                    Forms
+                </a>
+                <a role="button" tabindex="0" class="nav-item ai-tab" data-tab="ai" id="nav-ai"
+                    onclick="CMS.switchTab('ai')">
+                    ✨ AI Studio
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ── Main Content ──────────────────────────────────────────────── -->
+        <main class="main-content" id="mainContent" role="main" aria-live="polite">
+
+            <!-- Pages Tab -->
+            <section id="pages" class="tab-content active" aria-labelledby="pagesHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="pagesHeading">Pages & Block Builder</h2>
+                    <button onclick="CMSPages.openCreateModal()" class="btn-primary btn-sm">New Page</button>
+                </div>
+                <div class="toolbar">
+                    <input type="search" id="pagesSearch" class="form-input search-input" placeholder="Search pages..."
+                        oninput="CMSPages.filterList()">
+                </div>
+                <div class="table-container">
+                    <table aria-label="CMS Pages">
+                        <thead>
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Slug</th>
+                                <th scope="col">Template</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Last Updated</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pagesTableBody">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loader"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Cards Tab -->
+            <section id="cards" class="tab-content" aria-labelledby="cardsHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="cardsHeading">Card Manager</h2>
+                    <button onclick="CMSCards.openCreateModal()" class="btn-primary btn-sm">New Root Card</button>
+                </div>
+                <div id="cardsListContainer" class="cards-list-container">
+                    <div class="loader"></div>
+                </div>
+            </section>
+
+            <!-- Blog Tab -->
+            <section id="blog" class="tab-content" aria-labelledby="blogHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="blogHeading">Blog Posts</h2>
+                    <button onclick="CMSBlog.openCreateModal()" class="btn-primary btn-sm">Write Post</button>
+                </div>
+                <div id="blogListContainer">
+                    <div class="loader"></div>
+                </div>
+            </section>
+
+            <!-- Media Tab -->
+            <section id="media" class="tab-content" aria-labelledby="mediaHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="mediaHeading">Media Library</h2>
+                    <button onclick="document.getElementById('fileUploadInput').click()"
+                        class="btn-primary btn-sm">Upload File</button>
+                    <input type="file" id="fileUploadInput" hidden accept="image/*,video/mp4,application/pdf"
+                        onchange="CMSMedia.upload(event)">
+                </div>
+                <div id="mediaGrid" class="media-grid">
+                    <div class="loader"></div>
+                </div>
+            </section>
+
+            <!-- Forms Tab -->
+            <section id="forms" class="tab-content" aria-labelledby="formsHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="formsHeading">Form Builder</h2>
+                    <button onclick="CMSForms.openCreateModal()" class="btn-primary btn-sm">New Form</button>
+                </div>
+                <div id="formsListContainer">
+                    <div class="loader"></div>
+                </div>
+            </section>
+
+            <!-- AI Studio Tab -->
+            <section id="ai" class="tab-content" aria-labelledby="aiHeading">
+                <div class="tab-header">
+                    <h2 class="section-title" id="aiHeading">AI Studio ✨</h2>
+                </div>
+                <div class="ai-dashboard">
+                    <div class="ai-stats-card">
+                        <h3>Credit Usage</h3>
+                        <div id="aiUsageStats">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ── Modals (Dynamic inject targets) ───────────────────────── -->
+    <div id="cmsModalRoot"></div>
+
+    <!-- ── Scripts ──────────────────────────────────────────────────────── -->
+    <script src="./js/admin-auth.js"></script>
+    <script src="./js/cms/cms-core.js"></script>
+    <script src="./js/cms/cms-pages.js"></script>
+    <script src="./js/cms/cms-cards.js"></script>
+    <script src="./js/cms/cms-media.js"></script>
+    <script src="./js/cms/cms-blog.js"></script>
+    <script src="./js/cms/cms-forms.js"></script>
+    <script src="./js/cms/cms-ai.js"></script>
+
+    <script>
+        // Auth guard
+        if (!Auth.isAuthenticated()) {
+            window.location.replace('index.html');
+        }
+
+        // Sidebar toggle for mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
+            const isOpen = sidebar.classList.toggle('active');
+            toggle.setAttribute('aria-expanded', String(isOpen));
+        }
+
+        // Initialize CMS modules once DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            CMS.init();
+        });
+    </script>
+</body>
+
+</html>
