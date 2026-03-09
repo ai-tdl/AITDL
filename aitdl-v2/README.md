@@ -32,7 +32,7 @@ cd aitdl-v2/frontend
 cd aitdl-v2/backend
 python -m venv venv && venv\Scripts\activate   # Windows
 pip install -r requirements.txt
-cp .env.example .env                           # Fill in DATABASE_URL
+cp .env.example .env                           # Fill in DATABASE_URL and SUPABASE keys
 uvicorn main:app --reload
 # Docs at: http://localhost:8000/docs
 ```
@@ -43,6 +43,15 @@ uvicorn main:app --reload
 cd aitdl-v2
 python -m pytest tests/ -v
 ```
+
+---
+
+## Infrastructure (Phase 4 — Supabase)
+
+The project has migrated from local PostgreSQL and custom JWT auth to **Supabase**:
+- **Database**: Managed PostgreSQL on Supabase.
+- **Authentication**: Supabase Auth (JWT verification).
+- **Environment Variables**: Requires `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_JWT_SECRET`.
 
 ---
 
@@ -60,12 +69,12 @@ aitdl-v2/
 │   └── js/          ← config.js, canvas.js, picker.js, forms.js, main.js
 ├── backend/         ← FastAPI (deploy to Railway)
 │   ├── main.py
-│   ├── routers/     ← contact.py, partner.py
+│   ├── routers/     ← contact.py, partner.py, auth.py (identity check), admin.py
 │   ├── models/      ← contact.py, partner.py (Pydantic)
-│   ├── core/        ← config.py, database.py, cors.py
+│   ├── core/        ← config.py, database.py, security.py (Supabase JWT verification)
 │   └── db/migrations/ ← 001_initial.sql
 ├── scripts/         ← migrate.py, seed.py
-├── tests/           ← test_contact.py, test_partner.py
+├── tests/           ← test_contact.py, test_partner.py, test_auth.py (Mocked Supabase)
 ├── deploy/          ← vercel.json, netlify.toml, nginx.conf, railway.json
 └── .github/workflows/ ← deploy.yml (CI/CD)
 ```
@@ -93,6 +102,7 @@ aitdl-v2/
 | 3 | Picker secondary badge reset to '+ADD' | Badge always resets to 'PRIMARY' correctly |
 | 4 | Reveal / counter observers not cleaned up | Disconnect before re-initialising |
 | 5 | `#s-ngo` and `#s-ecom` IDs missing | Both confirmed present in index.html |
+| 6 | card navigation `ReferenceError` | Fixed `onclick` handlers to use `setView()` |
 
 ---
 

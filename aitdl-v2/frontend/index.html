@@ -291,7 +291,7 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
           <p>TallyPrime · TallyTDL · ERPNext · Odoo · business automation</p>
           <div class="ov-foot"><span class="ov-tags">TALLY PARTNER</span><span class="ov-arr">↗</span></div>
         </div>
-        <div class="ov-card rv" style="--oc:#22c565" onclick="activate('education')">
+        <div class="ov-card rv" style="--oc:#22c565" onclick="setView('education')">
           <div class="ov-ico">🏫</div>
           <h3>Education</h3>
           <p>School ERP · coaching management · fee collection · reports</p>
@@ -303,13 +303,13 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
           <p>AI lesson planning · auto question banks · personalised learning tools</p>
           <div class="ov-foot"><span class="ov-tags">AI-POWERED</span><span class="ov-arr">↗</span></div>
         </div>
-        <div class="ov-card rv" style="--oc:#a259ff" onclick="activate('student')">
+        <div class="ov-card rv" style="--oc:#a259ff" onclick="setView('student')">
           <div class="ov-ico">🎓</div>
           <h3>Students & AI</h3>
           <p>Ganitsutram · My AI Pathsala · Saathi Book · personalised AI tutor</p>
           <div class="ov-foot"><span class="ov-tags">INDIA'S OWN AI</span><span class="ov-arr">↗</span></div>
         </div>
-        <div class="ov-card rv" style="--oc:#ff4d6a" onclick="activate('home')">
+        <div class="ov-card rv" style="--oc:#ff4d6a" onclick="setView('home')">
           <div class="ov-ico">🏠</div>
           <h3>Home & Family</h3>
           <p>Home Study Buddy · AI tutor for kids · parent-friendly interface</p>
@@ -321,13 +321,13 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
           <p>Resell all 6 product lines · zero investment · territory protection</p>
           <div class="ov-foot"><span class="ov-tags">OPEN PROGRAMME</span><span class="ov-arr">↗</span></div>
         </div>
-        <div class="ov-card rv" style="--oc:#0eb8a0" onclick="activate('ngo')">
+        <div class="ov-card rv" style="--oc:#0eb8a0" onclick="setView('ngo')">
           <div class="ov-ico">🤲</div>
           <h3>NGO & Trusts</h3>
           <p>Donation tracking · fund accounting · member management · temple ERP</p>
           <div class="ov-foot"><span class="ov-tags">SOCIAL SECTOR</span><span class="ov-arr">↗</span></div>
         </div>
-        <div class="ov-card rv" style="--oc:#6c63ff" onclick="activate('ecom')">
+        <div class="ov-card rv" style="--oc:#6c63ff" onclick="setView('ecom')">
           <div class="ov-ico">🛒</div>
           <h3>Ecommerce</h3>
           <p>India-first · GST-native · UPI payments · marketplace sync — coming 2025</p>
@@ -1013,26 +1013,110 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
       <div class="aud-hero">
         <div class="orb o1"></div>
         <div class="orb o2"></div>
-        <div style="display:inline-flex;align-items:center;gap:.6rem;margin-bottom:2rem">
-          <span
-            style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.4);color:#b0aaff;padding:.35rem .85rem;animation:live-pulse 2s infinite">●
-            COMING SOON</span>
-          <span
-            style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted)">Launching
-            2025 · Join the Waitlist</span>
+        <div class="hero-eyebrow">
+          <div class="pdf"
+            style="width:7px;height:7px;border-radius:50%;background:#6c63ff;animation:pulse-dot 2s infinite"></div>
+          <span class="etag">AI E-commerce Platform</span>
+          <div class="eline"></div><span class="esub">B2B · B2C · ONDC Native · AI Content Engine</span>
         </div>
         <div class="hero-h rv">SELL ONLINE.<br>BUILT FOR<br><span class="acc">BHARAT.</span></div>
         <div class="hero-body rv">
-          <p class="hero-desc">India deserves an ecommerce platform that understands Indian business —
-            <strong>GST-native, UPI-first, regional language ready</strong>. <strong>Join the waitlist. Shape the
-              product.</strong>
-          </p>
-          <div class="hero-acts"><a href="#" class="btn-primary" onclick="scrollToId('waitlist')">Join the Waitlist
-              ↓</a></div>
+          <p class="hero-desc">India deserves an e-commerce platform that understands Indian business —
+            <strong>GST-native, UPI-first, and regional language ready</strong>. Don't rent your customers. Own your
+            store.</p>
+          <div class="hero-acts">
+            <a href="#" class="btn-primary" onclick="scrollToId('ecom-products')">See Features ↓</a>
+            <button class="btn-ghost" onclick="scrollToId('waitlist')">Join the VIP Waitlist →</button>
+          </div>
         </div>
       </div>
+
+      <div class="trust-row rv">
+        <div class="ti"><span class="ti-ico">🛍️</span>
+          <div>
+            <h4>Multi-Channel</h4>
+            <p>B2B, B2C, and ONDC out of the box</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">⚡</span>
+          <div>
+            <h4>AI Cataloging</h4>
+            <p>Auto-generate descriptions & SEO</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">🧾</span>
+          <div>
+            <h4>GST Native</h4>
+            <p>Seamless sync with Tally & Shoper</p>
+          </div>
+        </div>
+        <div class="ti"><span class="ti-ico">💸</span>
+          <div>
+            <h4>0% Commission</h4>
+            <p>Your store. Direct UPI settlements.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats rv">
+        <div class="sb"><span class="sn" data-target="0">0%</span><span class="sl">Transaction Fees</span></div>
+        <div class="sb"><span class="sn" data-target="100">0%</span><span class="sl">Data Ownership</span></div>
+        <div class="sb"><span class="sn" data-target="12">0</span><span class="sl">Languages Supported</span></div>
+        <div class="sb"><span class="sn" data-target="6">0</span><span class="sl">AI Models Integrated</span></div>
+      </div>
+
+      <div class="sec" id="ecom-products">
+        <div class="sh rv"><span class="snum">01 — PLATFORM FEATURES</span>
+          <div class="sline"></div>
+        </div>
+        <div class="stitle rv">Everything To Build<br>A Digital Empire.</div>
+        <div class="prod-grid rv">
+          <div class="prod-card"><span class="prod-icon">📱</span><span class="badge-live">● IN DEV</span>
+            <h3 style="color:#6c63ff">Storefront Builder</h3>
+            <p>Drag-and-drop themes built for rapid mobile load times. Fully customizable and localized for Bharat.</p>
+            <ul>
+              <li>Mobile-first design</li>
+              <li>PWA ready (installable)</li>
+              <li>Regional language support</li>
+              <li>UPI intent flows built-in</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">🤖</span><span class="badge-live">● IN DEV</span>
+            <h3 style="color:#6c63ff">AITDL AI Marketing</h3>
+            <p>Leverage Gemini and Claude directly in your dashboard to automate your marketing and cataloging.</p>
+            <ul>
+              <li>Auto-generate SEO tags</li>
+              <li>One-click product descriptions</li>
+              <li>AI abandoned cart recovery</li>
+              <li>Personalised promotions</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">🔄</span><span class="badge-live">● PLANNED</span>
+            <h3 style="color:#6c63ff">Marketplace Sync</h3>
+            <p>Manage your own store, Amazon, Flipkart, and ONDC inventory from a single source of truth.</p>
+            <ul>
+              <li>ONDC native integration</li>
+              <li>Live stock sync</li>
+              <li>Centralised order dashboard</li>
+              <li>Unified return management</li>
+            </ul>
+          </div>
+          <div class="prod-card"><span class="prod-icon">🚚</span><span class="badge-live">● PLANNED</span>
+            <h3 style="color:#6c63ff">Logistics Hub</h3>
+            <p>Pre-integrated with India's best delivery networks for both hyperlocal and national shipping right from
+              day one.</p>
+            <ul>
+              <li>Hyperlocal integrations</li>
+              <li>National networks (Delhivery)</li>
+              <li>Automated airway bills</li>
+              <li>Live customer tracking</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div class="sec" id="waitlist">
-        <div class="sh rv"><span class="snum">01 — JOIN THE WAITLIST</span>
+        <div class="sh rv"><span class="snum">02 — JOIN THE WAITLIST</span>
           <div class="sline"></div>
         </div>
         <div class="stitle rv">Be First.<br>Shape the Product.</div>
@@ -1062,7 +1146,7 @@ Copyright © aitdl.com · AITDL | GANITSUTRAM.com
         </div>
       </div>
       <footer>
-        <p>© 2026 AITDL · Ecommerce Platform · Coming Soon</p>
+        <p>© 2026 AITDL · AI E-commerce Platform · Coming Soon</p>
         <div class="fl">AITDL</div>
         <p>Mumbai · Nashik · Surat · Gorakhpur · Pan India</p>
       </footer>

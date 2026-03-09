@@ -24,6 +24,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models.contact import ContactForm, ContactResponse
 from models.db_tables import ContactRecord
 from core.database import get_db
+from services import hooks
 
 router = APIRouter(tags=["Contact"])
 
@@ -51,6 +52,8 @@ async def submit_contact(
     db.add(record)
     await db.commit()
     await db.refresh(record)
+
+    await hooks.trigger("on_lead_received", record)
 
     return ContactResponse(id=record.id)
 

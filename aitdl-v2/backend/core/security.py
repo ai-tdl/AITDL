@@ -21,108 +21,80 @@
 """
 Security utilities — backend/core/security.py
 
-Purpose : Password hashing (bcrypt), JWT creation and verification,
-          and the FastAPI `require_admin` dependency for protected routes.
-
-Input   : Plain passwords, tokens, JWT settings from config
-Output  : Hashed passwords, signed JWTs, decoded payloads, HTTPException on failure
-Errors  : 401 for bad credentials, 403 for missing/invalid token
+Purpose : Decodes and verifies Supabase-issued JWTs for protected routes.
+          Provides FastAPI dependencies (require_admin, require_superadmin).
+Input   : Supabase Bearer token
+Output  : Decoded payload dict, user roles extracted from app_metadata
+Errors  : 401 Unauthorized for bad tokens, 403 Forbidden for insufficient roles
 """
 
-from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from jose import JWTError, jwt
-import bcrypt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from core.config import settings
 
-
-# ── Password hashing ───────────────────────────────────────────────────────────
-
-def hash_password(plain: str) -> str:
-    """
-    Purpose : Hash a plain-text password using bcrypt.
-    Input   : plain — raw password string
-    Output  : hashed string safe to store in DB
-    """
-    pwd_bytes = plain.encode('utf-8')
-    salt = bcrypt.gensalt()
-    return bcrypt.hashpw(pwd_bytes, salt).decode('utf-8')
-
-
-def verify_password(plain: str, hashed: str) -> bool:
-    """
-    Purpose : Compare a plain password against a stored bcrypt hash.
-    Input   : plain — raw input, hashed — value from DB
-    Output  : True if match, False otherwise
-    """
-    try:
-        return bcrypt.checkpw(plain.encode('utf-8'), hashed.encode('utf-8'))
-    except Exception:
-        return False
-
-
-# ── JWT ────────────────────────────────────────────────────────────────────────
-
-def create_jwt(data: dict, expires_hours: Optional[int] = None) -> str:
-    """
-    Purpose : Create a signed JWT with an expiry claim.
-    Input   : data — dict to encode (e.g. {"sub": email, "role": "superadmin"})
-              expires_hours — override default from settings
-    Output  : Signed JWT string
-    Errors  : None
-    """
-    payload = data.copy()
-    expire = datetime.now(timezone.utc) + timedelta(
-        hours=expires_hours or settings.JWT_EXPIRE_HOURS
-    )
-    payload.update({"exp": expire})
-    return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
-
+# ── JWT Verification ──────────────────────────────────────────────────────────
 
 def decode_jwt(token: str) -> dict:
     """
-    Purpose : Decode and validate a JWT.
+    Purpose : Decode and validate a Supabase-issued JWT locally using the JWT Secret.
     Input   : token — raw JWT string (no 'Bearer ' prefix)
     Output  : Decoded payload dict
     Errors  : Raises HTTP 401 if expired or invalid
     """
     try:
-        return jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
-    except JWTError:
+        # Supabase defaults to HS256 for local signing with the JWT secret.
+        # Ensure the audience is set to 'authenticated' if enforcing aud claims,
+        # but for Phase 4 we decode using the project's secret key.
+        return jwt.decode(
+            token,
+            settings.SUPABASE_JWT_SECRET,
+            algorithms=[settings.JWT_ALGORITHM],
+            options={"verify_aud": False} # Supabase aud is usually 'authenticated'
+        )
+    except JWTError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
+            detail=f"Invalid or expired token: {str(e)}",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-
-# ── FastAPI dependency ─────────────────────────────────────────────────────────
+# ── FastAPI dependencies ──────────────────────────────────────────────────────
 
 _bearer = HTTPBearer()
-
 
 def require_admin(
     credentials: HTTPAuthorizationCredentials = Depends(_bearer),
 ) -> dict:
     """
-    Purpose : FastAPI dependency — validates JWT and returns payload.
+    Purpose : FastAPI dependency — validates Supabase JWT and ensures admin role.
     Input   : Authorization: Bearer <token>
-    Output  : Dict with 'sub' (email) and 'role'
+    Output  : Dict with 'sub' (user UUID) and 'role'
     Errors  : 401 Unauthorized, 403 Forbidden for bad roles
     """
     token = credentials.credentials
     payload = decode_jwt(token)
     
-    role = payload.get("role")
+    # In Supabase, custom roles are typically stored in app_metadata
+    # e.g., payload.get('app_metadata', {}).get('role')
+    app_metadata = payload.get("app_metadata", {})
+    role = app_metadata.get("role")
+    
+    # If not using Supabase app_metadata, fallback to standard role claim for testing
+    if not role:
+        role = payload.get("role")
+
     if role not in ("superadmin", "admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin access required",
         )
+    
+    # Attach unified role back to payload for convenience
+    payload['role'] = role
     return payload
 
 

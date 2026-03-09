@@ -15,8 +15,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select
 
-from core.security import hash_password
-from models.db_tables import AdminUser, ContactRecord, PartnerRecord
+from models.db_tables import ContactRecord, PartnerRecord
 
 async def seed_data():
     db_url = os.environ.get("DATABASE_URL", "")
@@ -29,27 +28,7 @@ async def seed_data():
     async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
     async with async_session() as session:
-        # 1. Create Superadmin if not exists
-        admin_email = os.environ.get("ADMIN_EMAIL", "iamadmin@aitdl.com")
-        admin_pass = os.environ.get("ADMIN_PASSWORD", "Aitdl@2026")
-        
-        result = await session.execute(select(AdminUser).where(AdminUser.email == admin_email))
-        admin = result.scalar_one_or_none()
-        
-        if not admin:
-            print(f"Creating superadmin: {admin_email}")
-            new_admin = AdminUser(
-                email=admin_email,
-                password_hash=hash_password(admin_pass),
-                role="superadmin",
-                is_active=True
-            )
-            session.add(new_admin)
-        else:
-            print(f"Updating superadmin password: {admin_email}")
-            admin.password_hash = hash_password(admin_pass)
-            admin.role = "superadmin" # Ensure role is correct
-            admin.is_active = True
+
 
         # 2. Add Sample Leads if empty
         result = await session.execute(select(ContactRecord).limit(1))

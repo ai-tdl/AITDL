@@ -39,9 +39,30 @@ import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "plugins"))
 
+# MOCK SUPABASE ENV VARS FOR TESTING
+os.environ["SUPABASE_URL"] = "https://mock.supabase.co"
+os.environ["SUPABASE_ANON_KEY"] = "mock-anon-key"
+os.environ["SUPABASE_SERVICE_ROLE_KEY"] = "mock-service-role"
+os.environ["SUPABASE_JWT_SECRET"] = "mock-supabase-jwt-secret-key-12345678901234567890123456789012"
+os.environ["JWT_ALGORITHM"] = "HS256"
+
 from main import app
 from core.database import Base, get_db
 from models.db_tables import ContactRecord, PartnerRecord  # noqa: ensure tables registered
+from core.config import settings
+from jose import jwt
+from datetime import datetime, timedelta, timezone
+
+def create_mock_supabase_token(payload_override: dict = None) -> str:
+    \"\"\"Simulates a Supabase Auth JWT. payload_override merges with the base token.\"\"\"
+    payload = {
+        "sub": "123e4567-e89b-12d3-a456-426614174000",
+        "app_metadata": {"role": "superadmin"},
+        "exp": datetime.now(timezone.utc) + timedelta(hours=1)
+    }
+    if payload_override:
+        payload.update(payload_override)
+    return jwt.encode(payload, settings.SUPABASE_JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
 
 # ── Register CMS ORM models so in-memory SQLite creates their tables ──────────
 try:

@@ -34,14 +34,14 @@ class Settings(BaseSettings):
     SECRET_KEY: str   = "change-me-in-production"
     DEBUG: bool       = False
 
-    # JWT (Phase 3)
-    JWT_SECRET_KEY: str  = "change-this-to-a-64-char-random-hex-string"
-    JWT_ALGORITHM: str   = "HS256"
-    JWT_EXPIRE_HOURS: int = 24
-
-    # Admin seed (Phase 3) — read by scripts/create_admin.py only
-    ADMIN_EMAIL: str    = ""
-    ADMIN_PASSWORD: str = ""
+    # Supabase (Phase 4)
+    SUPABASE_URL: str
+    SUPABASE_ANON_KEY: str
+    SUPABASE_SERVICE_ROLE_KEY: str
+    SUPABASE_JWT_SECRET: str
+    
+    # JWT algorithm used by Supabase (RS256 or HS256 depending on config, default HS256 for local dev)
+    JWT_ALGORITHM: str = "HS256"
 
 
 settings = Settings()

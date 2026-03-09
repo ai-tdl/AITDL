@@ -24,6 +24,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models.partner import PartnerApplication, PartnerResponse
 from models.db_tables import PartnerRecord
 from core.database import get_db
+from services import hooks
 
 router = APIRouter(tags=["Partner"])
 
@@ -50,6 +51,8 @@ async def submit_partner_application(
     db.add(record)
     await db.commit()
     await db.refresh(record)
+
+    await hooks.trigger("on_partner_applied", record)
 
     return PartnerResponse(id=record.id)
 

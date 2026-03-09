@@ -26,7 +26,7 @@ Purpose : Define database table mappings for contacts, partner_applications,
           in contact.py / partner.py for API validation.
 
 Input   : None (imported by routers and scripts)
-Output  : ContactRecord, PartnerRecord, AdminUser — mapped classes
+Output  : ContactRecord, PartnerRecord — mapped classes
 Errors  : Raises SQLAlchemy errors on misconfiguration
 """
 
@@ -109,30 +109,4 @@ class PartnerRecord(Base):
     )
 
 
-# ── Admins Table ───────────────────────────────────────────────────────────────
-
-class AdminUser(Base):
-    """
-    ORM model for the `admins` table.
-
-    Fields:
-        id            : Auto-increment primary key
-        email         : Unique admin email address
-        password_hash : bcrypt hash — never store plain text
-        role          : 'superadmin' or 'admin'
-        is_active     : Soft-disable accounts without deletion
-        last_login    : Updated on successful login
-        created_at    : UTC timestamp auto-set on insert
-    """
-    __tablename__ = "admins"
-
-    id:            Mapped[int]               = mapped_column(primary_key=True, autoincrement=True)
-    email:         Mapped[str]               = mapped_column(String(200), nullable=False, unique=True)
-    password_hash: Mapped[str]               = mapped_column(String(200), nullable=False)
-    role:          Mapped[str]               = mapped_column(String(30),  nullable=False, default="admin")
-    is_active:     Mapped[bool]              = mapped_column(Boolean,     nullable=False, default=True)
-    last_login:    Mapped[datetime]          = mapped_column(DateTime(timezone=True), nullable=True)
-    created_at:    Mapped[datetime]          = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
 

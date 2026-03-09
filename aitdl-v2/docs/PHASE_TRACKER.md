@@ -37,14 +37,14 @@ Quick reference: what's demo-ready vs placeholder vs coming.
 | **Home/Family Section** | ✅ Live | Full content |
 | **Partner Landing** | ✅ Live | Full pitch + apply form |
 | **NGO/Social Sector** | ✅ Live | Full content |
-| **Ecommerce Section** | ⚠️ Placeholder | Coming Soon content, waitlist form |
-| **Contact Forms** | ⚠️ Web3Forms | Working via email webhook; no DB yet |
-| **Partner Apply Form** | ⚠️ Web3Forms | Working via email webhook; no DB yet |
-| **FastAPI Backend** | 🔄 In Progress | Scaffold done; needs Railway deploy |
-| **PostgreSQL DB** | 🔄 In Progress | Schema ready; needs hosted DB |
-| **Admin Dashboard** | ❌ Planned | Phase 3 |
-| **WhatsApp Integration** | ❌ Planned | Phase 3 |
-| **Supabase Auth** | ❌ Planned | Phase 4 |
+| **Ecommerce Section** | ✅ Live | Full landing page + waitlist form |
+| **Contact Forms** | ✅ Live | FastAPI + PostgreSQL storage |
+| **Partner Apply Form** | ✅ Live | FastAPI + PostgreSQL + WhatsApp triggers |
+| **FastAPI Backend** | ✅ Ready | Integration tested; local venv ready |
+| **PostgreSQL DB** | ✅ Ready | Supabase connection logic integrated |
+| **Admin Dashboard** | 🔄 In Progress | Backend logic refactored for Supabase |
+| **WhatsApp Integration** | ✅ Live | Meta Cloud API (Phase 3 complete) |
+| **Supabase Auth** | ✅ Ready | JWT verification logic (Phase 4 complete) |
 | **CI/CD Pipeline** | ✅ Ready | GitHub Actions — needs secrets |
 
 ---

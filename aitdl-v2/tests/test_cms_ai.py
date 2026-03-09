@@ -93,8 +93,10 @@ async def test_generate_content_stub(cms_token, internal_workspace):
         assert "content" in data
         assert data["credits_charged"] == 5
         assert data["tokens_used"] > 0
-        assert data["provider"] in ("huggingface_stub", "ollama_stub", "openai_stub",
-                                    "huggingface_stub", "unknown")  # AI stub mode
+        assert data["provider"] in (
+            "ollama_stub", "groq_stub", "deepseek_stub",
+            "gemini_stub", "openai_stub", "claude_stub", "unknown",
+        )  # AI stub mode — any provider in the fallback chain
 
 
 @pytest.mark.asyncio
