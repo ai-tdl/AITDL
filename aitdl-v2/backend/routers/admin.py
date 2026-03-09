@@ -130,6 +130,152 @@ class AdminUserCreate(BaseModel):
         return v.strip().lower()
 
 
+class AdminProductUpdate(BaseModel):
+    enabled: bool
+
+class AdminThemeUpdate(BaseModel):
+    theme: str
+
+class ProductAdminOut(BaseModel):
+    id: str
+    name: str
+    version: str
+    enabled: bool
+    route_prefix: str
+    plugins_required: List[str]
+    theme: str
+    status: str
+
+class PluginAdminOut(BaseModel):
+    name: str
+    version: str
+    hooks_registered: List[str]
+    status: str
+
+class ThemeAdminOut(BaseModel):
+    name: str
+    version: str
+    active: bool
+
+
+# ── Ecosystem Endpoints ────────────────────────────────────────────────────────
+
+@router.get("/products", response_model=List[ProductAdminOut])
+async def get_admin_products(_: dict = Depends(require_admin)):
+    """
+    List all products in the ecosystem and their current status.
+    """
+    from services.product_loader import _products
+    
+    results = []
+    for name, data in _products.items():
+        manifest = data["manifest"]
+        results.append(ProductAdminOut(
+            id=name,
+            name=name,
+            version=manifest.get("version", "0.0.0"),
+            enabled=manifest.get("enabled", True),
+            route_prefix=data.get("route_prefix", ""),
+            plugins_required=manifest.get("plugins", []),
+            theme=manifest.get("theme", "default"),
+            status=data["status"]
+        ))
+    return results
+
+
+@router.patch("/products/{product_id}")
+async def toggle_product(
+    product_id: str, 
+    body: AdminProductUpdate,
+    _: dict = Depends(require_admin)
+):
+    """
+    Toggle a product's enabled state in its manifest.
+    Note: Requires a server restart or loader refresh to take effect.
+    """
+    from services.product_loader import PRODUCTS_DIR
+    import json
+    import os
+
+    product_path = os.path.join(PRODUCTS_DIR, product_id)
+    manifest_path = os.path.join(product_path, "product.json")
+    
+    if not os.path.exists(manifest_path):
+        raise HTTPException(status_code=404, detail="Product manifest not found")
+
+    with open(manifest_path, 'r', encoding='utf-8') as f:
+        manifest = json.load(f)
+
+    manifest["enabled"] = body.enabled
+
+    with open(manifest_path, 'w', encoding='utf-8') as f:
+        json.dump(manifest, f, indent=4)
+
+    return {"status": "success", "message": f"Product '{product_id}' enabled set to {body.enabled}. Please restart for changes."}
+
+
+@router.get("/plugins", response_model=List[PluginAdminOut])
+async def get_admin_plugins(_: dict = Depends(require_admin)):
+    """
+    List all plugins and their registered hooks.
+    """
+    from services.plugin_loader import _plugins
+    from services.hooks import list_hooks
+    
+    all_hooks = list_hooks()
+    results = []
+    
+    for name, data in _plugins.items():
+        manifest = data["manifest"]
+        # In a real system, we'd track which hooks belong to which plugin name.
+        # For now, we list hooks that mention the plugin in their name or just list all.
+        results.append(PluginAdminOut(
+            name=name,
+            version=manifest.get("version", "1.0.0"),
+            hooks_registered=all_hooks.get(f"plugin_{name}", []), # Placeholder logic
+            status=data["status"]
+        ))
+    return results
+
+
+@router.get("/themes", response_model=List[ThemeAdminOut])
+async def get_admin_themes(_: dict = Depends(require_admin)):
+    """
+    List available system themes.
+    """
+    import os
+    import json
+    base_dir = os.path.dirname(os.path.dirname(__file__))
+    THEMES_DIR = os.path.join(base_dir, "..", "themes")
+    
+    results = []
+    # Current active theme could be stored in DB or config. 
+    # For now, we'll just report 'default' as active.
+    
+    if os.path.exists(THEMES_DIR):
+        for item in os.listdir(THEMES_DIR):
+            theme_path = os.path.join(THEMES_DIR, item)
+            if os.path.isdir(theme_path):
+                manifest_path = os.path.join(theme_path, "theme.json")
+                if os.path.exists(manifest_path):
+                    with open(manifest_path, 'r') as f:
+                        m = json.load(f)
+                        results.append(ThemeAdminOut(
+                            name=m.get("name", item),
+                            version=m.get("version", "1.0.0"),
+                            active=(m.get("name") == "default")
+                        ))
+    return results
+
+
+@router.patch("/themes/active")
+async def set_active_theme(body: AdminThemeUpdate, _: dict = Depends(require_admin)):
+    """
+    Set the global default theme (Note: In a modular system, this might be per-product).
+    """
+    return {"status": "success", "message": f"Global theme set to {body.theme} (Simulated)"}
+
+
 # ── Endpoints ──────────────────────────────────────────────────────────────────
 
 @router.get("/stats", response_model=StatsResponse)

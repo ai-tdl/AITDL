@@ -1,0 +1,20 @@
+/* AITDL Default Theme CSS Variables */
+
+:root {
+    /* Colors */
+    --theme-primary: #10B981;
+    --theme-primary-hover: #059669;
+    --theme-bg-base: #1F2937;
+    --theme-bg-surface: #374151;
+    --theme-text-primary: #F9FAFB;
+    --theme-text-secondary: #9CA3AF;
+    --theme-border: #4B5563;
+
+    /* Typography */
+    --theme-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Spacing & Borders */
+    --theme-radius-sm: 0.25rem;
+    --theme-radius-md: 0.5rem;
+    --theme-radius-lg: 1rem;
+}

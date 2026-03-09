@@ -1,0 +1,10 @@
+{
+    "name": "dailyboard",
+    "version": "1.0.0",
+    "standalone": true,
+    "description": "Daily goal tracking and team synchronization dashboard.",
+    "plugins": [
+        "ai-assistant"
+    ],
+    "theme": "default"
+}

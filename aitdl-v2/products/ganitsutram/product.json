@@ -1,0 +1,11 @@
+{
+    "name": "ganitsutram",
+    "version": "2.0.0",
+    "standalone": false,
+    "description": "The primary flagship product integrating the core AI and knowledge engines.",
+    "plugins": [
+        "analytics",
+        "whatsapp"
+    ],
+    "theme": "default"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "template_product",
+    "version": "0.1.0",
+    "standalone": false,
+    "description": "A boilerplate template for generating new AITDL system products.",
+    "plugins": [],
+    "theme": "default"
+}

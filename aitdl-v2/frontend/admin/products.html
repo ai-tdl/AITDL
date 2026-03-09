@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+                   script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
+                   style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+                   font-src https://fonts.gstatic.com;
+                   img-src 'self' data:;
+                   connect-src http://localhost:8080;
+                   frame-ancestors 'none';">
+    <meta name="robots" content="noindex, nofollow">
+    <title>AITDL Admin — Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <span>AITDL Admin</span>
+                <button onclick="Auth.logout()" class="logout-btn">Log out</button>
+            </div>
+            <nav class="nav-links">
+                <a href="dashboard.html" class="nav-item">Overview</a>
+                <a href="dashboard.html#leads" class="nav-item">Contact Leads</a>
+                <a href="dashboard.html#partners" class="nav-item">Partner Apps</a>
+
+                <a href="products.html" class="nav-item active" aria-current="page">Products</a>
+                <a href="plugins.html" class="nav-item">Plugins</a>
+                <a href="themes.html" class="nav-item">Themes</a>
+
+                <a href="dashboard.html#admins" class="nav-item" id="nav-admins" hidden>Admin Users</a>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+            <section id="products" class="tab-content active">
+                <div class="tab-header">
+                    <h2 class="section-title">Products Manager</h2>
+                    <span class="text-secondary">Manage standalone AITDL applications</span>
+                </div>
+
+                <div class="stats-grid" id="productGrid">
+                    <div class="loader"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./js/admin-auth.js"></script>
+    <script>
+        if (!Auth.isAuthenticated()) window.location.replace('index.html');
+
+        async function loadProducts() {
+            const grid = document.getElementById('productGrid');
+            try {
+                const res = await fetch('http://localhost:8080/api/admin/products', {
+                    headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
+                });
+                const products = await res.json();
+
+                grid.innerHTML = products.map(p => {
+                    let statusColor = '#059669'; // Success
+                    let statusLabel = 'Enabled';
+
+                    if (!p.enabled) {
+                        statusColor = '#DC2626';
+                        statusLabel = 'Disabled';
+                    } else if (p.status === 'plugin_error') {
+                        statusColor = '#D97706'; // Warning/Orange
+                        statusLabel = 'Plugin Error';
+                    }
+
+                    return `
+                    <div class="stat-card">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <h3 class="stat-title">${p.name}</h3>
+                            <span class="nav-badge" style="background:${statusColor}">
+                                ${statusLabel}
+                            </span>
+                        </div>
+                        <p class="text-secondary" style="font-size:0.875rem; margin:0.5rem 0;">v${p.version} | ${p.route_prefix}</p>
+                        ${p.status === 'plugin_error' ? `<p style="color:#DC2626; font-size:0.75rem; font-weight:600;">⚠️ Check missing plugins</p>` : ''}
+                        <p class="text-secondary" style="font-size:0.875rem;">Theme: ${p.theme}</p>
+                        <div style="margin-top:1rem; display:flex; gap:0.5rem;">
+                            <button onclick="toggleProduct('${p.id}', ${!p.enabled})" class="btn-primary btn-sm" style="width:100%">
+                                ${p.enabled ? 'Disable' : 'Enable'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+            } catch (err) {
+                grid.innerHTML = `<p class="text-error">Failed to load products: ${err.message}</p>`;
+            }
+        }
+
+        async function toggleProduct(id, enabled) {
+            if (!confirm(`Are you sure you want to ${enabled ? 'enable' : 'disable'} this product?`)) return;
+            try {
+                const res = await fetch(`http://localhost:8080/api/admin/products/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${Auth.getToken()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ enabled })
+                });
+                if (res.ok) {
+                    alert('Product updated successfully. Restart server for full effect.');
+                    loadProducts();
+                }
+            } catch (err) {
+                alert('Update failed: ' + err.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const payload = Auth.getPayload();
+            if (payload?.role === 'superadmin') document.getElementById('nav-admins').hidden = false;
+            loadProducts();
+        });
+    </script>
+</body>
+
+</html>

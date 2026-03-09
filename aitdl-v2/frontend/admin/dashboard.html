@@ -61,16 +61,28 @@
                     onkeydown="if(event.key==='Enter') switchTab('stats')">
                     Overview
                 </a>
-                <a role="button" tabindex="0" class="nav-item" data-tab="leads" id="nav-leads"
+                <a href="dashboard.html#leads" class="nav-item" data-tab="leads" id="nav-leads"
                     onclick="switchTab('leads')" onkeydown="if(event.key==='Enter') switchTab('leads')">
                     Contact Leads
                     <span class="nav-badge" id="leadsBadge" aria-label="new leads count" hidden></span>
                 </a>
-                <a role="button" tabindex="0" class="nav-item" data-tab="partners" id="nav-partners"
+                <a href="dashboard.html#partners" class="nav-item" data-tab="partners" id="nav-partners"
                     onclick="switchTab('partners')" onkeydown="if(event.key==='Enter') switchTab('partners')">
                     Partner Apps
                     <span class="nav-badge" id="partnersBadge" aria-label="pending partners count" hidden></span>
                 </a>
+
+                <!-- Ecosystem Managers -->
+                <a href="products.html" class="nav-item" data-tab="products" id="nav-products">
+                    Products
+                </a>
+                <a href="plugins.html" class="nav-item" data-tab="plugins" id="nav-plugins">
+                    Plugins
+                </a>
+                <a href="themes.html" class="nav-item" data-tab="themes" id="nav-themes">
+                    Themes
+                </a>
+
                 <a role="button" tabindex="0" class="nav-item" id="nav-admins" data-tab="admins"
                     onclick="switchTab('admins')" onkeydown="if(event.key==='Enter') switchTab('admins')" hidden>
                     Admin Users

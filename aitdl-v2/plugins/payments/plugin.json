@@ -1,0 +1,6 @@
+{
+    "name": "payments",
+    "version": "1.0.0",
+    "description": "Payment gateway integrations (Stripe, Razorpay) for AITDL models and themes.",
+    "author": "AITDL"
+}
