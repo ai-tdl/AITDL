@@ -1,0 +1,15 @@
+{
+    "name": "cms-core",
+    "version": "1.0.0",
+    "description": "AITDL CMS — AI-native content management plugin. Manages pages, blocks, cards, blog posts, media, and forms across workspaces.",
+    "enabled": true,
+    "dependencies": [],
+    "hooks": [
+        "on_content_published",
+        "on_media_uploaded",
+        "on_form_submitted"
+    ],
+    "routes_prefix": "/api/v1/cms",
+    "author": "Jawahar R. Mallah",
+    "org": "AITDL"
+}

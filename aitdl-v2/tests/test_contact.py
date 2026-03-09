@@ -32,6 +32,7 @@ async def test_contact_valid():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         res = await client.post("/api/contact", json={
             "name":    "Test User",
+            "email":   "test@aitdl.com",
             "phone":   "9876543210",
             "section": "retail",
             "message": "I want a demo",

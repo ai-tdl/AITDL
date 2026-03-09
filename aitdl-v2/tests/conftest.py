@@ -37,10 +37,21 @@ from httpx import AsyncClient, ASGITransport
 
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "plugins"))
 
 from main import app
 from core.database import Base, get_db
 from models.db_tables import ContactRecord, PartnerRecord  # noqa: ensure tables registered
+
+# ── Register CMS ORM models so in-memory SQLite creates their tables ──────────
+try:
+    import cms_core.models.cms_tables  # noqa: F401
+except ImportError:
+    pass  # CMS plugin not present — skip silently
+
+# ── Mount CMS plugin routes eagerly (lifespan doesn't fire in unit tests) ─────
+from services import plugin_loader as _plugin_loader
+_plugin_loader.load_plugins(app)
 
 
 # ── In-memory SQLite engine ────────────────────────────────────────────────────

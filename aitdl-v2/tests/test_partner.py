@@ -32,6 +32,7 @@ async def test_partner_valid():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         res = await client.post("/api/partner-apply", json={
             "name":       "Ramesh Sharma",
+            "email":      "ramesh@example.com",
             "phone":      "9876543210",
             "city":       "Nashik",
             "occupation": "Retail shop owner",
