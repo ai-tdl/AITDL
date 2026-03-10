@@ -46,7 +46,7 @@ import uuid
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import String, Text, Boolean, Integer, DateTime, func, Index, JSON, Uuid
+from sqlalchemy import String, Text, Boolean, Integer, DateTime, func, Index, JSON, Uuid, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column
 
 from core.database import Base  # shared Base — same metadata as rest of app
@@ -152,7 +152,7 @@ class Card(Base):
     cta_url:      Mapped[str] = mapped_column(Text, nullable=True)
     sort_order:   Mapped[int]           = mapped_column(Integer, nullable=False, default=0)
     enabled:      Mapped[bool]          = mapped_column(Boolean, nullable=False, default=True)
-    tags:         Mapped[list]          = mapped_column(JSON, nullable=False, default=list)
+    tags:         Mapped[list]          = mapped_column(ARRAY(String), nullable=False, default=list)
     created_at:   Mapped[datetime]      = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at:   Mapped[datetime]      = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
@@ -201,7 +201,7 @@ class BlogPost(Base):
     status:           Mapped[str]           = mapped_column(String(30), nullable=False, default="draft")
     featured_image:   Mapped[uuid.UUID] = mapped_column(Uuid, nullable=True)
     ai_summary:       Mapped[str] = mapped_column(Text, nullable=True)
-    tags:             Mapped[list]          = mapped_column(JSON, nullable=False, default=list)
+    tags:             Mapped[list]          = mapped_column(ARRAY(String), nullable=False, default=list)
     seo_title:        Mapped[str] = mapped_column(Text, nullable=True)
     seo_description:  Mapped[str] = mapped_column(Text, nullable=True)
     last_modified_by: Mapped[str] = mapped_column(String(200), nullable=True)

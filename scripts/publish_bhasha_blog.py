@@ -16,6 +16,17 @@ repo_root = Path(__file__).parent.parent
 sys.path.append(str(repo_root / "backend"))
 sys.path.append(str(repo_root / "plugins"))
 
+# LOAD ENV EARLY before any backend imports
+from dotenv import load_dotenv
+load_dotenv(repo_root / "backend" / ".env")
+load_dotenv(repo_root / ".env")
+
+# Set dummy defaults for Pydantic validation if missing
+os.environ.setdefault("SECRET_KEY", "dummy-secret-key-for-seeder")
+os.environ.setdefault("SUPABASE_URL", "https://dummy.supabase.co")
+os.environ.setdefault("SUPABASE_ANON_KEY", "dummy-anon-key")
+os.environ.setdefault("SUPABASE_JWT_SECRET", "dummy-jwt-secret")
+
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select
@@ -28,10 +39,7 @@ except ImportError:
     sys.exit(1)
 
 async def publish_blog():
-    # Load env from multiple possible locations
-    from dotenv import load_dotenv
-    load_dotenv(repo_root / "backend" / ".env")
-    load_dotenv(repo_root / ".env")
+    # Environment already loaded above
 
     db_url = os.environ.get("DATABASE_URL", "")
     if not db_url:
