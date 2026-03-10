@@ -1,0 +1,12 @@
+# || ॐ श्री गणेशाय नमः ||
+# Organization: AITDL · Creator: Jawahar R. Mallah
+# Robots.txt · SEO indexing rules
+
+User-agent: *
+Allow: /
+
+# Exclude private/temp paths if any
+Disallow: /_next/
+Disallow: /api/
+
+Sitemap: https://aitdl.com/sitemap.xml

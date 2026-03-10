@@ -44,6 +44,7 @@
 22. [**Topnotch Form Standards**](#-chapter-22-topnotch-form-standards)
 23. [**Intelligent Location Selection**](#-chapter-23-intelligent-location-selection)
 24. [**Master SEO & Indexing Standards**](#-chapter-24-master-seo--indexing-standards)
+25. [**Multilingual Bharat (i18n) & Next.js 15 Standards**](#-chapter-25-multilingual-bharat-i18n--nextjs-15-standards)
 
 ---
 

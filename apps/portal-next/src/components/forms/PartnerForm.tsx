@@ -17,7 +17,7 @@ const OCCUPATIONS = [
   'Other',
 ];
 
-export default function PartnerForm() {
+export default function PartnerForm({ dict }: { dict: any }) {
   const [location, setLocation] = useState({ state: "", city: "" });
 
   return (
@@ -28,18 +28,18 @@ export default function PartnerForm() {
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">Full Name *</label>
-          <input name="name" required placeholder="Your full name" className="form-input" />
+          <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.name} *</label>
+          <input name="name" required placeholder={dict.placeholder.name} className="form-input" />
         </div>
         <div>
-          <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">Phone *</label>
-          <input name="phone" required placeholder="10-digit mobile" className="form-input" />
+          <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.phone} *</label>
+          <input name="phone" required placeholder={dict.placeholder.phone} className="form-input" />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">Email *</label>
-        <input name="email" type="email" required placeholder="you@company.com" className="form-input" />
+        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.email} *</label>
+        <input name="email" type="email" required placeholder={dict.placeholder.email} className="form-input" />
       </div>
 
       {/* Intelligent Location Selector */}
@@ -53,9 +53,9 @@ export default function PartnerForm() {
       <input type="hidden" name="city" value={location.city} />
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">Current Occupation *</label>
+        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.occupation} *</label>
         <select name="occupation" required className="form-input">
-          <option value="">Select occupation</option>
+          <option value="">{dict.select}</option>
           {OCCUPATIONS.map(o => (
             <option key={o} value={o} className="bg-zinc-900">{o}</option>
           ))}
@@ -63,11 +63,11 @@ export default function PartnerForm() {
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">Why do you want to partner with AITDL?</label>
+        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.why}</label>
         <textarea
           name="message"
           rows={4}
-          placeholder="Tell us about your existing business, your market, and what you hope to achieve..."
+          placeholder={dict.placeholder.why}
           className="form-input resize-none"
         />
       </div>
@@ -76,7 +76,7 @@ export default function PartnerForm() {
         type="submit"
         className="btn-premium btn-premium-emerald w-full"
       >
-        Submit Application <span className="ml-2">→</span>
+        {dict.submit} <span className="ml-2">→</span>
       </button>
 
       <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-mono">

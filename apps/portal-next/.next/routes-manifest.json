@@ -34,29 +34,233 @@
       "namedRegex": "^/api/(?<nxtPproxy>.+?)(?:/)?$"
     },
     {
-      "page": "/blog/[slug]",
-      "regex": "^/blog/([^/]+?)(?:/)?$",
+      "page": "/[locale]",
+      "regex": "^/([^/]+?)(?:/)?$",
       "routeKeys": {
-        "nxtPslug": "nxtPslug"
+        "nxtPlocale": "nxtPlocale"
       },
-      "namedRegex": "^/blog/(?<nxtPslug>[^/]+?)(?:/)?$"
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)(?:/)?$"
     },
     {
-      "page": "/pages/[slug]",
-      "regex": "^/pages/([^/]+?)(?:/)?$",
+      "page": "/[locale]/admin",
+      "regex": "^/([^/]+?)/admin(?:/)?$",
       "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/admin(?:/)?$"
+    },
+    {
+      "page": "/[locale]/admin/dashboard",
+      "regex": "^/([^/]+?)/admin/dashboard(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/admin/dashboard(?:/)?$"
+    },
+    {
+      "page": "/[locale]/admin/leads",
+      "regex": "^/([^/]+?)/admin/leads(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/admin/leads(?:/)?$"
+    },
+    {
+      "page": "/[locale]/admin/partners",
+      "regex": "^/([^/]+?)/admin/partners(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/admin/partners(?:/)?$"
+    },
+    {
+      "page": "/[locale]/blog",
+      "regex": "^/([^/]+?)/blog(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/blog(?:/)?$"
+    },
+    {
+      "page": "/[locale]/blog/[slug]",
+      "regex": "^/([^/]+?)/blog/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale",
         "nxtPslug": "nxtPslug"
       },
-      "namedRegex": "^/pages/(?<nxtPslug>[^/]+?)(?:/)?$"
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/blog/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[locale]/cms",
+      "regex": "^/([^/]+?)/cms(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/cms(?:/)?$"
+    },
+    {
+      "page": "/[locale]/cms/ai",
+      "regex": "^/([^/]+?)/cms/ai(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/cms/ai(?:/)?$"
+    },
+    {
+      "page": "/[locale]/cms/blog",
+      "regex": "^/([^/]+?)/cms/blog(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/cms/blog(?:/)?$"
+    },
+    {
+      "page": "/[locale]/cms/forms",
+      "regex": "^/([^/]+?)/cms/forms(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/cms/forms(?:/)?$"
+    },
+    {
+      "page": "/[locale]/cms/media",
+      "regex": "^/([^/]+?)/cms/media(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/cms/media(?:/)?$"
+    },
+    {
+      "page": "/[locale]/cms/pages",
+      "regex": "^/([^/]+?)/cms/pages(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/cms/pages(?:/)?$"
+    },
+    {
+      "page": "/[locale]/contact",
+      "regex": "^/([^/]+?)/contact(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/contact(?:/)?$"
+    },
+    {
+      "page": "/[locale]/dailyboard",
+      "regex": "^/([^/]+?)/dailyboard(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/dailyboard(?:/)?$"
+    },
+    {
+      "page": "/[locale]/ecom",
+      "regex": "^/([^/]+?)/ecom(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/ecom(?:/)?$"
+    },
+    {
+      "page": "/[locale]/education",
+      "regex": "^/([^/]+?)/education(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/education(?:/)?$"
+    },
+    {
+      "page": "/[locale]/erp",
+      "regex": "^/([^/]+?)/erp(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/erp(?:/)?$"
+    },
+    {
+      "page": "/[locale]/explore",
+      "regex": "^/([^/]+?)/explore(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/explore(?:/)?$"
+    },
+    {
+      "page": "/[locale]/home",
+      "regex": "^/([^/]+?)/home(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/home(?:/)?$"
+    },
+    {
+      "page": "/[locale]/ngo",
+      "regex": "^/([^/]+?)/ngo(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/ngo(?:/)?$"
+    },
+    {
+      "page": "/[locale]/pages/[slug]",
+      "regex": "^/([^/]+?)/pages/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale",
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/pages/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[locale]/partner",
+      "regex": "^/([^/]+?)/partner(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/partner(?:/)?$"
+    },
+    {
+      "page": "/[locale]/retail",
+      "regex": "^/([^/]+?)/retail(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/retail(?:/)?$"
+    },
+    {
+      "page": "/[locale]/student",
+      "regex": "^/([^/]+?)/student(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/student(?:/)?$"
+    },
+    {
+      "page": "/[locale]/student/tools/autocorrect",
+      "regex": "^/([^/]+?)/student/tools/autocorrect(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/student/tools/autocorrect(?:/)?$"
+    },
+    {
+      "page": "/[locale]/student/tools/ganitsutram",
+      "regex": "^/([^/]+?)/student/tools/ganitsutram(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/student/tools/ganitsutram(?:/)?$"
+    },
+    {
+      "page": "/[locale]/teacher",
+      "regex": "^/([^/]+?)/teacher(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/teacher(?:/)?$"
     }
   ],
   "staticRoutes": [
-    {
-      "page": "/",
-      "regex": "^/(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/(?:/)?$"
-    },
     {
       "page": "/_not-found",
       "regex": "^/_not\\-found(?:/)?$",
@@ -64,124 +268,16 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
-      "page": "/admin",
-      "regex": "^/admin(?:/)?$",
+      "page": "/robots.txt",
+      "regex": "^/robots\\.txt(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/admin(?:/)?$"
+      "namedRegex": "^/robots\\.txt(?:/)?$"
     },
     {
-      "page": "/admin/dashboard",
-      "regex": "^/admin/dashboard(?:/)?$",
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/admin/dashboard(?:/)?$"
-    },
-    {
-      "page": "/admin/leads",
-      "regex": "^/admin/leads(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/admin/leads(?:/)?$"
-    },
-    {
-      "page": "/admin/partners",
-      "regex": "^/admin/partners(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/admin/partners(?:/)?$"
-    },
-    {
-      "page": "/autocorrect",
-      "regex": "^/autocorrect(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/autocorrect(?:/)?$"
-    },
-    {
-      "page": "/blog",
-      "regex": "^/blog(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/blog(?:/)?$"
-    },
-    {
-      "page": "/cms",
-      "regex": "^/cms(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/cms(?:/)?$"
-    },
-    {
-      "page": "/cms/ai",
-      "regex": "^/cms/ai(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/cms/ai(?:/)?$"
-    },
-    {
-      "page": "/cms/blog",
-      "regex": "^/cms/blog(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/cms/blog(?:/)?$"
-    },
-    {
-      "page": "/cms/forms",
-      "regex": "^/cms/forms(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/cms/forms(?:/)?$"
-    },
-    {
-      "page": "/cms/media",
-      "regex": "^/cms/media(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/cms/media(?:/)?$"
-    },
-    {
-      "page": "/cms/pages",
-      "regex": "^/cms/pages(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/cms/pages(?:/)?$"
-    },
-    {
-      "page": "/contact",
-      "regex": "^/contact(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/contact(?:/)?$"
-    },
-    {
-      "page": "/dailyboard",
-      "regex": "^/dailyboard(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/dailyboard(?:/)?$"
-    },
-    {
-      "page": "/erp",
-      "regex": "^/erp(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/erp(?:/)?$"
-    },
-    {
-      "page": "/explore",
-      "regex": "^/explore(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/explore(?:/)?$"
-    },
-    {
-      "page": "/ganitsutram",
-      "regex": "^/ganitsutram(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/ganitsutram(?:/)?$"
-    },
-    {
-      "page": "/partner",
-      "regex": "^/partner(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/partner(?:/)?$"
-    },
-    {
-      "page": "/retail",
-      "regex": "^/retail(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/retail(?:/)?$"
-    },
-    {
-      "page": "/school",
-      "regex": "^/school(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/school(?:/)?$"
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
     }
   ],
   "dataRoutes": [],
