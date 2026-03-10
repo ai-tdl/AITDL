@@ -59,6 +59,13 @@ async def health():
     """Platform health check."""
     return {"status": "ok", "version": "3.1.0", "org": "AITDL"}
 
+@app.get("/api/migrate-now")
+async def migrate_now():
+    """TEMPORARY: Run database migrations on Railway."""
+    from db.migrate import run_migrations
+    result = await run_migrations()
+    return result
+
 @app.get("/platform/health")
 async def platform_health():
     """Official Operational Health Endpoint."""

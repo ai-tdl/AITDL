@@ -94,6 +94,7 @@ python -m pytest
 - **Seed Database**: `python scripts/seed.py`
 - **Run Migrations**: `python scripts/migrate.py`
 - **Export Architecture**: `python scripts/export_skeleton.py`
+- **Apply AITDL Signature to MD Files**: `python scripts/add_md_header.py`
 
 ---
 
