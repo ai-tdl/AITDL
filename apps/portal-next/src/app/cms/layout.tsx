@@ -20,23 +20,29 @@ const CMS_ALLOWED_ROLES = new Set([
  *           Redirects to /admin if unauthenticated or insufficient role.
  */
 export default async function CMSLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createSupabaseServerClient()
+  let user = null
+  let role = ''
+  let workspaceId = 'aitdl'
 
-  // getUser() validates the JWT server-side — safe against cookie tampering
-  const { data: { user }, error } = await supabase.auth.getUser()
+  try {
+    const supabase = await createSupabaseServerClient()
+    const { data, error } = await supabase.auth.getUser()
 
-  if (error || !user) {
+    if (error || !data?.user) {
+      redirect('/admin')
+    }
+
+    user = data.user
+    role = user.app_metadata?.role ?? user.user_metadata?.role ?? ''
+    workspaceId = user.app_metadata?.workspace_id ?? 'aitdl'
+
+    if (!CMS_ALLOWED_ROLES.has(role)) {
+      redirect('/admin')
+    }
+  } catch (err) {
+    console.error('CMS Auth Error:', err)
     redirect('/admin')
   }
-
-  // Extract role from Supabase app_metadata (mirrors backend security.py)
-  const role: string = user.app_metadata?.role ?? user.user_metadata?.role ?? ''
-
-  if (!CMS_ALLOWED_ROLES.has(role)) {
-    redirect('/admin')
-  }
-
-  const workspaceId: string = user.app_metadata?.workspace_id ?? 'aitdl'
 
   return (
     <div className="min-h-screen bg-zinc-950 flex">
@@ -51,11 +57,11 @@ export default async function CMSLayout({ children }: { children: React.ReactNod
         <div className="flex-1 px-3 py-4 space-y-1">
           <p className="text-xs text-zinc-600 uppercase tracking-widest px-2 mb-3">Content</p>
           {[
-            { href: '/cms',       label: 'Dashboard',  icon: '⬡' },
-            { href: '/cms/pages', label: 'Pages',      icon: '📄' },
-            { href: '/cms/blog',  label: 'Blog',       icon: '✍️'  },
-            { href: '/cms/media', label: 'Media',      icon: '🖼️'  },
-            { href: '/cms/forms', label: 'Forms',      icon: '📋' },
+            { href: '/cms', label: 'Dashboard', icon: '⬡' },
+            { href: '/cms/pages', label: 'Pages', icon: '📄' },
+            { href: '/cms/blog', label: 'Blog', icon: '✍️' },
+            { href: '/cms/media', label: 'Media', icon: '🖼️' },
+            { href: '/cms/forms', label: 'Forms', icon: '📋' },
           ].map(item => (
             <a
               key={item.href}
