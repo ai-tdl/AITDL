@@ -20,43 +20,47 @@ export default function HomePage() {
       </div>
 
       {/* The 4-Door Primary Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-[1400px] relative z-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 w-full max-w-[1600px] relative z-20 border-t border-white/5">
 
         <Door
-          num="01"
-          title="Universe"
-          desc="The All-In-One Dashboard. Explore every tool and solution AITDL provides."
+          subtext="WHOLE UNIVERSE"
+          title="EXPLORE EVERYTHING"
+          desc="Browse all our solutions freely — no filter, no restrictions. Retail, ERP, education, AI tools — the full picture, all at once."
           href="/explore"
-          icon="✦"
-          theme="gold"
-        />
-
-        <Door
-          num="02"
-          title="Start Here"
-          desc="Enter your personalized world. Pick your role to see only what matters."
-          href="#"
-          icon="◈"
-          theme="purple"
-          isPickerTrigger
-        />
-
-        <Door
-          num="03"
-          title="Partner"
-          desc="Join the ecosystem. Become an implementation partner or reseller."
-          href="/partner"
-          icon="◈"
-          theme="green"
-        />
-
-        <Door
-          num="04"
-          title="Maths Lab"
-          desc="GanitSūtram. AI-powered mathematical intelligence and learning."
-          href="/ganitsutram"
-          icon="✧"
           theme="blue"
+          linkText="OVERVIEW DASHBOARD"
+          emoji="🌌"
+        />
+
+        <Door
+          subtext="SPECIFIC DESTINATION"
+          title="GO TO MY WORLD"
+          desc="You know what you need. Pick your role — retailer, business, school, teacher, student, or parent. Only what's relevant to you."
+          href="#"
+          theme="purple"
+          linkText="CHOOSE MY ROLE"
+          isPickerTrigger
+          emoji="🎯"
+        />
+
+        <Door
+          subtext="BECOME A PARTNER"
+          title="GROW WITH AITDL"
+          desc="You have the network. We have 18 years of proven products. Resell our entire portfolio in your city — and build your own technology business."
+          href="/partner"
+          theme="green"
+          linkText="PARTNER PROGRAMME"
+          emoji="🤝"
+        />
+
+        <Door
+          subtext="LEARN · EARN · FUN"
+          title="GROW ON YOUR TERMS."
+          desc="Online courses. Referral income. Gamified challenges. Daily rewards. Built for working professionals who want to grow without slowing down."
+          href="/explore"
+          theme="burgundy"
+          linkText="EXPLORE PLATFORM"
+          emoji="🎯"
         />
 
       </div>
@@ -69,58 +73,68 @@ export default function HomePage() {
 }
 
 function Door({
-  num, title, desc, href, icon, theme, isPickerTrigger
+  subtext, title, desc, href, theme, isPickerTrigger, linkText, emoji
 }: {
-  num: string, title: string, desc: string, href: string, icon: string, theme: 'gold' | 'purple' | 'green' | 'blue', isPickerTrigger?: boolean
+  subtext: string, title: string, desc: string, href: string, theme: 'blue' | 'purple' | 'green' | 'burgundy', isPickerTrigger?: boolean, linkText: string, emoji: string
 }) {
-  const themeClasses: Record<'gold' | 'purple' | 'green' | 'blue', string> = {
-    gold: 'border-[#c9a84c]/20 hover:border-[#c9a84c]/60 group-hover:text-[#c9a84c]',
-    purple: 'border-[#a259ff]/20 hover:border-[#a259ff]/60 group-hover:text-[#a259ff]',
-    green: 'border-[#39e07a]/20 hover:border-[#39e07a]/60 group-hover:text-[#39e07a]',
-    blue: 'border-[#1a8fff]/20 hover:border-[#1a8fff]/60 group-hover:text-[#1a8fff]'
+  const themeClasses: Record<'blue' | 'purple' | 'green' | 'burgundy', string> = {
+    blue: 'hover:bg-[#0a111a] border-r border-white/5',
+    purple: 'hover:bg-[#0f0e1a] border-r border-white/5',
+    green: 'hover:bg-[#0a1a0f] border-r border-white/5',
+    burgundy: 'hover:bg-[#1a0a0d]'
+  };
+
+  const accentClasses: Record<'blue' | 'purple' | 'green' | 'burgundy', string> = {
+    blue: 'text-blue-400',
+    purple: 'text-pink-400',
+    green: 'text-yellow-400',
+    burgundy: 'text-pink-400'
   };
 
   const currentThemeClass = themeClasses[theme];
+  const accentClass = accentClasses[theme];
 
   return (
     <a
       href={href}
       className={`
-        relative group block p-8 h-[400px] glass transition-all duration-700 
-        hover:translate-y-[-8px] flex flex-col justify-between overflow-hidden
+        relative group block p-12 h-[550px] transition-all duration-500 
+        flex flex-col justify-between overflow-hidden
         ${currentThemeClass}
       `}
       onClick={(e) => {
         if (isPickerTrigger) {
           e.preventDefault();
-          // window.openPicker() will be implemented via client component pattern
           (window as any).dispatchRolePicker?.();
         }
       }}
     >
       <div className="relative z-10">
-        <div className="flex justify-between items-start mb-4">
-          <span className="font-mono text-[10px] tracking-[0.3em] text-[#6a6860]">{num}</span>
-          <span className="text-xl opacity-20 group-hover:opacity-100 transition-opacity duration-500">{icon}</span>
+        <div className="mb-8">
+           <div className="text-4xl mb-6 grayscale group-hover:grayscale-0 transition-all duration-500">{emoji}</div>
+           <div className="flex items-center gap-2 mb-2">
+             <div className="w-4 h-[1px] bg-[#6a6860]" />
+             <span className="font-mono text-[10px] tracking-[0.2em] text-[#6a6860] uppercase">{subtext}</span>
+           </div>
+           <h2 className="font-heading text-5xl leading-[1.1] tracking-tight text-white mb-8 group-hover:text-white transition-colors">
+            {title}
+          </h2>
+          <p className="text-[13px] leading-relaxed text-[#6a6860] group-hover:text-[#999] transition-colors duration-500 max-w-[280px]">
+            {desc}
+          </p>
         </div>
-        <h2 className="font-heading text-4xl tracking-[0.05em] text-white group-hover:translate-x-2 transition-transform duration-500">
-          {title}
-        </h2>
-        <p className="mt-4 text-xs leading-relaxed text-[#6a6860] group-hover:text-[#e8e4da] transition-colors duration-500 max-w-[200px]">
-          {desc}
-        </p>
       </div>
 
-      <div className="relative z-10 flex justify-end">
-        <span className="font-mono text-[10px] tracking-[0.2em] text-[#6a6860] group-hover:text-white transition-colors duration-500">
-          ENTER →
+      <div className="relative z-10">
+        <span className={`font-mono text-[11px] tracking-[0.15em] font-bold ${accentClass} uppercase flex items-center gap-2`}>
+          {linkText} <span className="text-lg">→</span>
         </span>
       </div>
 
-      {/* Decorative Gradient Shine */}
+      {/* Hover Background Accent */}
       <div className={`
-        absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000
-        bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none
+        absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700
+        bg-gradient-to-t from-black to-transparent
       `} />
     </a>
   );
