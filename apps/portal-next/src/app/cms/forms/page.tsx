@@ -28,7 +28,7 @@ export default function CMSFormsPage() {
           <h1 className="font-display text-4xl font-bold text-white mb-2 tracking-tight">Form Studio</h1>
           <p className="text-zinc-500 text-sm font-medium">Capture and route portal inquiries</p>
         </div>
-        <button className="px-6 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-[10px] font-bold transition-all shadow-lg shadow-violet-600/20 uppercase tracking-widest">
+        <button className="btn-premium btn-premium-violet py-2.5 px-6 text-[10px]">
           + Create Form
         </button>
       </header>
@@ -42,7 +42,7 @@ export default function CMSFormsPage() {
            <p className="text-zinc-500 text-sm max-w-xs mx-auto mb-8 font-medium">
              Build custom forms for different products and lead capture scenarios.
            </p>
-           <button className="text-violet-400 text-xs font-bold uppercase tracking-widest hover:text-violet-300">
+           <button className="text-violet-400 text-[10px] font-bold uppercase tracking-widest hover:text-violet-300">
              Explore Templates →
            </button>
         </div>

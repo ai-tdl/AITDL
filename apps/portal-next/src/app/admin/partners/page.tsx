@@ -41,7 +41,7 @@ export default function PartnersPage() {
             <h1 className="font-display text-4xl font-bold text-white mb-2">Partner Applications</h1>
             <p className="text-zinc-500 text-sm">Ecosystem expansion requests</p>
           </div>
-          <button className="px-5 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs font-bold hover:bg-white/10 transition-colors uppercase tracking-widest">
+          <button className="btn-premium py-2 px-6 glass text-[10px]">
             Export CSV
           </button>
         </header>

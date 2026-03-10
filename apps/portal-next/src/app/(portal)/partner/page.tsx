@@ -3,6 +3,7 @@
 // SSR · Partner Landing · SEO indexed · Form → POST /api/partner
 
 import type { Metadata } from 'next'
+import RevealOnScroll from '@/components/visual/RevealOnScroll'
 
 export const metadata: Metadata = {
   title: 'Partner with AITDL — Reseller & Implementation Network',
@@ -57,6 +58,8 @@ export default function PartnerPage() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-emerald-600/6 blur-[100px] rounded-full" />
         </div>
+
+        <RevealOnScroll />
 
         <div className="relative max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium mb-8">
@@ -134,21 +137,14 @@ export default function PartnerPage() {
       {/* ── Apply Form ────────────────────────────────────────── */}
       <section id="apply" className="px-6 py-24">
         <div className="max-w-2xl mx-auto rv">
-          <h2 className="font-display text-3xl font-bold text-white text-center mb-3">
-            Apply to Partner
-          </h2>
           <p className="text-zinc-500 text-center text-sm mb-12">
             We review every application within 2 business days.
           </p>
 
-          {/*
-            Form posts to POST /api/partner via Next.js rewrite proxy → FastAPI
-            FastAPI stores in partner_applications table + triggers WhatsApp notification
-          */}
           <form
             action="/api/partner"
             method="POST"
-            className="space-y-4"
+            className="space-y-6"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -191,12 +187,12 @@ export default function PartnerPage() {
             </div>
             <button
               type="submit"
-              className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-colors"
+              className="btn-premium btn-premium-emerald w-full"
             >
-              Submit Application →
+              Submit Application <span>→</span>
             </button>
-            <p className="text-xs text-zinc-600 text-center">
-              Partners: partners@aitdl.com &nbsp;·&nbsp; "See it. Love it. Then pay for it."
+            <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-mono">
+              "See it. Love it. Then pay for it."
             </p>
           </form>
         </div>

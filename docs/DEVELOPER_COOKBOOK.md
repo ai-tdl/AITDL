@@ -41,6 +41,7 @@
 19. [**Performance & Edge Orchestration**](#-chapter-19-performance--edge-orchestration)
 20. [**Testing the Universe**](#-chapter-20-testing-the-universe)
 21. [**Graceful Resilience (404 Strategy)**](#-chapter-21-graceful-resilience-404-strategy)
+22. [**Topnotch Form Standards**](#-chapter-22-topnotch-form-standards)
 
 ---
 
@@ -364,6 +365,25 @@ export default function NotFound() {
   );
 }
 ```
+
+---
+
+## 💎 Chapter 22: Topnotch Form Standards
+
+### The Design Philosophy
+Forms are the primary point of interaction between the user and the Universe. They must feel as premium as the Gate itself. We use **Glassmorphism** and **Cinematic Focus States** to achieve this.
+
+### CSS Components
+Defined in `globals.css`, these classes should be used for all new form implementations:
+
+- **`.form-input`**: A glassmorphic base with `backdrop-blur-md` and a soft border.
+- **`.btn-premium`**: The base button logic with tracking and transitions.
+- **`.btn-premium-violet` / `.btn-premium-emerald`**: Colored variants with matching shadow glows.
+
+### Implementation Checklist
+1.  **Reveal**: Wrap form sections in `.rv` classes and include `RevealOnScroll`.
+2.  **Focus**: Ensure `focus:` states are high-contrast (e.g., violet-500).
+3.  **Validation**: Use a font-mono sub-text for validation messages to match the industrial aesthetic.
 
 ---
 *Last Refined: 11 March MMXXVI*

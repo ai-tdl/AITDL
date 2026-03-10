@@ -123,7 +123,7 @@ export default function AdminPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="admin@aitdl.com"
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500/50 transition-colors"
+              className="form-input"
             />
           </div>
 
@@ -135,7 +135,7 @@ export default function AdminPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="••••••••"
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500/50 transition-colors"
+              className="form-input"
             />
           </div>
 
@@ -146,7 +146,7 @@ export default function AdminPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-bold transition-all shadow-lg shadow-violet-600/10"
+            className="btn-premium btn-premium-violet w-full"
           >
             {isSubmitting ? 'Verifying...' : 'Authorize Login →'}
           </button>

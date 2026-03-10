@@ -3,6 +3,7 @@
 // SSR · Contact Page · SEO indexed · Form → POST /api/contact
 
 import type { Metadata } from 'next'
+import RevealOnScroll from '@/components/visual/RevealOnScroll'
 
 export const metadata: Metadata = {
   title: 'Contact AITDL',
@@ -29,17 +30,19 @@ export default function ContactPage() {
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="font-display text-5xl font-extrabold text-white mb-4">Get in Touch</h1>
-          <p className="text-zinc-400 max-w-lg mx-auto">
+        <div className="text-center mb-16 rv">
+          <h1 className="font-display text-5xl md:text-7xl font-extrabold text-white mb-6 uppercase tracking-tight">Get in Touch</h1>
+          <p className="text-zinc-500 max-w-lg mx-auto font-medium">
             Questions about products, pricing, or partnerships — we reply within 1 business day.
           </p>
         </div>
 
+        <RevealOnScroll />
+
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
 
           {/* ── Contact Info ───────────────────────────────── */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-12 rv">
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-widest mb-4">Direct Contact</p>
               <ul className="space-y-4">
@@ -86,11 +89,11 @@ export default function ContactPage() {
           </div>
 
           {/* ── Contact Form ────────────────────────────────── */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 rv">
             <form
               action="/api/contact"
               method="POST"
-              className="space-y-4"
+              className="space-y-6"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -134,12 +137,12 @@ export default function ContactPage() {
               </div>
               <button
                 type="submit"
-                className="w-full py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition-colors"
+                className="btn-premium btn-premium-violet w-full"
               >
-                Send Message →
+                Send Message <span>→</span>
               </button>
-              <p className="text-xs text-zinc-600 text-center">
-                We reply within 1 business day · All enquiries welcome
+              <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-mono">
+                "See it. Love it. Then pay for it."
               </p>
             </form>
           </div>
