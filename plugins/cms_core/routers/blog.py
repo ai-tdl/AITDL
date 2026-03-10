@@ -41,7 +41,7 @@ _plugin_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."
 if _plugin_dir not in sys.path:
     sys.path.insert(0, _plugin_dir)
 
-from cms_core.middleware import require_cms_user, get_current_workspace
+from cms_core.middleware import require_cms_user, require_cms_user_optional, get_current_workspace
 from cms_core.models.cms_tables import BlogPost, Workspace, ContentVersion, CMSAuditLog
 
 log = logging.getLogger(__name__)
@@ -99,11 +99,15 @@ async def _audit(db, workspace_id, actor, action, rid, diff=None):
 async def list_posts(
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
-    _: dict = Depends(require_cms_user),
+    payload: Optional[dict] = Depends(require_cms_user_optional),
     status_filter: Optional[str] = None,
     tag: Optional[str] = None,
 ):
     """List blog posts. Filter by status (draft|review|published) or tag."""
+    # Safety Check: Public users can ONLY see 'published'
+    if not payload:
+        status_filter = "published"
+
     q = select(BlogPost).where(BlogPost.workspace_id == workspace.id)
     if status_filter:
         q = q.where(BlogPost.status == status_filter)
@@ -147,10 +151,16 @@ async def get_post(
     post_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
-    _: dict = Depends(require_cms_user),
+    payload: Optional[dict] = Depends(require_cms_user_optional),
 ):
     """Get a single blog post by ID."""
-    return await _get_post_or_404(post_id, workspace.id, db)
+    post = await _get_post_or_404(post_id, workspace.id, db)
+
+    # Safety: Public users cannot see non-published posts
+    if not payload and post.status != "published":
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    return post
 
 
 @router.patch("/blog/{post_id}", response_model=BlogOut)

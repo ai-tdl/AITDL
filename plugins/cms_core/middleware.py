@@ -50,6 +50,7 @@ import sys
 import os
 import uuid
 import logging
+from typing import Optional
 
 log = logging.getLogger(__name__)
 
@@ -74,6 +75,7 @@ if _plugin_dir not in sys.path:
 from cms_core.models.cms_tables import Workspace  # noqa: E402
 
 _bearer = HTTPBearer()
+_bearer_optional = HTTPBearer(auto_error=False)
 
 # Roles that are allowed to manage CMS content at any level
 _CMS_ALLOWED_ROLES = {"superadmin", "admin", "workspace_admin", "workspace_editor"}
@@ -99,6 +101,20 @@ def require_cms_user(
     return payload
 
 
+def require_cms_user_optional(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(_bearer_optional),
+) -> Optional[dict]:
+    """
+    Optional JWT validation. Returns None if no token provided.
+    """
+    if not credentials:
+        return None
+    try:
+        return decode_jwt(credentials.credentials)
+    except:
+        return None
+
+
 def require_workspace_admin(
     payload: dict = Depends(require_cms_user),
 ) -> dict:
@@ -121,19 +137,18 @@ def require_workspace_admin(
 
 
 def get_workspace_id(
-    payload: dict = Depends(require_cms_user),
+    payload: Optional[dict] = Depends(require_cms_user_optional),
 ) -> str:
     """
-    Extract workspace_id from the JWT payload.
-
-    Phase 1: AITDL superadmins/admins receive workspace_id='aitdl' hardcoded at login.
-    Phase 2: Each client logs in and gets their own workspace_id in the JWT.
+    Extract workspace_id from the JWT payload OR use a default for public access.
 
     Returns:
-        workspace_id string (the workspace slug or UUID)
-    Raises:
-        403 if workspace_id is not set in the token
+        workspace_id string
     """
+    if not payload:
+        # Public request: default to 'aitdl-internal' for now (where our bhasha content is)
+        return "aitdl-internal"
+
     workspace_id = payload.get("workspace_id")
     if not workspace_id:
         # Phase 1 fallback: superadmins/admins use the internal workspace
@@ -142,7 +157,7 @@ def get_workspace_id(
             return "aitdl"
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="No workspace_id in token. Contact your administrator."
+            detail="No workspace_id in token and not an admin."
         )
     return workspace_id
 
