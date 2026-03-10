@@ -1,8 +1,6 @@
-// || ॐ श्री गणेशाय नमः ||
-// Organization: AITDL · Creator: Jawahar R. Mallah
-// Leads Management Page — Client Component
-
 'use client'
+
+export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'

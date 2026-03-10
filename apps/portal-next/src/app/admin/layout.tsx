@@ -1,8 +1,6 @@
-// || ॐ श्री गणेशाय नमः ||
-// Organization: AITDL · Creator: Jawahar R. Mallah
-// Admin Layout — Auth Guard
-
 'use client'
+
+export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'

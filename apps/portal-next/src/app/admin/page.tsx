@@ -1,8 +1,6 @@
-// || ॐ श्री गणेशाय नमः ||
-// Organization: AITDL · Creator: Jawahar R. Mallah
-// Admin Login / Dashboard Controller — Client Component
-
 'use client'
+
+export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
