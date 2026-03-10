@@ -1,3 +1,24 @@
+<!--
+॥ ॐ श्री गणेशाय नमः ॥
+॥ ॐ श्री सरस्वत्यै नमः ॥
+॥ ॐ नमो नारायणाय ॥
+॥ ॐ नमः शिवाय ॥
+॥ ॐ दुर्गायै नमः ॥
+
+Creator: Jawahar R. Mallah
+Organization: AITDL — AI Technology Development Lab
+Web: https://aitdl.com
+
+Historical Reference:
+628 CE · Brahmasphuṭasiddhānta
+
+Current Build:
+8 March MMXXVI
+Vikram Samvat 2082
+
+Platform: AITDL Platform V3
+Fingerprint: AITDL-PLATFORM-V3
+-->
 # AITDL Platform V3.1 — Portal Deployment Verification Report
 
 This report confirms the successful execution of the **Portal Deployment Synchronization** and **Unified Master Verification** for the AITDL Platform V3.1.
