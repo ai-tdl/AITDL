@@ -1,10 +1,10 @@
-# || ॐ श्री गणेशाय नमः ||
-#
-# Organization : AITDL — AI Technology Development Lab
-# Creator      : Jawahar R. Mallah
-# Web          : https://aitdl.com
-# Build        : AITDL Platform V3 · Vikram Samvat 2082
-# Copyright    : © aitdl.com · AITDL | GANITSUTRAM.com
+// || ॐ श्री गणेशाय नमः ||
+//
+// Organization : AITDL — AI Technology Development Lab
+// Creator      : Jawahar R. Mallah
+// Web          : https://aitdl.com
+// Build        : AITDL Platform V3 · Vikram Samvat 2082
+// Copyright    : © aitdl.com · AITDL | GANITSUTRAM.com
 
 // SSR · Individual Blog Post · SEO indexed with generateMetadata
 // Fetches from GET /api/v1/cms/blog?slug={slug}&status=published

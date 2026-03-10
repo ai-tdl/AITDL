@@ -1,14 +1,103 @@
+/* || ॐ श्री गणेशाय नमः || · AITDL Portal · globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Brand Fonts ──────────────────────────────────────────────── */
 :root {
-  --background: #0a0a0f;
-  --foreground: #f0f0ff;
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, sans-serif;
+/* ── Brand Color Tokens ───────────────────────────────────────── */
+:root {
+  --brand-bg:       #09090b;   /* zinc-950 */
+  --brand-surface:  #18181b;   /* zinc-900 */
+  --brand-border:   rgba(255,255,255,0.06);
+  --brand-accent:   #7c3aed;   /* violet-700 */
+  --brand-accent-2: #0ea5e9;   /* sky-500 — GanitSūtram blue */
+  --brand-muted:    #71717a;   /* zinc-500 */
 }
+
+/* ── Base Resets ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--brand-bg);
+  color: #fafafa;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Font utilities ───────────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-sans    { font-family: var(--font-body); }
+
+/* ── Scrollbar styling ────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--brand-bg); }
+::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+/* ── Selection ────────────────────────────────────────────────── */
+::selection { background: rgba(124,58,237,0.35); color: #fff; }
+
+/* ── Focus rings ──────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; border-radius: 4px; }
+
+/* ── Prose overrides for dark mode ───────────────────────────── */
+.prose-invert {
+  --tw-prose-body:        #a1a1aa;
+  --tw-prose-headings:    #fafafa;
+  --tw-prose-links:       #a78bfa;
+  --tw-prose-code:        #e879f9;
+  --tw-prose-pre-bg:      #18181b;
+  --tw-prose-hr:          rgba(255,255,255,0.08);
+  --tw-prose-quotes:      #a1a1aa;
+  --tw-prose-quote-borders: var(--brand-accent);
+}
+
+/* ── Utility: gradient text ───────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, #a78bfa, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Utility: glass card ──────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+}
+
+/* ── Page transitions ─────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp 0.5s ease both; }
+
+/* ── Contact form inputs ──────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #fafafa;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-input:focus {
+  border-color: rgba(124,58,237,0.6);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+}
+.form-input::placeholder { color: #52525b; }

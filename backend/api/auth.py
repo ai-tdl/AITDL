@@ -36,43 +36,60 @@ class MeResponse(BaseModel):
     workspace_id: Optional[str]
     exp: int
 
-# ── Endpoints ──────────────────────────────────────────────────────────────────
+# ── Helpers ────────────────────────────────────────────────────────────────────
 
-@router.post("/login", response_model=LoginResponse)
-async def login(body: LoginRequest):
-    async with httpx.AsyncClient() as client:
-        r = await client.post(
-            f"{settings.SUPABASE_URL}/auth/v1/token?grant_type=password",
-            headers={"apikey": settings.SUPABASE_ANON_KEY},
-            json={"email": body.email, "password": body.password}
-        )
-    if r.status_code != 200:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    
-    data = r.json()
-    access_token = data["access_token"]
-    
-    # Decode token to extract role and workspace_id
+def extract_token_claims(access_token: str) -> dict:
+    """
+    Extracts and normalizes role and workspace_id from Supabase JWT.
+    """
     payload = decode_jwt(access_token)
-    
-    # Extract role from app_metadata or standard claim
     app_metadata = payload.get("app_metadata", {})
-    role = app_metadata.get("role") or payload.get("role", "user")
     
-    # Extract workspace_id (Phase 1 fallback to 'aitdl' for admins)
+    role = app_metadata.get("role") or payload.get("role", "user")
     workspace_id = app_metadata.get("workspace_id") or payload.get("workspace_id")
+    
+    # Platform Global Admin Fallback
     if not workspace_id and role in ("admin", "superadmin"):
         workspace_id = "aitdl"
     else:
         workspace_id = workspace_id or "default"
+        
+    return {
+        "role": role,
+        "workspace_id": workspace_id,
+        "sub": payload.get("sub"),
+        "exp": payload.get("exp")
+    }
 
-    return LoginResponse(
-        access_token=access_token,
-        refresh_token=data["refresh_token"],
-        role=role,
-        workspace_id=workspace_id,
-        expires_in=data["expires_in"]
-    )
+# ── Endpoints ──────────────────────────────────────────────────────────────────
+
+@router.post("/login", response_model=LoginResponse)
+async def login(body: LoginRequest):
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            r = await client.post(
+                f"{settings.SUPABASE_URL.rstrip('/')}/auth/v1/token?grant_type=password",
+                headers={"apikey": settings.SUPABASE_ANON_KEY},
+                json={"email": body.email, "password": body.password}
+            )
+        
+        if r.status_code != 200:
+            log.warning(f"Login failed for {body.email}: {r.text}")
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        
+        data = r.json()
+        claims = extract_token_claims(data["access_token"])
+
+        return LoginResponse(
+            access_token=data["access_token"],
+            refresh_token=data["refresh_token"],
+            role=claims["role"],
+            workspace_id=claims["workspace_id"],
+            expires_in=data["expires_in"]
+        )
+    except httpx.RequestError as exc:
+        log.error(f"Supabase connection error: {exc}")
+        raise HTTPException(status_code=503, detail="Authentication service unavailable")
 
 @router.post("/logout")
 async def logout(payload: dict = Depends(require_admin)):
@@ -80,35 +97,29 @@ async def logout(payload: dict = Depends(require_admin)):
 
 @router.post("/refresh", response_model=LoginResponse)
 async def refresh(body: RefreshRequest):
-    async with httpx.AsyncClient() as client:
-        r = await client.post(
-            f"{settings.SUPABASE_URL}/auth/v1/token?grant_type=refresh_token",
-            headers={"apikey": settings.SUPABASE_ANON_KEY},
-            json={"refresh_token": body.refresh_token}
-        )
-    if r.status_code != 200:
-        raise HTTPException(status_code=401, detail="Invalid refresh token")
-    
-    data = r.json()
-    access_token = data["access_token"]
-    payload = decode_jwt(access_token)
-    
-    app_metadata = payload.get("app_metadata", {})
-    role = app_metadata.get("role") or payload.get("role", "user")
-    
-    workspace_id = app_metadata.get("workspace_id") or payload.get("workspace_id")
-    if not workspace_id and role in ("admin", "superadmin"):
-        workspace_id = "aitdl"
-    else:
-        workspace_id = workspace_id or "default"
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            r = await client.post(
+                f"{settings.SUPABASE_URL.rstrip('/')}/auth/v1/token?grant_type=refresh_token",
+                headers={"apikey": settings.SUPABASE_ANON_KEY},
+                json={"refresh_token": body.refresh_token}
+            )
+        
+        if r.status_code != 200:
+            raise HTTPException(status_code=401, detail="Invalid refresh token")
+        
+        data = r.json()
+        claims = extract_token_claims(data["access_token"])
 
-    return LoginResponse(
-        access_token=access_token,
-        refresh_token=data["refresh_token"],
-        role=role,
-        workspace_id=workspace_id,
-        expires_in=data["expires_in"]
-    )
+        return LoginResponse(
+            access_token=data["access_token"],
+            refresh_token=data["refresh_token"],
+            role=claims["role"],
+            workspace_id=claims["workspace_id"],
+            expires_in=data["expires_in"]
+        )
+    except httpx.RequestError:
+        raise HTTPException(status_code=503, detail="Authentication service unavailable")
 
 @router.get("/me", response_model=MeResponse)
 async def get_me(payload: dict = Depends(require_admin)):

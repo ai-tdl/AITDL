@@ -1,0 +1,271 @@
+/*
+|| ॐ श्री गणेशाय नमः ||
+
+Organization: AITDL
+AITDL — A Living Knowledge Ecosystem for AI Technology Development Lab
+
+Creator: Jawahar R. Mallah
+Founder, Author & System Architect
+
+Email: jawahar@aitdl.com
+GitHub: https://github.com/jawahar-mallah
+
+Websites:
+https://ganitsutram.com
+https://aitdl.com
+
+Then: 628 CE · Brahmasphuṭasiddhānta
+Now: 8 March MMXXVI · Vikram Samvat 2082
+
+Copyright © aitdl.com · AITDL | GANITSUTRAM.com
+*/
+
+/* ─── Keyframes ──────────────────────────────────────────────────────────── */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-dot {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--pr), .4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 7px rgba(var(--pr), 0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0%;
+  }
+
+  100% {
+    background-position: 200%;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes live-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .5;
+  }
+}
+
+/* ─── Reveal Classes ─────────────────────────────────────────────────────── */
+.rv {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+
+.rv.on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rv2 {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+
+.rv2.on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Gate Brand Entrance ────────────────────────────────────────────────── */
+.gate-brand {
+  opacity: 0;
+  animation: fadeUp .8s ease .2s forwards;
+}
+
+.gate-doors {
+  opacity: 0;
+  animation: fadeUp .7s ease .55s forwards;
+}
+
+/* ─── Logo Shimmer ───────────────────────────────────────────────────────── */
+.gate-brand .logo {
+  animation: shimmer 5s linear 2s infinite;
+  background-size: 200%;
+}
+
+.ov-head .gold {
+  animation: shimmer 5s linear infinite;
+  background-size: 200%;
+}
+
+/* ─── Pulse Dot ──────────────────────────────────────────────────────────── */
+.ov-tag .pd,
+.hero-eyebrow .pd,
+.pulse-dot {
+  animation: pulse-dot 2s infinite;
+}
+
+/* ─── Marquee ────────────────────────────────────────────────────────────── */
+.mq-t {
+  animation: marquee 28s linear infinite;
+}
+
+/* ─── Live Badge ─────────────────────────────────────────────────────────── */
+.badge-live,
+.ptag.live {
+  animation: live-pulse 2s infinite;
+}
+
+/* ─── Door icon wobble on hover ──────────────────────────────────────────── */
+.door:hover .door-icon {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.door:hover .door-line {
+  transform: scaleX(1);
+}
+
+.door:hover .door-cta {
+  gap: .9rem;
+}
+
+.door:hover .door-cta .arr {
+  transform: translateX(4px);
+}
+
+/* ─── Overview card ──────────────────────────────────────────────────────── */
+.ov-card:hover .ov-ico {
+  transform: scale(1.12) rotate(-5deg);
+}
+
+.ov-card:hover .ov-arr {
+  transform: translate(5px, -5px);
+  color: var(--oc, #c9a84c);
+}
+
+/* ─── Picker role hover ──────────────────────────────────────────────────── */
+.pk-role:hover .pk-r-ico {
+  transform: scale(1.1);
+}
+
+/* ─── Products / project list ────────────────────────────────────────────── */
+.pi:hover {
+  background: var(--card);
+  padding-left: 2.5rem;
+}
+
+.pi:hover .pb h3 {
+  color: var(--a);
+}
+
+.pi:hover .pa {
+  transform: translate(4px, -4px);
+  color: var(--a);
+}
+
+/* ─── Selector card hover ────────────────────────────────────────────────── */
+.sel-card:hover .sel-emoji {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.sel-card:hover h3 {
+  color: var(--sel-color, #c9a84c);
+}
+
+.sel-card:hover p {
+  color: #888;
+}
+
+/* ─── Primary button hover ───────────────────────────────────────────────── */
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 55px rgba(var(--pr), .3);
+}
+
+.pk-go.ready:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 50px rgba(201, 168, 76, .35);
+}
+
+/* ─── Nav link underline ─────────────────────────────────────────────────── */
+.nav-links a:hover {
+  color: var(--text);
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-cta:hover {
+  background: var(--a);
+  color: var(--btn-text) !important;
+}
+
+/* ─── Send button fill ───────────────────────────────────────────────────── */
+.bsend:hover::before {
+  transform: translateX(0);
+}
+
+.bsend:hover {
+  color: var(--btn-text);
+}
+
+/* ─── Back button ────────────────────────────────────────────────────────── */
+.back-btn:hover {
+  color: var(--a);
+  border-color: var(--a);
+}
+
+/* ─── Trust / testi card ─────────────────────────────────────────────────── */
+.ti:hover {
+  background: var(--card);
+}
+
+.testi:hover {
+  background: var(--card);
+}
+
+/* ─── Overview / prod card ───────────────────────────────────────────────── */
+.ov-card:hover {
+  background: var(--card);
+}
+
+.prod-card:hover {
+  background: var(--card);
+}

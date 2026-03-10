@@ -48,35 +48,42 @@ class PlatformKernel:
 
     async def initialize(self):
         """
-        The bootstrap sequence for the AITDL Platform:
-        1. Initialize core services
-        2. Connect and verify database
-        3. Load plugins dynamically
-        4. Load products dynamically
-        5. Mount API routers
-        6. Start platform services
+        The async bootstrap sequence for the AITDL Platform:
+        1. Connect and verify database
+        2. Trigger Startup Hooks
         """
-        log.info("AITDL Platform Kernel: Initializing...")
+        log.info("AITDL Platform Kernel: Initializing async services...")
+        
+        # 1. Connect and Verify Database
+        await self._verify_database()
+
+        # 2. Trigger Startup Hooks
+        await hooks.trigger('on_system_ready')
+        log.info("AITDL Platform Kernel: System is LIVE.")
+
+    def setup(self):
+        """
+        The synchronous configuration sequence for the AITDL Platform:
+        1. Initialize core services (Middleware)
+        2. Load plugins dynamically
+        3. Load products dynamically
+        4. Mount API routers
+        """
+        log.info("AITDL Platform Kernel: Setting up static configurations...")
 
         # 1. Initialize Core Services (Middleware, Rate Limiting, CORS)
         self._setup_middleware()
-        
-        # 2. Connect and Verify Database
-        await self._verify_database()
 
-        # 3. Dynamic Ecosystem: Plugins
+        # 2. Dynamic Ecosystem: Plugins
         # Plugins MUST be loaded before products as products may depend on them.
         plugin_loader.load_plugins(self.app)
         
-        # 4. Dynamic Ecosystem: Products
+        # 3. Dynamic Ecosystem: Products
         product_loader.load_products(self.app)
         
-        # 5. Mount Core Routers
+        # 4. Mount Core Routers
         self._mount_routers()
-
-        # 6. Trigger Startup Hooks
-        await hooks.trigger('on_system_ready')
-        log.info("AITDL Platform Kernel: Initialization Complete. System is LIVE.")
+        log.info("AITDL Platform Kernel: Setup Complete.")
 
     def _setup_middleware(self):
         """Configure system-wide protection and access layers."""

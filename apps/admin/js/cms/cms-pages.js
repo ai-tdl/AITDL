@@ -274,7 +274,10 @@ const CMSPages = {
         try {
             await CMS.apiCall('/blocks/reorder', {
                 method: 'POST',
-                body: { block_ids: this.currentBlocks.map(b => b.id) }
+                body: {
+                    page_id: this.currentPage.id,
+                    block_ids: this.currentBlocks.map(b => b.id)
+                }
             });
             CMS.toast('Blocks reordered');
         } catch (error) {

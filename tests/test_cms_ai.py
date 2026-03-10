@@ -17,6 +17,7 @@ Tests:
 
 import pytest
 import pytest_asyncio
+import uuid
 import sys, os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
@@ -57,7 +58,7 @@ async def cms_token():
 async def internal_workspace(db_session):
     """Seed the unlimited internal workspace."""
     ws = Workspace(
-        id="00000000-0000-0000-0000-000000000001",
+        id=uuid.UUID("00000000-0000-0000-0000-000000000001"),
         name="AITDL Internal", slug="aitdl",
         plan="internal", ai_credits_limit=-1, ai_credits_used=0,
     )
@@ -70,7 +71,7 @@ async def internal_workspace(db_session):
 async def limited_workspace(db_session):
     """Seed a workspace with only 3 credits remaining."""
     ws = Workspace(
-        id="00000000-0000-0000-0000-000000000002",
+        id=uuid.UUID("00000000-0000-0000-0000-000000000002"),
         name="Limited Client", slug="limited-client",
         plan="starter", ai_credits_limit=10, ai_credits_used=8,  # 2 left
     )

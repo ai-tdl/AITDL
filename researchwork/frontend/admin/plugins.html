@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+                   script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
+                   style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+                   font-src https://fonts.gstatic.com;
+                   img-src 'self' data:;
+                   connect-src http://localhost:8080;
+                   frame-ancestors 'none';">
+    <meta name="robots" content="noindex, nofollow">
+    <title>AITDL Admin — Plugins</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <span>AITDL Admin</span>
+                <button onclick="Auth.logout()" class="logout-btn">Log out</button>
+            </div>
+            <nav class="nav-links">
+                <a href="dashboard.html" class="nav-item">Overview</a>
+                <a href="dashboard.html#leads" class="nav-item">Contact Leads</a>
+                <a href="dashboard.html#partners" class="nav-item">Partner Apps</a>
+
+                <a href="products.html" class="nav-item">Products</a>
+                <a href="plugins.html" class="nav-item active" aria-current="page">Plugins</a>
+                <a href="themes.html" class="nav-item">Themes</a>
+
+                <a href="dashboard.html#admins" class="nav-item" id="nav-admins" hidden>Admin Users</a>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+            <section id="plugins" class="tab-content active">
+                <div class="tab-header">
+                    <h2 class="section-title">Plugin Manager</h2>
+                    <span class="text-secondary">Inspect and debug ecosystem extensions</span>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Plugin Name</th>
+                                <th>Version</th>
+                                <th>Registered Hooks</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pluginTableBody">
+                            <tr>
+                                <td colspan="4">
+                                    <div class="loader"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./js/admin-auth.js"></script>
+    <script>
+        if (!Auth.isAuthenticated()) window.location.replace('index.html');
+
+        async function loadPlugins() {
+            const body = document.getElementById('pluginTableBody');
+            try {
+                const res = await fetch('http://localhost:8080/api/admin/plugins', {
+                    headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
+                });
+                const plugins = await res.json();
+
+                body.innerHTML = plugins.map(p => `
+                    <tr>
+                        <td><strong>${p.name}</strong></td>
+                        <td>v${p.version}</td>
+                        <td>
+                            ${p.hooks_registered.length > 0
+                        ? p.hooks_registered.map(h => `<code style="display:block; font-size:0.75rem;">${h}</code>`).join('')
+                        : '<span class="text-secondary">No hooks</span>'}
+                        </td>
+                        <td>
+                            <span class="nav-badge" style="background:${p.status === 'active' ? '#059669' : '#DC2626'}">
+                                ${p.status.toUpperCase()}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                body.innerHTML = `<tr><td colspan="4" class="text-error">Load failed: ${err.message}</td></tr>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const payload = Auth.getPayload();
+            if (payload?.role === 'superadmin') document.getElementById('nav-admins').hidden = false;
+            loadPlugins();
+        });
+    </script>
+</body>
+
+</html>

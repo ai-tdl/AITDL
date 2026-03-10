@@ -46,7 +46,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
 from core.security import require_admin, require_superadmin
-from models.db_tables import ContactRecord, PartnerRecord, AdminUser
+from models.db_tables import ContactRecord, PartnerRecord, AdminUserORM
 from services import hooks
 
 log = logging.getLogger(__name__)

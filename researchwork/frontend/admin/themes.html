@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+                   script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
+                   style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+                   font-src https://fonts.gstatic.com;
+                   img-src 'self' data:;
+                   connect-src http://localhost:8080;
+                   frame-ancestors 'none';">
+    <meta name="robots" content="noindex, nofollow">
+    <title>AITDL Admin — Themes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <span>AITDL Admin</span>
+                <button onclick="Auth.logout()" class="logout-btn">Log out</button>
+            </div>
+            <nav class="nav-links">
+                <a href="dashboard.html" class="nav-item">Overview</a>
+                <a href="dashboard.html#leads" class="nav-item">Contact Leads</a>
+                <a href="dashboard.html#partners" class="nav-item">Partner Apps</a>
+
+                <a href="products.html" class="nav-item">Products</a>
+                <a href="plugins.html" class="nav-item">Plugins</a>
+                <a href="themes.html" class="nav-item active" aria-current="page">Themes</a>
+
+                <a href="dashboard.html#admins" class="nav-item" id="nav-admins" hidden>Admin Users</a>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+            <section id="themes" class="tab-content active">
+                <div class="tab-header">
+                    <h2 class="section-title">Theme Selector</h2>
+                    <span class="text-secondary">Customize the visual identity of the ecosystem</span>
+                </div>
+
+                <div class="stats-grid" id="themeGrid">
+                    <div class="loader"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./js/admin-auth.js"></script>
+    <script>
+        if (!Auth.isAuthenticated()) window.location.replace('index.html');
+
+        async function loadThemes() {
+            const grid = document.getElementById('themeGrid');
+            try {
+                const res = await fetch('http://localhost:8080/api/admin/themes', {
+                    headers: { 'Authorization': `Bearer ${Auth.getToken()}` }
+                });
+                const themes = await res.json();
+
+                grid.innerHTML = themes.map(t => `
+                    <div class="stat-card" style="cursor:pointer;" onclick="previewTheme('${t.name}')">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <h3 class="stat-title">${t.name}</h3>
+                            ${t.active ? '<span class="nav-badge" style="background:#059669">Active</span>' : ''}
+                        </div>
+                        <p class="text-secondary" style="font-size:0.875rem;">v${t.version}</p>
+                        <div style="margin-top:1rem;">
+                            <button onclick="saveTheme('${t.name}', event)" class="btn-primary btn-sm" style="width:100%">
+                                Set as Global Default
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                grid.innerHTML = `<p class="text-error">Load failed: ${err.message}</p>`;
+            }
+        }
+
+        function previewTheme(name) {
+            console.log("Previewing theme:", name);
+            // In a real implementation, we would load the CSS variables file for the theme 
+            // and inject it into document.documentElement.style
+            alert(`Live preview for '${name}' initiated (Client-side simulation).`);
+        }
+
+        async function saveTheme(name, event) {
+            event.stopPropagation();
+            try {
+                const res = await fetch(`http://localhost:8080/api/admin/themes/active`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${Auth.getToken()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ theme: name })
+                });
+                if (res.ok) {
+                    alert(`Theme '${name}' saved as active.`);
+                    loadThemes();
+                }
+            } catch (err) {
+                alert('Save failed: ' + err.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const payload = Auth.getPayload();
+            if (payload?.role === 'superadmin') document.getElementById('nav-admins').hidden = false;
+            loadThemes();
+        });
+    </script>
+</body>
+
+</html>

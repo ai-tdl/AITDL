@@ -40,8 +40,16 @@ from httpx import AsyncClient, ASGITransport
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "plugins"))
+ 
+import sqlite3
+import uuid
+# Register UUID adapter for sqlite3 (used in tests via aiosqlite)
+sqlite3.register_adapter(uuid.UUID, lambda u: str(u))
+sqlite3.register_converter("GUID", lambda v: uuid.UUID(v.decode()))
 
 # MOCK SUPABASE ENV VARS FOR TESTING
+os.environ["SECRET_KEY"] = "test-secret-key-for-pydantic-validation-only-12345"
+os.environ["DEBUG"] = "true"
 os.environ["SUPABASE_URL"] = "https://mock.supabase.co"
 os.environ["SUPABASE_ANON_KEY"] = "mock-anon-key"
 os.environ["SUPABASE_SERVICE_ROLE_KEY"] = "mock-service-role"
@@ -99,7 +107,12 @@ async def async_engine():
     Output  : AsyncEngine with all tables created
     Errors  : Raises if aiosqlite is not installed
     """
-    engine = create_async_engine(TEST_DATABASE_URL, echo=False)
+    import json
+    engine = create_async_engine(
+        TEST_DATABASE_URL,
+        echo=False,
+        json_serializer=lambda obj: json.dumps(obj, default=str)
+    )
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield engine

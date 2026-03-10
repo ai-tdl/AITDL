@@ -23,9 +23,9 @@ Tests:
 
 import pytest
 import pytest_asyncio
+import uuid
 import sys, os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "plugins"))
 
@@ -67,7 +67,7 @@ async def workspace_seed(db_session):
     """Insert the internal AITDL workspace into the test DB."""
     from cms_core.models.cms_tables import Workspace
     ws = Workspace(
-        id="00000000-0000-0000-0000-000000000001",
+        id=uuid.UUID("00000000-0000-0000-0000-000000000001"),
         name="AITDL Internal", slug="aitdl",
         plan="internal", ai_credits_limit=-1,
     )

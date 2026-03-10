@@ -34,8 +34,7 @@ async def lifespan(app: FastAPI):
     Lifecycle management for the AITDL Platform.
     Delegates initialization to the Platform Kernel.
     """
-    # ── Platform Kernel Bootstrap ─────────────────────────────────────────────────
-    kernel = platform_kernel.bootstrap(app)
+    # Async initialization (DB verify, Hooks)
     await kernel.initialize()
     # ──────────────────────────────────────────────────────────────────────────────
     yield
@@ -48,6 +47,12 @@ app = FastAPI(
     redoc_url="/redoc",
     lifespan=lifespan,
 )
+
+# ── Platform Kernel Setup ───────────────────────────────────────────────────
+# Synchronous setup (Middleware, Routers, Plugins) must happen before startup.
+kernel = platform_kernel.bootstrap(app)
+kernel.setup()
+# ──────────────────────────────────────────────────────────────────────────────
 
 @app.get("/health")
 async def health():
@@ -62,3 +67,7 @@ async def platform_health():
         "version": "3.1.0",
         "status": "running"
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
