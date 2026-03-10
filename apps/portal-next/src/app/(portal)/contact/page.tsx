@@ -4,6 +4,7 @@
 
 import type { Metadata } from 'next'
 import RevealOnScroll from '@/components/visual/RevealOnScroll'
+import ContactForm from '@/components/forms/ContactForm'
 
 export const metadata: Metadata = {
   title: 'Contact AITDL',
@@ -90,61 +91,7 @@ export default function ContactPage() {
 
           {/* ── Contact Form ────────────────────────────────── */}
           <div className="lg:col-span-3 rv">
-            <form
-              action="/api/contact"
-              method="POST"
-              className="space-y-6"
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5">Full Name *</label>
-                  <input name="name" required placeholder="Rahul Sharma" className="form-input" />
-                </div>
-                <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5">Phone *</label>
-                  <input name="phone" required placeholder="9876543210" className="form-input" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs text-zinc-400 mb-1.5">Email</label>
-                <input name="email" type="email" placeholder="rahul@example.com" className="form-input" />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5">City</label>
-                  <input name="city" placeholder="Your city" className="form-input" />
-                </div>
-                <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5">Subject *</label>
-                  <select name="section" required className="form-input">
-                    <option value="">Select topic</option>
-                    {SECTIONS.map(s => (
-                      <option key={s.value} value={s.value}>{s.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs text-zinc-400 mb-1.5">Message *</label>
-                <textarea
-                  name="message"
-                  required
-                  rows={5}
-                  minLength={20}
-                  placeholder="Tell us what you need — product demo, pricing, technical question..."
-                  className="form-input resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn-premium btn-premium-violet w-full"
-              >
-                Send Message <span>→</span>
-              </button>
-              <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-mono">
-                "See it. Love it. Then pay for it."
-              </p>
-            </form>
+            <ContactForm />
           </div>
 
         </div>

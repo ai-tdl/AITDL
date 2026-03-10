@@ -4,6 +4,7 @@
 
 import type { Metadata } from 'next'
 import RevealOnScroll from '@/components/visual/RevealOnScroll'
+import PartnerForm from '@/components/forms/PartnerForm'
 
 export const metadata: Metadata = {
   title: 'Partner with AITDL — Reseller & Implementation Network',
@@ -141,60 +142,7 @@ export default function PartnerPage() {
             We review every application within 2 business days.
           </p>
 
-          <form
-            action="/api/partner"
-            method="POST"
-            className="space-y-6"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs text-zinc-400 mb-1.5">Full Name *</label>
-                <input name="name" required placeholder="Your full name" className="form-input" />
-              </div>
-              <div>
-                <label className="block text-xs text-zinc-400 mb-1.5">Phone *</label>
-                <input name="phone" required placeholder="10-digit mobile" className="form-input" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs text-zinc-400 mb-1.5">Email *</label>
-              <input name="email" type="email" required placeholder="you@company.com" className="form-input" />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs text-zinc-400 mb-1.5">City *</label>
-                <select name="city" required className="form-input">
-                  <option value="">Select city</option>
-                  {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs text-zinc-400 mb-1.5">Current Occupation *</label>
-                <select name="occupation" required className="form-input">
-                  <option value="">Select occupation</option>
-                  {OCCUPATIONS.map(o => <option key={o} value={o}>{o}</option>)}
-                </select>
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs text-zinc-400 mb-1.5">Why do you want to partner with AITDL?</label>
-              <textarea
-                name="message"
-                rows={4}
-                placeholder="Tell us about your existing business, your market, and what you hope to achieve..."
-                className="form-input resize-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="btn-premium btn-premium-emerald w-full"
-            >
-              Submit Application <span>→</span>
-            </button>
-            <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-mono">
-              "See it. Love it. Then pay for it."
-            </p>
-          </form>
+          <PartnerForm />
         </div>
       </section>
 
