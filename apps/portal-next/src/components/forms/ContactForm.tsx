@@ -10,7 +10,7 @@ import LocationSelector from "./LocationSelector";
 const SECTIONS = [
   { value: 'general',      label: 'General Enquiry' },
   { value: 'ganitsutram',  label: 'GanitSūtram' },
-  { value: 'dailyboard',   label: 'Dailyboard' },
+  { value: 'saathibook',   label: 'Saathibook' },
   { value: 'retail',       label: 'Retail POS / Shoper' },
   { value: 'erp',          label: 'ERP / TallyPrime' },
   { value: 'education',    label: 'School / Coaching ERP' },

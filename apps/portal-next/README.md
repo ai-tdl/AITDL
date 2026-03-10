@@ -29,7 +29,7 @@ Replaces `apps/portal/` (plain HTML) with a proper SSR + static hybrid portal.
 src/app/
 ├── page.tsx              ← SSR · Public homepage (The Gate)
 ├── ganitsutram/          ← SSR · Product page · SEO indexed
-├── dailyboard/           ← SSR · Product page · SEO indexed
+├── saathibook/           ← SSR · Product page · SEO indexed
 ├── admin/                ← Client-only · No SSR · Auth required
 │   ├── layout.tsx        ← Auth guard wrapper
 │   └── page.tsx          ← Dashboard entry
@@ -44,7 +44,7 @@ src/plugins/
 |----------------|---------------|-------------------------------|
 | `/`            | Server (SSR)  | SEO · homepage                |
 | `/ganitsutram` | Server (SSR)  | SEO · product page            |
-| `/dailyboard`  | Server (SSR)  | SEO · product page            |
+| `/saathibook`  | Server (SSR)  | SEO · product page            |
 | `/admin/*`     | Client only   | Auth required · not indexed   |
 
 ## Dev

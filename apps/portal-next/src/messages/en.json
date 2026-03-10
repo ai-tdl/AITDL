@@ -163,13 +163,13 @@
       "description": "Build and scale your online brand with AITDL Ecommerce. Integrated with POS and inventory."
     }
   },
-  "dailyboard": {
+  "saathibook": {
     "seo": {
-      "title": "Dailyboard — Daily Goals & Team Sync",
+      "title": "Saathibook — Daily Goals & Team Sync",
       "description": "Track daily goals, run async standups, and keep your team aligned — with AI assistance."
     },
     "hero": {
-      "title": "Dailyboard",
+      "title": "Saathibook",
       "subtitle": "Daily goals, async standups, and team sync — powered by AI."
     }
   },

@@ -45,8 +45,8 @@ const getProducts = (locale: string) => [
   },
   {
     id: '05',
-    name: 'Dailyboard',
-    href: `/${locale}/dailyboard`,
+    name: 'Saathibook',
+    href: `/${locale}/saathibook`,
     desc: 'Professional sync and productivity tool for growing teams. Stay aligned, stay productive with AITDL.',
     theme: 'purple',
     icon: '◈'

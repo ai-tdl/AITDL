@@ -147,14 +147,6 @@
       "namedRegex": "^/(?<nxtPlocale>[^/]+?)/contact(?:/)?$"
     },
     {
-      "page": "/[locale]/dailyboard",
-      "regex": "^/([^/]+?)/dailyboard(?:/)?$",
-      "routeKeys": {
-        "nxtPlocale": "nxtPlocale"
-      },
-      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/dailyboard(?:/)?$"
-    },
-    {
       "page": "/[locale]/ecom",
       "regex": "^/([^/]+?)/ecom(?:/)?$",
       "routeKeys": {
@@ -226,6 +218,14 @@
         "nxtPlocale": "nxtPlocale"
       },
       "namedRegex": "^/(?<nxtPlocale>[^/]+?)/retail(?:/)?$"
+    },
+    {
+      "page": "/[locale]/saathibook",
+      "regex": "^/([^/]+?)/saathibook(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/saathibook(?:/)?$"
     },
     {
       "page": "/[locale]/student",
