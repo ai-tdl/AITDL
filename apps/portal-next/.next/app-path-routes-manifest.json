@@ -11,14 +11,17 @@
   "/dailyboard/page": "/dailyboard",
   "/erp/page": "/erp",
   "/ganitsutram/page": "/ganitsutram",
-  "/retail/page": "/retail",
   "/school/page": "/school",
+  "/retail/page": "/retail",
   "/partner/page": "/partner",
+  "/admin/dashboard/page": "/admin/dashboard",
+  "/admin/leads/page": "/admin/leads",
   "/admin/page": "/admin",
+  "/admin/partners/page": "/admin/partners",
   "/cms/ai/page": "/cms/ai",
   "/cms/blog/page": "/cms/blog",
   "/cms/forms/page": "/cms/forms",
   "/cms/media/page": "/cms/media",
-  "/cms/page": "/cms",
-  "/cms/pages/page": "/cms/pages"
+  "/cms/pages/page": "/cms/pages",
+  "/cms/page": "/cms"
 }
