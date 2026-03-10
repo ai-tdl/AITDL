@@ -4,14 +4,14 @@ import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 from cms_core.models.cms_tables import Page, Block, Card, BlogPost, CMSForm
 
-async def seed_new_workspace(workspace_id: str, db: AsyncSession, admin_email: str = "system@aitdl.com"):
+async def seed_new_workspace(workspace_id: uuid.UUID, db: AsyncSession, admin_email: str = "system@aitdl.com"):
     """
     Seeds a newly created workspace with default content so the client
     doesn't start with an empty dashboard.
     """
     
     # 1. Default Form Configuration
-    contact_form_id = str(uuid.uuid4())
+    contact_form_id = uuid.uuid4()
     form = CMSForm(
         id=contact_form_id,
         workspace_id=workspace_id,
@@ -27,7 +27,7 @@ async def seed_new_workspace(workspace_id: str, db: AsyncSession, admin_email: s
     db.add(form)
 
     # 2. Default Home Page
-    page_id = str(uuid.uuid4())
+    page_id = uuid.uuid4()
     page = Page(
         id=page_id,
         workspace_id=workspace_id,
@@ -42,7 +42,7 @@ async def seed_new_workspace(workspace_id: str, db: AsyncSession, admin_email: s
 
     # 3. Default Hero Block for Home Page
     hero_block = Block(
-        id=str(uuid.uuid4()),
+        id=uuid.uuid4(),
         page_id=page_id,
         type="hero",
         sort_order=0,
@@ -57,7 +57,7 @@ async def seed_new_workspace(workspace_id: str, db: AsyncSession, admin_email: s
 
     # 4. Default Blog Post
     blog = BlogPost(
-        id=str(uuid.uuid4()),
+        id=uuid.uuid4(),
         workspace_id=workspace_id,
         title="Welcome to your CMS Studio",
         slug="welcome",
@@ -74,7 +74,7 @@ async def seed_new_workspace(workspace_id: str, db: AsyncSession, admin_email: s
 
     # 5. Default Card
     card = Card(
-        id=str(uuid.uuid4()),
+        id=uuid.uuid4(),
         workspace_id=workspace_id,
         title="Sample Service",
         description="A placeholder card for your services or features grid.",

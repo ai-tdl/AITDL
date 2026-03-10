@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import importlib.util
+import importlib
 from fastapi import FastAPI
 
 from typing import Dict, Any
@@ -91,14 +92,20 @@ def load_plugins(app: FastAPI) -> None:
 
 
 def _load_module(plugin_folder: str, module_name: str):
-    """Dynamically load a Python module from a plugin folder treated as a package."""
-    import sys
-    if PLUGINS_DIR not in sys.path:
-        sys.path.insert(0, PLUGINS_DIR)
-        
-    try:
-        module = importlib.import_module(f"{plugin_folder}.{module_name}")
-        return module
-    except ImportError as e:
-        log.error(f"Failed to import {plugin_folder}.{module_name}: {e}")
+    """
+    Load a plugin module via spec_from_file_location.
+    Consistent with product_loader — prevents name collision between plugins.
+    Each plugin gets a unique fully-qualified module name: plugins.<folder>.<module>
+    """
+    module_path = os.path.join(PLUGINS_DIR, plugin_folder, f"{module_name}.py")
+    if not os.path.exists(module_path):
+        log.error(f"Module not found: {module_path}")
         return None
+    unique_name = f"plugins.{plugin_folder}.{module_name}"
+    spec = importlib.util.spec_from_file_location(unique_name, module_path)
+    if spec and spec.loader:
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
+    log.error(f"Could not create spec for {unique_name}")
+    return None

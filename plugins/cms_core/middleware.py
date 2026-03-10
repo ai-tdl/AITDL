@@ -48,6 +48,7 @@ Errors  : 401 if no/invalid JWT, 403 if insufficient role, 404 if workspace not 
 
 import sys
 import os
+import uuid
 import logging
 
 log = logging.getLogger(__name__)
@@ -152,17 +153,19 @@ async def get_current_workspace(
 ) -> Workspace:
     """
     Resolve the workspace_id to a Workspace ORM record.
-    Workspace lookup uses the slug field (Phase 1 uses slug='aitdl').
-
-    Returns:
-        Workspace ORM object
-    Raises:
-        404 if workspace not found
-        403 if workspace is inactive
+    Attempts lookup by ID (UUID) first if valid, then falls back to slug.
     """
-    result = await db.execute(
-        select(Workspace).where(Workspace.slug == workspace_id)
-    )
+    # 1. Try ID lookup if it looks like a UUID
+    try:
+        uid = uuid.UUID(workspace_id)
+        result = await db.execute(select(Workspace).where(Workspace.id == uid))
+        workspace = result.scalar_one_or_none()
+        if workspace: return _check_active(workspace, workspace_id)
+    except (ValueError, TypeError):
+        pass
+
+    # 2. Fallback to slug lookup
+    result = await db.execute(select(Workspace).where(Workspace.slug == workspace_id))
     workspace = result.scalar_one_or_none()
 
     if not workspace:
@@ -170,6 +173,9 @@ async def get_current_workspace(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Workspace '{workspace_id}' not found"
         )
+    return _check_active(workspace, workspace_id)
+
+def _check_active(workspace: Workspace, workspace_id: str) -> Workspace:
     if not workspace.is_active:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

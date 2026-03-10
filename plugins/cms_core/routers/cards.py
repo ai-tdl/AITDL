@@ -52,7 +52,7 @@ router = APIRouter(tags=["CMS — Cards"])
 class CardCreate(BaseModel):
     title:       str            = Field(..., min_length=1, max_length=300)
     description: Optional[str] = None
-    parent_id:   Optional[str] = None
+    parent_id:   Optional[uuid.UUID] = None
     icon:        Optional[str] = Field(default=None, max_length=50)
     badge:       Optional[str] = Field(default=None, max_length=50)
     cta_text:    Optional[str] = Field(default=None, max_length=100)
@@ -73,7 +73,7 @@ class CardUpdate(BaseModel):
     tags:        Optional[List[str]] = None
 
 class CardOut(BaseModel):
-    id: str; workspace_id: str; parent_id: Optional[str]
+    id: uuid.UUID; workspace_id: uuid.UUID; parent_id: Optional[uuid.UUID]
     title: str; description: Optional[str]
     icon: Optional[str]; badge: Optional[str]
     cta_text: Optional[str]; cta_url: Optional[str]
@@ -84,7 +84,7 @@ class CardOut(BaseModel):
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-async def _get_card_or_404(card_id: str, workspace_id: str, db: AsyncSession) -> Card:
+async def _get_card_or_404(card_id: uuid.UUID, workspace_id: uuid.UUID, db: AsyncSession) -> Card:
     result = await db.execute(
         select(Card).where(Card.id == card_id, Card.workspace_id == workspace_id)
     )
@@ -94,9 +94,9 @@ async def _get_card_or_404(card_id: str, workspace_id: str, db: AsyncSession) ->
     return card
 
 async def _audit(db, workspace_id, actor, action, rid, diff=None):
-    db.add(CMSAuditLog(id=str(uuid.uuid4()), workspace_id=workspace_id,
+    db.add(CMSAuditLog(id=uuid.uuid4(), workspace_id=workspace_id,
                        actor_email=actor, action=action, resource_type="card",
-                       resource_id=rid, diff=diff))
+                       resource_id=str(rid), diff=diff))
 
 
 # ── Endpoints ──────────────────────────────────────────────────────────────────
@@ -122,7 +122,7 @@ async def list_cards(
 
 @router.get("/cards/{card_id}/children", response_model=List[CardOut])
 async def list_sub_cards(
-    card_id: str,
+    card_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     _: dict = Depends(require_cms_user),
@@ -154,7 +154,7 @@ async def create_card(
 
     actor = payload.get("sub", "unknown")
     card = Card(
-        id=str(uuid.uuid4()), workspace_id=workspace.id, parent_id=body.parent_id,
+        id=uuid.uuid4(), workspace_id=workspace.id, parent_id=body.parent_id,
         title=body.title, description=body.description, icon=body.icon,
         badge=body.badge, cta_text=body.cta_text, cta_url=body.cta_url,
         sort_order=body.sort_order, enabled=body.enabled, tags=body.tags,
@@ -168,7 +168,7 @@ async def create_card(
 
 @router.patch("/cards/{card_id}", response_model=CardOut)
 async def update_card(
-    card_id: str,
+    card_id: uuid.UUID,
     body: CardUpdate,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
@@ -197,7 +197,7 @@ async def update_card(
 
 @router.delete("/cards/{card_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_card(
-    card_id: str,
+    card_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     payload: dict = Depends(require_cms_user),

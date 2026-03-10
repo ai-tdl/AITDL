@@ -74,7 +74,7 @@ class PageUpdate(BaseModel):
     seo_description: Optional[str] = Field(default=None, max_length=155)
 
 class PageOut(BaseModel):
-    id: str; workspace_id: str; title: str; slug: str
+    id: uuid.UUID; workspace_id: uuid.UUID; title: str; slug: str
     status: str; template: str
     seo_title: Optional[str]; seo_description: Optional[str]
     last_modified_by: Optional[str]
@@ -94,19 +94,19 @@ class BlockUpdate(BaseModel):
     ai_generated: Optional[bool] = None
 
 class BlockOut(BaseModel):
-    id: str; page_id: str; type: str; sort_order: int
+    id: uuid.UUID; page_id: uuid.UUID; type: str; sort_order: int
     config: dict; ai_generated: bool
     created_at: datetime; updated_at: datetime
     class Config: from_attributes = True
 
 class ReorderRequest(BaseModel):
-    page_id:    str
-    block_ids:  List[str]  # ordered list of block UUIDs
+    page_id:    uuid.UUID
+    block_ids:  List[uuid.UUID]  # ordered list of block UUIDs
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-async def _get_page_or_404(page_id: str, workspace_id: str, db: AsyncSession) -> Page:
+async def _get_page_or_404(page_id: uuid.UUID, workspace_id: uuid.UUID, db: AsyncSession) -> Page:
     result = await db.execute(
         select(Page).where(Page.id == page_id, Page.workspace_id == workspace_id)
     )
@@ -117,7 +117,7 @@ async def _get_page_or_404(page_id: str, workspace_id: str, db: AsyncSession) ->
 
 async def _audit(db, workspace_id, actor, action, rtype, rid, diff=None):
     log_entry = CMSAuditLog(
-        id=str(uuid.uuid4()), workspace_id=workspace_id, actor_email=actor,
+        id=uuid.uuid4(), workspace_id=workspace_id, actor_email=actor,
         action=action, resource_type=rtype, resource_id=rid, diff=diff
     )
     db.add(log_entry)
@@ -158,7 +158,7 @@ async def create_page(
 
     actor = payload.get("sub", "unknown")
     page = Page(
-        id=str(uuid.uuid4()), workspace_id=workspace.id,
+        id=uuid.uuid4(), workspace_id=workspace.id,
         title=body.title, slug=body.slug, status=body.status,
         template=body.template, created_by=actor, last_modified_by=actor,
     )
@@ -172,7 +172,7 @@ async def create_page(
 
 @router.get("/pages/{page_id}", response_model=PageOut)
 async def get_page(
-    page_id: str,
+    page_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     _: dict = Depends(require_cms_user),
@@ -183,7 +183,7 @@ async def get_page(
 
 @router.patch("/pages/{page_id}", response_model=PageOut)
 async def update_page(
-    page_id: str,
+    page_id: uuid.UUID,
     body: PageUpdate,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
@@ -217,7 +217,7 @@ async def update_page(
     )
     existing_versions = version_result.scalars().all()
     version = ContentVersion(
-        id=str(uuid.uuid4()), workspace_id=workspace.id, resource_type="page",
+        id=uuid.uuid4(), workspace_id=workspace.id, resource_type="page",
         resource_id=page_id, version_num=len(existing_versions) + 1,
         snapshot={"title": page.title, "slug": page.slug, "status": page.status,
                   "seo_title": page.seo_title, "seo_description": page.seo_description},
@@ -243,7 +243,7 @@ async def update_page(
 
 @router.delete("/pages/{page_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_page(
-    page_id: str,
+    page_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     payload: dict = Depends(require_cms_user),
@@ -258,7 +258,7 @@ async def delete_page(
 
 @router.post("/pages/{page_id}/duplicate", response_model=PageOut, status_code=status.HTTP_201_CREATED)
 async def duplicate_page(
-    page_id: str,
+    page_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     payload: dict = Depends(require_cms_user),
@@ -280,7 +280,7 @@ async def duplicate_page(
         counter += 1
 
     new_page = Page(
-        id=str(uuid.uuid4()), workspace_id=workspace.id,
+        id=uuid.uuid4(), workspace_id=workspace.id,
         title=f"{page.title} (copy)", slug=new_slug,
         status="draft", template=page.template,
         seo_title=page.seo_title, seo_description=page.seo_description,
@@ -294,7 +294,7 @@ async def duplicate_page(
     )
     for blk in blocks_result.scalars().all():
         new_block = Block(
-            id=str(uuid.uuid4()), page_id=new_page.id,
+            id=uuid.uuid4(), page_id=new_page.id,
             type=blk.type, sort_order=blk.sort_order,
             config=blk.config, ai_generated=blk.ai_generated,
         )
@@ -312,7 +312,7 @@ async def duplicate_page(
 
 @router.get("/pages/{page_id}/blocks", response_model=List[BlockOut])
 async def list_blocks(
-    page_id: str,
+    page_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     _: dict = Depends(require_cms_user),
@@ -327,7 +327,7 @@ async def list_blocks(
 
 @router.post("/pages/{page_id}/blocks", response_model=BlockOut, status_code=status.HTTP_201_CREATED)
 async def add_block(
-    page_id: str,
+    page_id: uuid.UUID,
     body: BlockCreate,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
@@ -337,7 +337,7 @@ async def add_block(
     await _get_page_or_404(page_id, workspace.id, db)
     actor = payload.get("sub", "unknown")
     block = Block(
-        id=str(uuid.uuid4()), page_id=page_id,
+        id=uuid.uuid4(), page_id=page_id,
         type=body.type, sort_order=body.sort_order,
         config=body.config,
     )
@@ -350,7 +350,7 @@ async def add_block(
 
 @router.patch("/blocks/{block_id}", response_model=BlockOut)
 async def update_block(
-    block_id: str,
+    block_id: uuid.UUID,
     body: BlockUpdate,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
@@ -378,7 +378,7 @@ async def update_block(
 
 @router.delete("/blocks/{block_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_block(
-    block_id: str,
+    block_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     payload: dict = Depends(require_cms_user),

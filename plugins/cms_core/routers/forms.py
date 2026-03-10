@@ -54,14 +54,14 @@ class FormCreate(BaseModel):
     enabled:         bool      = True
 
 class FormOut(BaseModel):
-    id: str; workspace_id: str; title: str; slug: str
+    id: uuid.UUID; workspace_id: uuid.UUID; title: str; slug: str
     fields: list; notify_email: Optional[str]
     success_message: str; enabled: bool; honeypot_field: str
     created_at: datetime; updated_at: datetime
     class Config: from_attributes = True
 
 class SubmissionOut(BaseModel):
-    id: str; form_id: str; workspace_id: str
+    id: uuid.UUID; form_id: uuid.UUID; workspace_id: uuid.UUID
     data: dict; status: str; submitted_at: datetime
     class Config: from_attributes = True
 
@@ -73,7 +73,7 @@ class PublicSubmission(BaseModel):
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-async def _get_form_or_404(form_id: str, workspace_id: str, db: AsyncSession) -> CMSForm:
+async def _get_form_or_404(form_id: uuid.UUID, workspace_id: uuid.UUID, db: AsyncSession) -> CMSForm:
     result = await db.execute(
         select(CMSForm).where(CMSForm.id == form_id, CMSForm.workspace_id == workspace_id)
     )
@@ -114,15 +114,15 @@ async def create_form(
 
     actor = payload.get("sub", "unknown")
     form = CMSForm(
-        id=str(uuid.uuid4()), workspace_id=workspace.id,
+        id=uuid.uuid4(), workspace_id=workspace.id,
         title=body.title, slug=body.slug, fields=body.fields,
         notify_email=body.notify_email, success_message=body.success_message,
         enabled=body.enabled,
     )
     db.add(form)
     db.add(CMSAuditLog(
-        id=str(uuid.uuid4()), workspace_id=workspace.id, actor_email=actor,
-        action="created", resource_type="form", resource_id=form.id,
+        id=uuid.uuid4(), workspace_id=workspace.id, actor_email=actor,
+        action="created", resource_type="form", resource_id=str(form.id),
     ))
     await db.commit()
     await db.refresh(form)
@@ -131,7 +131,7 @@ async def create_form(
 
 @router.get("/forms/{form_id}/submissions")
 async def list_submissions(
-    form_id: str,
+    form_id: uuid.UUID,
     request: Request,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
@@ -161,7 +161,7 @@ async def list_submissions(
             writer = csv.DictWriter(output, fieldnames=["id", "submitted_at", "status"] + all_keys)
             writer.writeheader()
             for sub in submissions:
-                row = {"id": sub.id, "submitted_at": sub.submitted_at.isoformat(), "status": sub.status}
+                row = {"id": str(sub.id), "submitted_at": sub.submitted_at.isoformat(), "status": sub.status}
                 row.update({k: sub.data.get(k, "") for k in all_keys})
                 writer.writerow(row)
 
@@ -180,7 +180,7 @@ async def list_submissions(
 
 @router.post("/forms/{form_id}/submit", status_code=status.HTTP_201_CREATED)
 async def submit_form(
-    form_id: str,
+    form_id: uuid.UUID,
     body: PublicSubmission,
     request: Request,
     workspace: Workspace = Depends(get_current_workspace),
@@ -206,7 +206,7 @@ async def submit_form(
     ip_hash = hashlib.sha256(client_ip.encode()).hexdigest()
 
     submission = CMSSubmission(
-        id=str(uuid.uuid4()), form_id=form_id, workspace_id=workspace.id,
+        id=uuid.uuid4(), form_id=form_id, workspace_id=workspace.id,
         data=body.data, ip_hash=ip_hash,
     )
     db.add(submission)

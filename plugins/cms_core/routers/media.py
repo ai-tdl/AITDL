@@ -50,7 +50,7 @@ _MAX_VIDEO_BYTES = 50 * 1024 * 1024   # 50 MB
 
 
 class MediaOut(BaseModel):
-    id: str; workspace_id: str; filename: str
+    id: uuid.UUID; workspace_id: uuid.UUID; filename: str
     storage_path: str; cdn_url: Optional[str]
     mime_type: str; size_bytes: int; alt_text: Optional[str]
     uploaded_by: Optional[str]
@@ -90,7 +90,7 @@ async def upload_media(
 
     actor = payload.get("sub", "unknown")
     now = datetime.now(timezone.utc)
-    asset_id = str(uuid.uuid4())
+    asset_id = uuid.uuid4()
     safe_name = f"{asset_id}_{file.filename}"
     storage_path = f"{workspace.slug}/{now.year}/{now.month:02d}/{safe_name}"
 
@@ -135,8 +135,8 @@ async def upload_media(
     )
     db.add(asset)
     db.add(CMSAuditLog(
-        id=str(uuid.uuid4()), workspace_id=workspace.id, actor_email=actor,
-        action="created", resource_type="media", resource_id=asset_id,
+        id=uuid.uuid4(), workspace_id=workspace.id, actor_email=actor,
+        action="created", resource_type="media", resource_id=str(asset_id),
     ))
     await db.commit()
     await db.refresh(asset)
@@ -170,7 +170,7 @@ async def list_media(
 
 @router.delete("/media/{asset_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_media(
-    asset_id: str,
+    asset_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     payload: dict = Depends(require_cms_user),
@@ -188,7 +188,7 @@ async def delete_media(
 
     # Usage check: scan blocks and blog featured images
     block_usage = await db.execute(
-        select(Block).where(Block.config["asset_id"].astext == asset_id)
+        select(Block).where(Block.config["asset_id"].astext == str(asset_id))
     )
     blog_usage = await db.execute(
         select(BlogPost).where(BlogPost.featured_image == asset_id)
@@ -204,8 +204,8 @@ async def delete_media(
 
     actor = payload.get("sub", "unknown")
     db.add(CMSAuditLog(
-        id=str(uuid.uuid4()), workspace_id=workspace.id, actor_email=actor,
-        action="deleted", resource_type="media", resource_id=asset_id,
+        id=uuid.uuid4(), workspace_id=workspace.id, actor_email=actor,
+        action="deleted", resource_type="media", resource_id=str(asset_id),
     ))
     await db.delete(asset)
     await db.commit()

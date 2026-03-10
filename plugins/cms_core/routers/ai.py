@@ -16,7 +16,7 @@ Endpoints:
     GET    /api/v1/cms/ai/usage       — credits used vs limit for workspace
 """
 
-import sys, os, logging
+import sys, os, uuid, logging
 from typing import Optional, List
 
 _backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "backend"))
@@ -76,6 +76,7 @@ class AIResponse(BaseModel):
     tokens_used:    int
 
 class UsageResponse(BaseModel):
+    workspace_id:    uuid.UUID
     workspace_slug:  str
     plan:            str
     ai_credits_used: int
@@ -193,6 +194,7 @@ async def get_ai_usage(
         else workspace.ai_credits_limit - workspace.ai_credits_used
     )
     return UsageResponse(
+        workspace_id=workspace.id,
         workspace_slug=workspace.slug,
         plan=workspace.plan,
         ai_credits_used=workspace.ai_credits_used,

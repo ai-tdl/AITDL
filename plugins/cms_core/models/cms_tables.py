@@ -42,10 +42,11 @@ _backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
+import uuid
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import String, Text, Boolean, Integer, DateTime, func, Index, JSON
+from sqlalchemy import String, Text, Boolean, Integer, DateTime, func, Index, JSON, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from core.database import Base  # shared Base — same metadata as rest of app
@@ -68,7 +69,7 @@ class Workspace(Base):
     """
     __tablename__ = "workspaces"
 
-    id:               Mapped[str]      = mapped_column(String(36), primary_key=True)
+    id:               Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     name:             Mapped[str]      = mapped_column(Text, nullable=False)
     slug:             Mapped[str]      = mapped_column(String(120), nullable=False, unique=True)
     plan:             Mapped[str]      = mapped_column(String(30), nullable=False, default="internal")
@@ -96,8 +97,8 @@ class Page(Base):
         Index("uq_pages_workspace_slug", "workspace_id", "slug", unique=True),
     )
 
-    id:               Mapped[str]           = mapped_column(String(36), primary_key=True)
-    workspace_id:     Mapped[str]           = mapped_column(String(36), nullable=False)
+    id:               Mapped[uuid.UUID]           = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    workspace_id:     Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
     title:            Mapped[str]           = mapped_column(Text, nullable=False)
     slug:             Mapped[str]           = mapped_column(String(255), nullable=False)
     status:           Mapped[str]           = mapped_column(String(30), nullable=False, default="draft")
@@ -121,8 +122,8 @@ class Block(Base):
     """
     __tablename__ = "blocks"
 
-    id:           Mapped[str]      = mapped_column(String(36), primary_key=True)
-    page_id:      Mapped[str]      = mapped_column(String(36), nullable=False)
+    id:           Mapped[uuid.UUID]      = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    page_id:      Mapped[uuid.UUID]      = mapped_column(Uuid, nullable=False)
     type:         Mapped[str]      = mapped_column(String(50), nullable=False)
     sort_order:   Mapped[int]      = mapped_column(Integer, nullable=False, default=0)
     config:       Mapped[dict]     = mapped_column(JSON, nullable=False, default=dict)
@@ -140,9 +141,9 @@ class Card(Base):
     """
     __tablename__ = "cards"
 
-    id:           Mapped[str]           = mapped_column(String(36), primary_key=True)
-    workspace_id: Mapped[str]           = mapped_column(String(36), nullable=False)
-    parent_id:    Mapped[str] = mapped_column(String(36), nullable=True)
+    id:           Mapped[uuid.UUID]      = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    workspace_id: Mapped[uuid.UUID]      = mapped_column(Uuid, nullable=False)
+    parent_id:    Mapped[uuid.UUID] = mapped_column(Uuid, nullable=True)
     title:        Mapped[str]           = mapped_column(Text, nullable=False)
     description:  Mapped[str] = mapped_column(Text, nullable=True)
     icon:         Mapped[str] = mapped_column(String(50), nullable=True)
@@ -165,8 +166,8 @@ class MediaAsset(Base):
     """
     __tablename__ = "media_assets"
 
-    id:           Mapped[str]           = mapped_column(String(36), primary_key=True)
-    workspace_id: Mapped[str]           = mapped_column(String(36), nullable=False)
+    id:           Mapped[uuid.UUID]           = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    workspace_id: Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
     filename:     Mapped[str]           = mapped_column(Text, nullable=False)
     storage_path: Mapped[str]           = mapped_column(Text, nullable=False)
     cdn_url:      Mapped[str] = mapped_column(Text, nullable=True)
@@ -191,14 +192,14 @@ class BlogPost(Base):
         Index("uq_blog_workspace_slug", "workspace_id", "slug", unique=True),
     )
 
-    id:               Mapped[str]           = mapped_column(String(36), primary_key=True)
-    workspace_id:     Mapped[str]           = mapped_column(String(36), nullable=False)
+    id:               Mapped[uuid.UUID]      = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    workspace_id:     Mapped[uuid.UUID]      = mapped_column(Uuid, nullable=False)
     title:            Mapped[str]           = mapped_column(Text, nullable=False)
     slug:             Mapped[str]           = mapped_column(String(255), nullable=False)
     content:          Mapped[list]          = mapped_column(JSON, nullable=False, default=list)
     author_id:        Mapped[str] = mapped_column(String(200), nullable=True)
     status:           Mapped[str]           = mapped_column(String(30), nullable=False, default="draft")
-    featured_image:   Mapped[str] = mapped_column(String(36), nullable=True)
+    featured_image:   Mapped[uuid.UUID] = mapped_column(Uuid, nullable=True)
     ai_summary:       Mapped[str] = mapped_column(Text, nullable=True)
     tags:             Mapped[list]          = mapped_column(JSON, nullable=False, default=list)
     seo_title:        Mapped[str] = mapped_column(Text, nullable=True)
@@ -222,8 +223,8 @@ class CMSForm(Base):
         Index("uq_forms_workspace_slug", "workspace_id", "slug", unique=True),
     )
 
-    id:              Mapped[str]           = mapped_column(String(36), primary_key=True)
-    workspace_id:    Mapped[str]           = mapped_column(String(36), nullable=False)
+    id:              Mapped[uuid.UUID]           = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    workspace_id:    Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
     title:           Mapped[str]           = mapped_column(Text, nullable=False)
     slug:            Mapped[str]           = mapped_column(String(255), nullable=False)
     fields:          Mapped[list]          = mapped_column(JSON, nullable=False, default=list)
@@ -244,9 +245,9 @@ class CMSSubmission(Base):
     """
     __tablename__ = "cms_submissions"
 
-    id:           Mapped[str]           = mapped_column(String(36), primary_key=True)
-    form_id:      Mapped[str]           = mapped_column(String(36), nullable=False)
-    workspace_id: Mapped[str]           = mapped_column(String(36), nullable=False)
+    id:           Mapped[uuid.UUID]           = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    form_id:      Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
+    workspace_id: Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
     data:         Mapped[dict]          = mapped_column(JSON, nullable=False, default=dict)
     status:       Mapped[str]           = mapped_column(String(30), nullable=False, default="new")
     ip_hash:      Mapped[str] = mapped_column(String(64), nullable=True)
@@ -264,10 +265,10 @@ class ContentVersion(Base):
     """
     __tablename__ = "content_versions"
 
-    id:            Mapped[str]           = mapped_column(String(36), primary_key=True)
-    workspace_id:  Mapped[str]           = mapped_column(String(36), nullable=False)
+    id:            Mapped[uuid.UUID]           = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    workspace_id:  Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
     resource_type: Mapped[str]           = mapped_column(String(30), nullable=False)  # 'page' | 'blog_post'
-    resource_id:   Mapped[str]           = mapped_column(String(36), nullable=False)
+    resource_id:   Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
     version_num:   Mapped[int]           = mapped_column(Integer, nullable=False, default=1)
     snapshot:      Mapped[dict]          = mapped_column(JSON, nullable=False, default=dict)
     saved_by:      Mapped[str] = mapped_column(String(200), nullable=True)
@@ -283,12 +284,12 @@ class CMSAuditLog(Base):
     """
     __tablename__ = "cms_audit_log"
 
-    id:            Mapped[str]           = mapped_column(String(36), primary_key=True)
-    workspace_id:  Mapped[str]           = mapped_column(String(36), nullable=False)
+    id:            Mapped[uuid.UUID]           = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    workspace_id:  Mapped[uuid.UUID]           = mapped_column(Uuid, nullable=False)
     actor_email:   Mapped[str]           = mapped_column(String(200), nullable=False)
     action:        Mapped[str]           = mapped_column(String(30), nullable=False)  # created|updated|deleted|published
     resource_type: Mapped[str]           = mapped_column(String(50), nullable=False)
-    resource_id:   Mapped[str]           = mapped_column(String(36), nullable=False)
+    resource_id:   Mapped[str]           = mapped_column(Text, nullable=False)
     diff:          Mapped[dict] = mapped_column(JSON, nullable=True)
     ip_hash:       Mapped[str] = mapped_column(String(64), nullable=True)
     created_at:    Mapped[datetime]      = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
@@ -303,7 +304,7 @@ class CMSPrompt(Base):
     """
     __tablename__ = "cms_prompts"
 
-    id:            Mapped[str]           = mapped_column(String(36), primary_key=True)
+    id:            Mapped[uuid.UUID]           = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     task_type:     Mapped[str]           = mapped_column(String(50), nullable=False)  # generate|improve|translate|seo|alt_text
     version:       Mapped[int]           = mapped_column(Integer, nullable=False, default=1)
     is_active:     Mapped[bool]          = mapped_column(Boolean, nullable=False, default=True)

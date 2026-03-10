@@ -1,8 +1,9 @@
 # || ॐ श्री गणेशाय नमः ||
 
 import logging
+import uuid
 from typing import List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, func, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -34,7 +35,7 @@ class WorkspaceUpdate(BaseModel):
     is_active: Optional[bool] = None
 
 class WorkspaceResponse(BaseModel):
-    id: str
+    id: uuid.UUID
     name: str
     slug: str
     plan: str
@@ -86,7 +87,7 @@ async def create_workspace(
         raise HTTPException(400, "Workspace slug already exists.")
 
     new_workspace = Workspace(
-        id=str(import_uuid().uuid4()),
+        id=uuid.uuid4(),
         name=req.name,
         slug=req.slug,
         plan=req.plan,
@@ -123,7 +124,7 @@ async def update_workspace(
     for k, v in update_data.items():
         setattr(workspace, k, v)
         
-    workspace.updated_at = datetime.utcnow()
+    workspace.updated_at = datetime.now(timezone.utc)
     await db.commit()
     await db.refresh(workspace)
         
@@ -158,7 +159,7 @@ async def export_workspace(
         return d
 
     export_data = {
-        "exported_at": datetime.utcnow().isoformat() + "Z",
+        "exported_at": datetime.now(timezone.utc).isoformat(),
         "workspace": {"slug": workspace.slug, "name": workspace.name, "plan": workspace.plan},
         "pages":       [_to_dict(p) for p in pages_r.scalars().all()],
         "cards":       [_to_dict(c) for c in cards_r.scalars().all()],
@@ -195,6 +196,3 @@ async def get_workspace_stats(
         "ai_credits_limit": workspace.ai_credits_limit
     }
 
-def import_uuid():
-    import uuid
-    return uuid

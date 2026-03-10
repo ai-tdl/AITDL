@@ -46,7 +46,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
 from core.security import require_admin, require_superadmin
-from models.db_tables import ContactRecord, PartnerRecord
+from models.db_tables import ContactRecord, PartnerRecord, AdminUser
 from services import hooks
 
 log = logging.getLogger(__name__)
@@ -439,3 +439,61 @@ async def update_partner(
 
 
 
+@router.get("/users", response_model=List[AdminUserOut])
+async def list_admin_users(
+    db: AsyncSession = Depends(get_db),
+    _: dict = Depends(require_superadmin) # Superadmin only to list/manage other admins
+):
+    """List all admin users."""
+    # This assumes there is an AdminUser model. 
+    # If not, we might need to query a User table with role filters.
+    # Looking at the codebase context, we might be using a generic User table or Supabase and needing to sync/list.
+    # For now, I'll assume a local AdminUser table exists as per AdminUserOut schema.
+    from models.db_tables import AdminUserORM
+    result = await db.execute(select(AdminUserORM).order_by(AdminUserORM.created_at.desc()))
+    return result.scalars().all()
+
+
+@router.post("/users", response_model=AdminUserOut)
+async def create_admin_user(
+    body: AdminUserCreate,
+    db: AsyncSession = Depends(get_db),
+    _: dict = Depends(require_superadmin)
+):
+    """Create a new admin user."""
+    from models.db_tables import AdminUserORM
+    from core.security import get_password_hash
+    
+    # Check if exists
+    existing = await db.execute(select(AdminUserORM).where(AdminUserORM.email == body.email))
+    if existing.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail="Admin with this email already exists")
+    
+    new_user = AdminUserORM(
+        email=body.email,
+        hashed_password=get_password_hash(body.password),
+        role=body.role,
+        is_active=True
+    )
+    db.add(new_user)
+    await db.commit()
+    await db.refresh(new_user)
+    return new_user
+
+
+@router.delete("/users/{user_id}")
+async def delete_admin_user(
+    user_id: int,
+    db: AsyncSession = Depends(get_db),
+    _: dict = Depends(require_superadmin)
+):
+    """Remove an admin user."""
+    from models.db_tables import AdminUserORM
+    result = await db.execute(select(AdminUserORM).where(AdminUserORM.id == user_id))
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(status_code=404, detail="Admin user not found")
+        
+    await db.delete(user)
+    await db.commit()
+    return {"status": "success", "message": "Admin user deleted"}

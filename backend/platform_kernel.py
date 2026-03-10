@@ -30,6 +30,7 @@ from core.logging_config import setup_logging
 from core.config import settings
 from core.cors import cors_origins
 from core.rate_limit import limiter
+from sqlalchemy import text
 from core.database import engine
 from api import contact, partner, auth, admin, ai
 from services import product_loader, plugin_loader, hooks
@@ -97,7 +98,7 @@ class PlatformKernel:
         """Verify database connectivity at startup."""
         try:
             async with engine.begin() as conn:
-                await conn.execute("SELECT 1")
+                await conn.execute(text("SELECT 1"))
             log.info("Database connectivity verified.")
         except Exception as e:
             log.error(f"CRITICAL: Database connection failed: {e}")

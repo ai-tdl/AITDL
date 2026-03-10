@@ -107,6 +107,15 @@ class PartnerRecord(Base):
     created_at:  Mapped[datetime]          = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
+# ── Admin User Model ──────────────────────────────────────────────────────────
 
+class AdminUserORM(Base):
+    __tablename__ = "admin_users"
 
-
+    id:         Mapped[int]      = mapped_column(primary_key=True, autoincrement=True)
+    email:      Mapped[str]      = mapped_column(String(200), unique=True, nullable=False)
+    role:       Mapped[str]      = mapped_column(String(30), nullable=False, default="admin")
+    is_active:  Mapped[bool]     = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )

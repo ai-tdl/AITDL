@@ -37,3 +37,14 @@ python-jose[cryptography]==3.3.0
 supabase==2.3.0
 
 
+
+# AI Gateway providers
+openai==1.30.5
+anthropic==0.28.0
+slowapi==0.1.9
+groq==0.9.0
+google-generativeai==0.7.2
+
+# AI Gateway providers (required by services/ai_gateway.py)
+# Rate limiting (required by core/rate_limit.py + platform_kernel.py)
+# Pydantic settings (required by core/config.py)

@@ -66,9 +66,9 @@ class BlogUpdate(BaseModel):
     ai_summary:      Optional[str]      = None
 
 class BlogOut(BaseModel):
-    id: str; workspace_id: str; title: str; slug: str
+    id: uuid.UUID; workspace_id: uuid.UUID; title: str; slug: str
     content: list; author_id: Optional[str]; status: str
-    featured_image: Optional[str]; ai_summary: Optional[str]
+    featured_image: Optional[uuid.UUID]; ai_summary: Optional[str]
     tags: list; seo_title: Optional[str]; seo_description: Optional[str]
     last_modified_by: Optional[str]
     published_at: Optional[datetime]
@@ -78,7 +78,7 @@ class BlogOut(BaseModel):
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-async def _get_post_or_404(post_id: str, workspace_id: str, db: AsyncSession) -> BlogPost:
+async def _get_post_or_404(post_id: uuid.UUID, workspace_id: uuid.UUID, db: AsyncSession) -> BlogPost:
     result = await db.execute(
         select(BlogPost).where(BlogPost.id == post_id, BlogPost.workspace_id == workspace_id)
     )
@@ -88,9 +88,9 @@ async def _get_post_or_404(post_id: str, workspace_id: str, db: AsyncSession) ->
     return post
 
 async def _audit(db, workspace_id, actor, action, rid, diff=None):
-    db.add(CMSAuditLog(id=str(uuid.uuid4()), workspace_id=workspace_id,
+    db.add(CMSAuditLog(id=uuid.uuid4(), workspace_id=workspace_id,
                        actor_email=actor, action=action, resource_type="blog_post",
-                       resource_id=rid, diff=diff))
+                       resource_id=str(rid), diff=diff))
 
 
 # ── Endpoints ──────────────────────────────────────────────────────────────────
@@ -130,7 +130,7 @@ async def create_post(
 
     actor = payload.get("sub", "unknown")
     post = BlogPost(
-        id=str(uuid.uuid4()), workspace_id=workspace.id,
+        id=uuid.uuid4(), workspace_id=workspace.id,
         title=body.title, slug=body.slug, content=body.content,
         author_id=actor, status="draft", tags=body.tags,
         last_modified_by=actor,
@@ -144,7 +144,7 @@ async def create_post(
 
 @router.get("/blog/{post_id}", response_model=BlogOut)
 async def get_post(
-    post_id: str,
+    post_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     _: dict = Depends(require_cms_user),
@@ -155,7 +155,7 @@ async def get_post(
 
 @router.patch("/blog/{post_id}", response_model=BlogOut)
 async def update_post(
-    post_id: str,
+    post_id: uuid.UUID,
     body: BlogUpdate,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
@@ -177,7 +177,7 @@ async def update_post(
     )
     existing = version_result.scalars().all()
     db.add(ContentVersion(
-        id=str(uuid.uuid4()), workspace_id=workspace.id,
+        id=uuid.uuid4(), workspace_id=workspace.id,
         resource_type="blog_post", resource_id=post_id,
         version_num=len(existing) + 1,
         snapshot={"title": post.title, "slug": post.slug, "content": post.content},
@@ -202,7 +202,7 @@ async def update_post(
 
 @router.post("/blog/{post_id}/publish", response_model=BlogOut)
 async def publish_post(
-    post_id: str,
+    post_id: uuid.UUID,
     workspace: Workspace = Depends(get_current_workspace),
     db: AsyncSession = Depends(get_db),
     payload: dict = Depends(require_cms_user),

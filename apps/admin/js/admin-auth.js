@@ -53,6 +53,7 @@ class Auth {
             }
 
             sessionStorage.setItem(this.#TOKEN_KEY, data.access_token);
+            if (data.role) sessionStorage.setItem('aitdl_admin_role', data.role);
             return true;
         } catch (err) {
             console.error('[Auth] Network error during login:', err);
@@ -143,6 +144,28 @@ class Auth {
             console.error(`[Auth] Network error for ${endpoint}:`, err);
             return null;
         }
+    }
+
+    /**
+     * @returns {object} Authorization header object
+     */
+    static getAuthHeader() {
+        return { 'Authorization': `Bearer ${this.getToken()}` };
+    }
+
+    /**
+     * Check if the logged-in user has the required role.
+     * 
+     * @param {string} requiredRole - 'admin' or 'superadmin'
+     * @returns {boolean}
+     */
+    static hasRole(requiredRole) {
+        const payload = this.getPayload();
+        if (!payload) return false;
+
+        const role = payload.role || sessionStorage.getItem('aitdl_admin_role');
+        if (requiredRole === 'superadmin') return role === 'superadmin';
+        return role === 'admin' || role === 'superadmin';
     }
 }
 

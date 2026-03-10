@@ -74,20 +74,22 @@ def require_admin(
     """
     Purpose : FastAPI dependency — validates Supabase JWT and ensures admin role.
     Input   : Authorization: Bearer <token>
-    Output  : Dict with 'sub' (user UUID) and 'role'
+    Output  : Dict with 'sub' (user UUID), 'role', and 'workspace_id'
     Errors  : 401 Unauthorized, 403 Forbidden for bad roles
     """
     token = credentials.credentials
     payload = decode_jwt(token)
     
-    # In Supabase, custom roles are typically stored in app_metadata
-    # e.g., payload.get('app_metadata', {}).get('role')
+    # Supabase stores roles/workspace in app_metadata
     app_metadata = payload.get("app_metadata", {})
-    role = app_metadata.get("role")
+    role = app_metadata.get("role") or payload.get("role", "user")
     
-    # If not using Supabase app_metadata, fallback to standard role claim for testing
-    if not role:
-        role = payload.get("role")
+    # Extract workspace_id (Phase 1 fallback to 'aitdl' for admins)
+    workspace_id = app_metadata.get("workspace_id") or payload.get("workspace_id")
+    if not workspace_id and role in ("admin", "superadmin"):
+        workspace_id = "aitdl"
+    else:
+        workspace_id = workspace_id or "default"
 
     if role not in ("superadmin", "admin"):
         raise HTTPException(
@@ -95,8 +97,9 @@ def require_admin(
             detail="Admin access required",
         )
     
-    # Attach unified role back to payload for convenience
+    # Attach unified metadata back to payload for convenience
     payload['role'] = role
+    payload['workspace_id'] = workspace_id
     return payload
 
 
@@ -115,3 +118,14 @@ def require_superadmin(
             detail="Superadmin access required",
         )
     return payload
+
+
+def require_user(
+    credentials: HTTPAuthorizationCredentials = Depends(_bearer),
+) -> dict:
+    """
+    Purpose : FastAPI dependency — validates Supabase JWT.
+    Input   : Authorization: Bearer <token>
+    Output  : Decoded payload dict
+    """
+    return decode_jwt(credentials.credentials)

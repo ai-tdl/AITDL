@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS admin_users (
+    id         SERIAL PRIMARY KEY,
+    email      VARCHAR(200) UNIQUE NOT NULL,
+    role       VARCHAR(30) NOT NULL DEFAULT 'admin',
+    is_active  BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

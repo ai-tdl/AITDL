@@ -36,6 +36,19 @@ log = logging.getLogger(__name__)
 STUB_MODE = os.getenv('AI_STUB_MODE', 'true').lower() == 'true'
 OLLAMA_HOST = os.getenv('OLLAMA_HOST', 'http://localhost:11434')
 
+if STUB_MODE:
+    import logging as _log
+    _log.getLogger(__name__).warning(
+        '⚠️  AI_STUB_MODE=true — ALL AI providers returning stubs. '
+        'Set AI_STUB_MODE=false in Railway/Vercel env to use real providers.'
+    )
+
+if STUB_MODE:
+    log.warning(
+        "⚠️  AI_STUB_MODE is ACTIVE — all AI providers are returning stubs. "
+        "Set AI_STUB_MODE=false in your environment to use real providers."
+    )
+
 
 class AISource(str, Enum):
     LOCAL = "local"
@@ -68,6 +81,14 @@ def _determine_source(task_type: TaskComplexity) -> AISource:
         return AISource.CLAUDE
     return AISource.LOCAL
 
+
+# ── Thinking Budget Mapping ────────────────────────────────────────────────────
+
+_THINKING_BUDGET = {
+    TaskComplexity.BASIC: 0,
+    TaskComplexity.CONTENT: 1024,
+    TaskComplexity.ADVANCED: 4096,
+}
 
 # ── Fallback order (highest quality → lowest cost) ─────────────────────────────
 
@@ -110,7 +131,7 @@ async def generate_response(
 
     for provider_key in _FALLBACK_ORDER[start_idx:]:
         try:
-            return await providers[provider_key](prompt, context)
+            return await providers[provider_key](prompt, task_type, context)
         except Exception as e:
             log.warning(f"AI Provider {provider_key} failed, trying next: {e}")
 
@@ -119,7 +140,11 @@ async def generate_response(
 
 # ── Provider: Ollama (Local) ───────────────────────────────────────────────────
 
-async def _call_local_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+async def _call_local_model(
+    prompt: str, 
+    task_type: TaskComplexity = TaskComplexity.BASIC,
+    context: Optional[Dict] = None
+) -> Dict[str, Any]:
     if STUB_MODE:
         return {
             "provider": "ollama_stub",
@@ -148,7 +173,11 @@ async def _call_local_model(prompt: str, context: Optional[Dict] = None) -> Dict
 
 # ── Provider: Groq (Open Source) ───────────────────────────────────────────────
 
-async def _call_opensource_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+async def _call_opensource_model(
+    prompt: str, 
+    task_type: TaskComplexity = TaskComplexity.BASIC,
+    context: Optional[Dict] = None
+) -> Dict[str, Any]:
     if STUB_MODE:
         return {
             "provider": "groq_stub",
@@ -187,7 +216,11 @@ async def _call_opensource_model(prompt: str, context: Optional[Dict] = None) ->
 
 # ── Provider: DeepSeek ─────────────────────────────────────────────────────────
 
-async def _call_deepseek_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+async def _call_deepseek_model(
+    prompt: str, 
+    task_type: TaskComplexity = TaskComplexity.BASIC,
+    context: Optional[Dict] = None
+) -> Dict[str, Any]:
     if STUB_MODE:
         return {
             "provider": "deepseek_stub",
@@ -229,11 +262,15 @@ async def _call_deepseek_model(prompt: str, context: Optional[Dict] = None) -> D
 
 # ── Provider: Google Gemini ────────────────────────────────────────────────────
 
-async def _call_gemini_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+async def _call_gemini_model(
+    prompt: str, 
+    task_type: TaskComplexity = TaskComplexity.BASIC,
+    context: Optional[Dict] = None
+) -> Dict[str, Any]:
     if STUB_MODE:
         return {
             "provider": "gemini_stub",
-            "model": "gemini-2.0-flash",
+            "model": "gemini-2.5-flash",
             "response": f"[Stub] Gemini AI generated: {prompt[:30]}...",
             "status": "success"
         }
@@ -242,16 +279,19 @@ async def _call_gemini_model(prompt: str, context: Optional[Dict] = None) -> Dic
     if not api_key:
         raise ValueError("GEMINI_API_KEY not set")
 
-    async with httpx.AsyncClient(timeout=30) as client:
+    budget = _THINKING_BUDGET.get(task_type, 0)
+
+    async with httpx.AsyncClient(timeout=60) as client:
         try:
             r = await client.post(
-                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}",
+                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}",
                 headers={"Content-Type": "application/json"},
                 json={
                     "contents": [{"parts": [{"text": prompt}]}],
                     "generationConfig": {
                         "temperature": 0.7,
-                        "maxOutputTokens": 2048,
+                        "maxOutputTokens": 8192,
+                        "thinkingConfig": {"thinkingBudget": budget}
                     }
                 }
             )
@@ -260,9 +300,10 @@ async def _call_gemini_model(prompt: str, context: Optional[Dict] = None) -> Dic
             text = data['candidates'][0]['content']['parts'][0]['text']
             return {
                 "provider": "gemini",
-                "model": "gemini-2.0-flash",
+                "model": "gemini-2.5-flash",
                 "response": text,
-                "status": "success"
+                "status": "success",
+                "thinking_budget": budget
             }
         except Exception as e:
             log.error(f"Gemini call failed: {e}")
@@ -271,7 +312,11 @@ async def _call_gemini_model(prompt: str, context: Optional[Dict] = None) -> Dic
 
 # ── Provider: OpenAI (Premium) ─────────────────────────────────────────────────
 
-async def _call_premium_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+async def _call_premium_model(
+    prompt: str, 
+    task_type: TaskComplexity = TaskComplexity.BASIC,
+    context: Optional[Dict] = None
+) -> Dict[str, Any]:
     if STUB_MODE:
         return {
             "provider": "openai_stub",
@@ -303,7 +348,11 @@ async def _call_premium_model(prompt: str, context: Optional[Dict] = None) -> Di
 
 # ── Provider: Anthropic Claude ─────────────────────────────────────────────────
 
-async def _call_claude_model(prompt: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+async def _call_claude_model(
+    prompt: str, 
+    task_type: TaskComplexity = TaskComplexity.BASIC,
+    context: Optional[Dict] = None
+) -> Dict[str, Any]:
     if STUB_MODE:
         return {
             "provider": "claude_stub",
