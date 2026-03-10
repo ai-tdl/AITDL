@@ -5,6 +5,8 @@
 import { redirect } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 
+export const dynamic = 'force-dynamic'
+
 // Roles allowed to access the CMS editor
 const CMS_ALLOWED_ROLES = new Set([
   'superadmin',

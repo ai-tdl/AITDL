@@ -1,5 +1,21 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/api/[...proxy]/route": "app/api/[...proxy]/route.js",
+  "/autocorrect/page": "app/autocorrect/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/explore/page": "app/explore/page.js",
   "/page": "app/page.js",
-  "/ganitsutram/page": "app/ganitsutram/page.js"
+  "/pages/[slug]/page": "app/pages/[slug]/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/dailyboard/page": "app/dailyboard/page.js",
+  "/ganitsutram/page": "app/ganitsutram/page.js",
+  "/partner/page": "app/partner/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/cms/ai/page": "app/cms/ai/page.js",
+  "/cms/forms/page": "app/cms/forms/page.js",
+  "/cms/blog/page": "app/cms/blog/page.js",
+  "/cms/media/page": "app/cms/media/page.js",
+  "/cms/page": "app/cms/page.js",
+  "/cms/pages/page": "app/cms/pages/page.js"
 }
