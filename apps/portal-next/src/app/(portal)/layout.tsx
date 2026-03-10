@@ -14,7 +14,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
           <div className="hidden md:flex items-center gap-10 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6a6860]">
             <a href="/explore" className="hover:text-[#c9a84c] transition-colors">Universe</a>
-            <a href="/ganitsutram" className="hover:text-[#c9a84c] transition-colors">Sūtram</a>
+            <a href="/student/tools/ganitsutram" className="hover:text-[#c9a84c] transition-colors">Sūtram</a>
             <a href="/blog" className="hover:text-[#c9a84c] transition-colors">Intelligence</a>
             <a href="/partner" className="hover:text-[#c9a84c] transition-colors font-bold text-[#c9a84c]">Partner</a>
           </div>

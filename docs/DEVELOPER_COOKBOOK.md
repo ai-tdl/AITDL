@@ -42,6 +42,8 @@
 20. [**Testing the Universe**](#-chapter-20-testing-the-universe)
 21. [**Graceful Resilience (404 Strategy)**](#-chapter-21-graceful-resilience-404-strategy)
 22. [**Topnotch Form Standards**](#-chapter-22-topnotch-form-standards)
+23. [**Intelligent Location Selection**](#-chapter-23-intelligent-location-selection)
+24. [**Master SEO & Indexing Standards**](#-chapter-24-master-seo--indexing-standards)
 
 ---
 
@@ -402,6 +404,30 @@ To maintain data integrity and professional UX, use the `LocationSelector` for a
 2.  **State Management**: Wrap the form in a Client Component to manage `{ state, city }`.
 3.  **Hidden Fields**: Include hidden inputs for `<input type="hidden" name="state" />` to ensure compatibility with standard form actions.
 4.  **Theme Alignment**: Use `theme="violet"` for portal forms and `theme="emerald"` for partner-related flows.
+
+---
+---
+
+## 📈 Chapter 24: Master SEO & Indexing Standards
+
+AITDL operates as a multi-persona ecosystem. Maximum search visibility is achieved through automated discovery and high-fidelity metadata.
+
+### 1. Root Layout Template
+Always leverage the root `layout.tsx` metadata template. Use `%s | AITDL` to ensure consistent branding across search results.
+
+### 2. Automated Sitemaps
+We use `src/app/sitemap.ts` to dynamically generate a crawlable map of the entire Universe.
+- **Frequency**: Internal routes are set to `weekly`.
+- **Priority**: The Gate (`/`) is set to `1.0`, while segment hubs are `0.8`.
+
+### 3. Persona Metadata Standards
+Every `page.tsx` in `(portal)` MUST export a `Metadata` object with:
+- **Unique Title**: Describing the segment's value (e.g., "Retail POS — Shoper 9").
+- **Localized Description**: Mentioning "India," "Bharat," and specific persona pain points.
+- **Keyword Array**: High-intent terms for that specific audience.
+
+### 4. Indexing Rules
+Standard `robots.txt` allows all crawling while protecting `_next` and `api` internals.
 
 ---
 *Last Refined: 11 March MMXXVI*

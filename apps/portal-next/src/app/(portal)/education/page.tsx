@@ -5,11 +5,11 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Education Technology — School ERP & Coaching Management',
-  description: 'Complete institutional management. Admissions, fees, exams, and attendance — all powered by AITDL AI. Trusted by schools and coaching centers.',
-  keywords: ['School ERP', 'Coaching Management', 'Fee Collection', 'Admission Software', 'EduTech India', 'AITDL'],
+  title: 'Education Cloud — Institutional Management System',
+  description: 'Complete cloud OS for schools and colleges across India. Automate admissions, fees, exams, and attendance with AITDL\'s AI-driven institution management.',
+  keywords: ['School Management Software', 'College ERP India', 'Fee Collection', 'Admission Automation', 'EduTech India', 'AITDL Education'],
   openGraph: {
-    title: 'Education Technology — School ERP | AITDL',
+    title: 'Education Cloud — Institutional Management System | AITDL',
     description: 'Transform your institution with AI-powered ERP. Fee management, digital classrooms, and parent sync.',
   },
 }
@@ -64,7 +64,7 @@ export default function SchoolPage() {
           </div>
 
           <h1 className="font-heading text-6xl md:text-8xl font-extrabold text-white mb-6 leading-none tracking-tight">
-            SCHOOLS.<br /><span className="text-gradient">RUN BETTER.</span>
+            EDUCATION.<br /><span className="text-gradient">RUN BETTER.</span>
           </h1>
 
           <p className="text-xl text-zinc-300 max-w-2xl mx-auto mb-4">

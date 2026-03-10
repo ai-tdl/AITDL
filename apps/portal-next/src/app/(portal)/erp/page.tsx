@@ -5,11 +5,11 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Business ERP & Tally Solutions — TallyPrime · TallyTDL · ERPNext',
-  description: 'Custom ERP and Tally solutions for Indian businesses. TallyPrime, TallyTDL projects, ERPNext, and Odoo implementations. 18 years of expertise.',
-  keywords: ['Business ERP', 'TallyPrime', 'TallyTDL', 'ERPNext India', 'Business Automation', 'AITDL'],
+  title: 'Business ERP — Tally Sync & Advanced Analytics',
+  description: 'Scale your business with AITDL ERP. Seamless Tally integration, automated accounting, and deep business intelligence for SMEs and Enterprises across India.',
+  keywords: ['Business ERP India', 'TallyPrime', 'Tally Sync', 'ERPNext India', 'Business Automation', 'AITDL ERP'],
   openGraph: {
-    title: 'Business ERP & Tally Solutions | AITDL',
+    title: 'Business ERP — Tally Sync & Advanced Analytics | AITDL',
     description: 'Scalable ERP solutions for manufacturing, trading, and services. TallyPrime & automation.',
   },
 }

@@ -56,10 +56,10 @@ export default function HomePage() {
         <Door
           subtext="LEARN · EARN · FUN"
           title="GROW ON YOUR TERMS."
-          desc="Online courses. Referral income. Gamified challenges. Daily rewards. Built for working professionals who want to grow without slowing down."
-          href="/explore"
+          desc="Online courses. AI Learning. Gamified challenges. Referral rewards. Built for learners and professionals who want to grow without limits."
+          href="/student"
           theme="burgundy"
-          linkText="EXPLORE PLATFORM"
+          linkText="LEARNING HUB"
           emoji="🎯"
         />
 

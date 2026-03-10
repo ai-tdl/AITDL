@@ -7,9 +7,9 @@ import RevealOnScroll from '@/components/visual/RevealOnScroll'
 import PartnerForm from '@/components/forms/PartnerForm'
 
 export const metadata: Metadata = {
-  title: 'Partner with AITDL — Reseller & Implementation Network',
-  description: 'Join the AITDL partner network. Resell, implement, and earn with our Pan India technology platform. Mumbai · Nashik · Surat · Gorakhpur and beyond.',
-  keywords: ['AITDL partner', 'Tally reseller', 'ERP partner India', 'school software reseller', 'technology partner'],
+  title: 'Partner Programme — Grow Your Tech Business',
+  description: 'Join the AITDL Partner Network. Resell, implement, and earn with our Pan India technology platform. Build your tech business in Mumbai, Nashik, Surat, and beyond.',
+  keywords: ['AITDL Partner', 'Reseller Programme India', 'Tally Partner', 'ERP Partner India', 'Software Franchise'],
 }
 
 const PARTNER_TYPES = [

@@ -7,7 +7,7 @@ const PRODUCTS = [
   {
     id: '01',
     name: 'GanitSūtram',
-    href: '/ganitsutram',
+    href: '/student/tools/ganitsutram',
     desc: 'AI-powered mathematics learning platform used by institutions to automate education and personalize learning paths.',
     theme: 'blue',
     icon: '✧'
@@ -30,8 +30,8 @@ const PRODUCTS = [
   },
   {
     id: '04',
-    name: 'School / Edu',
-    href: '/school',
+    name: 'Education Cloud',
+    href: '/education',
     desc: 'Complete institutional management. Admissions, fees, exams, and attendance — all powered by AITDL AI.',
     theme: 'green',
     icon: '🏫'

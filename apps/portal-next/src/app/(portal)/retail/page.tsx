@@ -5,11 +5,11 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Retail Technology — Shoper 9 POS & GST Billing',
-  description: 'India\'s most trusted retail POS. GST compliant billing, inventory, and multi-store management. Trusted by 100+ stores across India.',
-  keywords: ['Retail POS', 'Shoper 9', 'GST Billing', 'Tally Retail', 'Inventory Management', 'AITDL'],
+  title: 'Retail POS — Point of Sale for Modern Bharat',
+  description: 'The ultimate Retail Point-of-Sale solution for shops, malls, and chains across India. GST compliant billing, inventory, and multi-store management. Trusted by 100+ stores.',
+  keywords: ['Retail POS India', 'Shop Billing Software', 'GST Billing', 'Tally Retail', 'Inventory Management', 'AITDL Retail'],
   openGraph: {
-    title: 'Retail Technology — Shoper 9 POS & GST Billing | AITDL',
+    title: 'Retail POS — Point of Sale for Modern Bharat | AITDL',
     description: 'Modern POS for retail chains. GST billing, real-time inventory, and multi-store sync.',
   },
 }
