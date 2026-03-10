@@ -608,7 +608,7 @@ export const metadata: Metadata = {{
 
 const PRODUCTS = [
   {{ name: 'GanitSūtram',    href: '/ganitsutram',  desc: 'AI Mathematics Learning Platform',        color: 'from-blue-600 to-cyan-900'    }},
-  {{ name: 'Dailyboard',     href: '/dailyboard',   desc: 'Daily Productivity & Team Sync',          color: 'from-violet-600 to-purple-900'}},
+  {{ name: 'Saathibook',     href: '/saathibook',   desc: 'Daily Productivity & Team Sync',          color: 'from-violet-600 to-purple-900'}},
   {{ name: 'Retail POS',     href: '/retail',       desc: 'Modern Point-of-Sale for retail stores',  color: 'from-orange-600 to-orange-900'}},
   {{ name: 'School ERP',     href: '/school',       desc: 'Complete school management system',       color: 'from-green-600 to-green-900'  }},
   {{ name: 'Ecommerce',      href: '/ecommerce',    desc: 'End-to-end ecommerce solutions',          color: 'from-pink-600 to-rose-900'    }},

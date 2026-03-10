@@ -11,10 +11,15 @@
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getDictionary } from '@/lib/get-dictionary'
 
-export const metadata: Metadata = {
-  title: 'Blog — AITDL',
-  description: 'Insights on AI, ERP, Education and Technology from AITDL.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const dict = await getDictionary(locale)
+  return {
+    title: dict.blog.seo.title,
+    description: dict.blog.seo.description,
+  }
 }
 
 interface BlogPost {
@@ -39,38 +44,50 @@ async function getPosts(): Promise<BlogPost[]> {
   }
 }
 
-export default async function BlogIndexPage() {
+export default async function BlogIndexPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const dict = await getDictionary(locale)
   const posts = await getPosts()
 
   return (
-    <main className="min-h-screen bg-brand-900 px-6 py-20 max-w-4xl mx-auto">
-      <h1 className="text-5xl font-bold text-white mb-2">Blog</h1>
-      <p className="text-purple-300 mb-12">Insights from AITDL</p>
+    <main className="min-h-screen px-6 py-32 max-w-4xl mx-auto">
+      <div className="rv mb-16">
+        <h1 className="text-6xl font-display font-extrabold text-white mb-4 uppercase tracking-tighter">
+          {dict.blog.header.title}
+        </h1>
+        <p className="text-zinc-500 font-mono text-xs uppercase tracking-[0.3em]">
+          {dict.blog.header.subtitle}
+        </p>
+      </div>
 
       {posts.length === 0 ? (
-        <p className="text-gray-500">No posts published yet.</p>
+        <div className="glass rounded-2xl p-12 text-center rv">
+           <p className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">{dict.blog.noPosts}</p>
+        </div>
       ) : (
         <div className="space-y-8">
           {posts.map(post => (
-            <article key={post.id} className="border border-white/10 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
-              <Link href={`/blog/${post.slug}`}>
-                <h2 className="text-2xl font-semibold text-white hover:text-purple-300 transition-colors mb-2">
+            <article key={post.id} className="glass rounded-2xl p-8 hover:border-indigo-500/30 transition-all group rv">
+              <Link href={`/${locale}/blog/${post.slug}`}>
+                <h2 className="text-3xl font-display font-bold text-white group-hover:text-indigo-400 transition-colors mb-4 uppercase tracking-tight">
                   {post.title}
                 </h2>
               </Link>
               {post.ai_summary && (
-                <p className="text-gray-400 text-sm mb-3">{post.ai_summary}</p>
+                <p className="text-zinc-400 leading-relaxed mb-6 font-light">{post.ai_summary}</p>
               )}
-              <div className="flex gap-2 flex-wrap">
-                {post.tags.map(tag => (
-                  <span key={tag} className="text-xs px-2 py-1 bg-purple-900/50 text-purple-300 rounded-full">
-                    {tag}
-                  </span>
-                ))}
+              <div className="flex items-center justify-between mt-auto">
+                <div className="flex gap-2 flex-wrap">
+                  {post.tags.map(tag => (
+                    <span key={tag} className="text-[10px] px-2 py-0.5 bg-indigo-500/10 text-indigo-400 rounded-md border border-indigo-500/10 uppercase tracking-widest font-mono">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest">
+                  {new Date(post.published_at).toLocaleDateString(locale === 'hi' ? 'hi-IN' : locale === 'sa' ? 'hi-IN' : 'en-IN', { dateStyle: 'long' })}
+                </p>
               </div>
-              <p className="text-xs text-gray-600 mt-3">
-                {new Date(post.published_at).toLocaleDateString('en-IN', { dateStyle: 'long' })}
-              </p>
             </article>
           ))}
         </div>

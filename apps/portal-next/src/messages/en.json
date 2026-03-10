@@ -234,5 +234,23 @@
         "why": "Tell us about your existing business, your market, and what you hope to achieve..."
       }
     }
+  },
+  "blog": {
+    "header": {
+      "title": "Blog",
+      "subtitle": "Insights from AITDL"
+    },
+    "noPosts": "No posts published yet.",
+    "seo": {
+      "title": "Blog — AITDL",
+      "description": "Insights on AI, ERP, Education and Technology from AITDL — The Bharat Perspective."
+    },
+    "readMore": "Read More",
+    "author": {
+      "label": "Author",
+      "name": "Jawahar R. Mallah",
+      "title": "Founder, Author & System Architect",
+      "bio": "Leading the Bharat AI revolution through structured linguistics and GanitSūtram mathematics. Architecting the future of localized productivity."
+    }
   }
 }
