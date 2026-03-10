@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="description" content="AITDL — Technology Solutions for Retail, ERP, Education & AI. Pan India. Since 2007. See it. Love it. Then pay for it."/>
+<title>AITDL — Choose Your World</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THEME VARIABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root{
+  --bg:#03040a;--deep:#080c18;--card:#0d1121;
+  --a:#c9a84c;--a2:#f0d080;
+  --text:#e8e4da;--muted:#6a6860;--border:rgba(255,255,255,0.07);
+  --pr:201,168,76;--btn-text:#03040a;
+}
+.t-retail{--bg:#060200;--deep:#0f0500;--card:#180a00;--a:#ff6b1a;--a2:#ffb07a;--text:#fff5ee;--muted:#8a6a55;--border:rgba(255,107,26,0.12);--pr:255,107,26;--btn-text:#fff}
+.t-erp{--bg:#00050f;--deep:#000c1e;--card:#001127;--a:#1a8fff;--a2:#70caff;--text:#e0f0ff;--muted:#4a7090;--border:rgba(26,143,255,0.12);--pr:26,143,255;--btn-text:#fff}
+.t-education{--bg:#010a04;--deep:#031208;--card:#05180b;--a:#22c565;--a2:#7ffaaa;--text:#e0f8eb;--muted:#458060;--border:rgba(34,197,101,0.12);--pr:34,197,101;--btn-text:#fff}
+.t-ai{--bg:#030108;--deep:#070315;--card:#0c0620;--a:#a259ff;--a2:#d4a0ff;--text:#f0e8ff;--muted:#6a5090;--border:rgba(162,89,255,0.12);--pr:162,89,255;--btn-text:#fff}
+.t-home{--bg:#070203;--deep:#110405;--card:#1a0708;--a:#ff4d6a;--a2:#ff9aaa;--text:#fff0f2;--muted:#8a5060;--border:rgba(255,77,106,0.12);--pr:255,77,106;--btn-text:#fff}
+.t-partner{--bg:#030602;--deep:#071004;--card:#0c1a06;--a:#39e07a;--a2:#90f5b0;--text:#e8fff0;--muted:#4a7a58;--border:rgba(57,224,122,0.12);--pr:57,224,122;--btn-text:#040e06}
+.t-ngo{--bg:#010a09;--deep:#031512;--card:#051f1b;--a:#0eb8a0;--a2:#60eedd;--text:#e0faf6;--muted:#3a7a70;--border:rgba(14,184,160,0.12);--pr:14,184,160;--btn-text:#010a09}
+.t-ecom{--bg:#03020f;--deep:#07051a;--card:#0e0a28;--a:#6c63ff;--a2:#b0aaff;--text:#f0eeff;--muted:#5a5480;--border:rgba(108,99,255,0.12);--pr:108,99,255;--btn-text:#fff}
+.t-lef{--bg:#0f0900;--deep:#1a1000;--card:#261700;--a:#f5a623;--a2:#ffd47a;--text:#fff8ec;--muted:#8a6a30;--border:rgba(245,166,35,0.12);--pr:245,166,35;--btn-text:#0f0900}
+
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;transition:background .6s,color .4s;cursor:none}
+@media(max-width:768px){body{cursor:auto}}
+
+/* CANVAS */
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;transition:opacity .5s}
+
+/* CURSOR */
+#cur,#curR{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur{width:9px;height:9px;background:var(--a);transition:background .4s,width .2s,height .2s}
+#curR{width:34px;height:34px;border:1px solid rgba(var(--pr),.5);transition:border-color .4s,width .2s,height .2s}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:5px;height:5px}
+body:has(a:hover) #curR,body:has(button:hover) #curR{width:52px;height:52px}
+@media(max-width:768px){#cur,#curR{display:none}}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LAYOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.wrap{position:relative;z-index:2}
+
+
+/* ── CINEMATIC FOOTER CARD ── */
+.cin-footer{
+  position:relative;overflow:hidden;
+  padding:7rem 3rem 5rem;
+  background:var(--deep);
+  border-top:1px solid var(--border);
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:2rem;
+}
+.cin-footer::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 120%, rgba(var(--pr),.18), transparent 65%);
+  pointer-events:none;
+}
+.cin-footer::after{
+  content:'';position:absolute;
+  top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(var(--pr),.6),transparent);
+}
+.cin-f-eyebrow{
+  font-family:'Space Mono',monospace;font-size:.55rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--a);opacity:.8;
+}
+.cin-f-headline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,8vw,7rem);
+  letter-spacing:.04em;line-height:.95;
+  color:var(--text);
+  position:relative;z-index:1;
+}
+.cin-f-headline span{
+  background:linear-gradient(135deg,var(--a),var(--a2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.cin-f-sub{
+  font-size:.82rem;color:var(--muted);
+  max-width:480px;line-height:1.7;
+  position:relative;z-index:1;
+}
+.cin-f-btn{
+  position:relative;z-index:1;
+  display:inline-flex;align-items:center;gap:.7rem;
+  background:var(--a);color:var(--btn-text);
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:1.1rem 2.8rem;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+  text-decoration:none;
+}
+.cin-f-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px rgba(var(--pr),.35);
+}
+.cin-f-btn .arr{font-size:.9rem;transition:transform .2s}
+.cin-f-btn:hover .arr{transform:translateX(5px)}
+.cin-f-meta{
+  position:relative;z-index:1;
+  display:flex;gap:2rem;align-items:center;flex-wrap:wrap;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:.5rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  border-top:1px solid var(--border);padding-top:2rem;margin-top:1rem;
+  width:100%;max-width:700px;
+}
+.cin-f-meta a{color:var(--muted);text-decoration:none;transition:color .2s}
+.cin-f-meta a:hover{color:var(--a)}
+.cin-f-copy{
+  position:relative;z-index:1;
+  font-family:'Space Mono',monospace;font-size:.44rem;
+  letter-spacing:.08em;color:#333;margin-top:-.5rem;
+}
+.cin-f-wordmark{
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;
+  letter-spacing:.15em;
+  background:linear-gradient(135deg,#c9a84c,#f0d080);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+/* NAV */
+nav{position:fixed;top:0;inset-inline:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:rgba(0,0,0,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:border-color .5s}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.12em;background:linear-gradient(130deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--a);transform:scaleX(0);transition:transform .3s}
+.nav-links a:hover{color:var(--text)}.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{border:1px solid var(--a);color:var(--a)!important;padding:.45rem 1.1rem;transition:background .3s,color .3s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--a);color:var(--btn-text)!important}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:3px}
+.burger span{width:22px;height:2px;background:var(--text);display:block;border-radius:2px;transition:background .4s}
+@media(max-width:768px){
+  nav{padding:.9rem 1.2rem}
+  .burger{display:flex}
+  .nav-links{display:none;position:fixed;inset:0;background:var(--bg);flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;z-index:600;transition:background .5s}
+  .nav-links.open{display:flex}
+  .nav-links a{font-size:1rem}
+  .xbtn{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SHARED ORB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.o1{width:600px;height:600px;background:rgba(201,168,76,.05);top:-200px;right:-150px}
+.o2{width:400px;height:400px;background:rgba(201,168,76,.03);bottom:-100px;left:-100px}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GATE — full-viewport, always visible
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#gate{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:stretch;
+  position:relative;overflow:hidden;
+}
+
+/* Brand strip */
+.gate-brand{
+  text-align:center;margin-bottom:3.5rem;
+  opacity:0;animation:fU .8s ease .2s forwards;
+}
+.gate-brand .logo{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,5rem);
+  letter-spacing:.2em;background:linear-gradient(130deg,#c9a84c,#f0d080);
+  background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:sh 5s linear 2s infinite;display:block;margin-bottom:.6rem;
+}
+.gate-brand .tagline{
+  font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:#555;
+}
+.gate-brand .tagline em{color:#c9a84c;font-style:normal}
+
+/* Two-door layout → Three-door layout */
+.gate-doors{
+  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
+  gap:1px;background:rgba(255,255,255,.05);
+  opacity:0;animation:fU .7s ease .55s forwards;
+}
+@media(max-width:900px){.gate-doors{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.gate-doors{grid-template-columns:1fr}}
+
+.door{
+  position:relative;overflow:hidden;cursor:pointer;
+  padding:3.5rem 3rem;display:flex;flex-direction:column;
+  justify-content:space-between;min-height:340px;
+  background:var(--deep);
+  transition:background .35s;
+}
+@media(max-width:768px){.door{padding:2.5rem 1.5rem;min-height:260px}}
+.door:hover{background:var(--card)}
+
+/* Door glow on hover */
+.door::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 110%,rgba(201,168,76,.1),transparent 70%);
+  opacity:0;transition:opacity .5s;
+}
+.door:hover::after{opacity:1}
+
+/* Left/middle door separators */
+.door-universe,.door-destination{border-right:1px solid rgba(255,255,255,.04)}
+@media(max-width:900px){
+  .door-universe{border-right:1px solid rgba(255,255,255,.04)}
+.door-destination{border-right:1px solid rgba(255,255,255,.04)}
+.door-partner{border-right:1px solid rgba(255,255,255,.04)}
+.door-lef-gate{border-right:none}
+  .door-destination{border-right:none;border-bottom:1px solid rgba(255,255,255,.04)}
+  .door-lef{
+  background:#0f0900;
+}
+.door-lef:hover{background:#1a1000!important}
+.door-lef::after{background:radial-gradient(ellipse at 50% 110%,rgba(245,166,35,.12),transparent 70%)!important}
+
+.door-partner{border-right:none;border-bottom:none}
+}
+@media(max-width:560px){
+  .door-universe,.door-destination{border-right:none;border-bottom:1px solid rgba(255,255,255,.04)}
+  .door-lef{
+  background:#0f0900;
+}
+.door-lef:hover{background:#1a1000!important}
+.door-lef::after{background:radial-gradient(ellipse at 50% 110%,rgba(245,166,35,.12),transparent 70%)!important}
+
+.door-partner{border-right:none;border-bottom:none}
+}
+
+/* Top accent line */
+.door-line{
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--dl,#c9a84c),transparent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.door:hover .door-line{transform:scaleX(1)}
+
+/* Partner door — distinct green energy */
+.door-lef{
+  background:#0f0900;
+}
+.door-lef:hover{background:#1a1000!important}
+.door-lef::after{background:radial-gradient(ellipse at 50% 110%,rgba(245,166,35,.12),transparent 70%)!important}
+
+.door-partner{background:#030a04}
+.door-partner:hover{background:#071209}
+.door-partner::after{
+  background:radial-gradient(ellipse at 50% 110%,rgba(57,224,122,.13),transparent 70%)!important;
+}
+.door-partner .door-label{color:#39e07a}
+.door-partner h2{color:#e8fff0}
+.door-partner:hover h2{color:#39e07a!important}
+.door-partner .door-cta{color:#39e07a}
+.door-partner .door-line{background:linear-gradient(to right,#39e07a,transparent)}
+.door-icon{font-size:2.8rem;line-height:1;display:block;margin-bottom:1.4rem;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.door:hover .door-icon{transform:scale(1.12) rotate(-4deg)}
+.door-label{
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dl,#c9a84c);margin-bottom:.7rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.door-label::before{content:'';width:18px;height:1px;background:currentColor;opacity:.5}
+.door h2{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3.2rem);
+  letter-spacing:.03em;line-height:.95;margin-bottom:.9rem;
+  transition:color .3s;
+}
+.door:hover h2{color:var(--dl,#c9a84c)}
+.door-desc{font-size:.8rem;color:#4a4a5a;line-height:1.75;max-width:360px;margin-bottom:1.6rem}
+.door-desc strong{color:#888}
+
+.door-cta{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;
+  color:var(--dl,#c9a84c);position:relative;z-index:1;
+  transition:gap .3s;
+}
+.door:hover .door-cta{gap:.9rem}
+.door-cta .arr{transition:transform .3s}
+.door:hover .door-cta .arr{transform:translateX(4px)}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OVERVIEW DASHBOARD (Whole Universe)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#overview{display:none;position:relative;z-index:2}
+#overview.on{display:block}
+
+.ov-hero{
+  min-height:52vh;display:flex;flex-direction:column;
+  justify-content:center;padding:7rem 3rem 3rem;
+  position:relative;overflow:hidden;
+}
+@media(max-width:768px){.ov-hero{padding:6rem 1.2rem 2.5rem}}
+.ov-tag{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.ov-tag .pd{width:7px;height:7px;border-radius:50%;background:#c9a84c;animation:pd 2s infinite;flex-shrink:0}
+.ov-tag span{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#c9a84c}
+.ov-tag .dl{width:36px;height:1px;background:#c9a84c;opacity:.4}
+.ov-tag .sb{color:#555}
+.ov-head{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,8vw,9rem);
+  line-height:.88;letter-spacing:-.01em;margin-bottom:1.5rem;
+}
+.ov-head .gold{background:linear-gradient(135deg,#c9a84c,#f0d080);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:sh 5s linear infinite}
+.ov-sub{color:#4a4a5a;font-size:.88rem;line-height:1.8;max-width:480px}
+.ov-sub strong{color:#888}
+
+/* Overview 6→7-world grid */
+.ov-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:rgba(255,255,255,.05);
+}
+@media(max-width:1000px){.ov-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.ov-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.ov-grid{grid-template-columns:1fr}}
+
+.ov-card{
+  background:var(--deep);padding:2.2rem 1.8rem;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:background .3s;display:flex;flex-direction:column;gap:.8rem;
+}
+.ov-card:hover{background:var(--card)}
+.ov-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--oc,#c9a84c);transform:scaleX(0);transform-origin:left;
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+}
+.ov-card:hover::before{transform:scaleX(1)}
+.ov-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 100%,rgba(255,255,255,.015),transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.ov-card:hover::after{opacity:1}
+.ov-ico{font-size:2.4rem;line-height:1;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.ov-card:hover .ov-ico{transform:scale(1.12) rotate(-5deg)}
+.ov-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;color:var(--oc,#c9a84c);transition:color .3s}
+.ov-card p{font-size:.74rem;color:#4a4a5a;line-height:1.7;flex:1}
+.ov-foot{display:flex;justify-content:space-between;align-items:center;padding-top:.6rem;border-top:1px solid rgba(255,255,255,.04)}
+.ov-tags{font-family:'Space Mono',monospace;font-size:.54rem;color:var(--oc,#c9a84c);opacity:.65;letter-spacing:.06em}
+.ov-arr{color:#333;font-size:1.1rem;transition:transform .3s,color .3s}
+.ov-card:hover .ov-arr{transform:translate(5px,-5px);color:var(--oc,#c9a84c)}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ROLE PICKER (Specific Destination)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#picker{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(28px);
+  flex-direction:column;justify-content:center;align-items:center;
+  padding:2rem 1.5rem;overflow-y:auto;
+}
+#picker.on{display:flex}
+
+.pk-close{
+  position:absolute;top:1.4rem;right:1.4rem;
+  background:none;border:none;color:#444;font-size:1.3rem;
+  cursor:pointer;transition:color .3s;line-height:1;padding:.3rem;
+}
+.pk-close:hover{color:#c9a84c}
+
+.pk-wrap{width:100%;max-width:860px}
+.pk-r-txt{flex:1;min-width:0}
+
+/* Step indicator */
+.pk-steps{
+  display:flex;align-items:center;gap:.8rem;margin-bottom:2.5rem;
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.pk-step{color:#333;transition:color .4s}
+.pk-step.act{color:#c9a84c}
+.pk-step.done{color:#555}
+.pk-sdiv{width:24px;height:1px;background:#222}
+
+/* Heading */
+.pk-head{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,3.5rem);
+  letter-spacing:.03em;line-height:.95;margin-bottom:.5rem;
+}
+.pk-sub{
+  font-size:.77rem;color:#4a4a5a;margin-bottom:2rem;line-height:1.7;
+}
+.pk-sub em{color:#c9a84c;font-style:normal}
+
+/* Role grid */
+.pk-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:8px;margin-bottom:1.8rem;
+}
+.pk-role:last-child:nth-child(4n - 3){grid-column:span 1}
+@media(max-width:760px){.pk-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.pk-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:340px){.pk-grid{grid-template-columns:1fr}}
+
+.pk-role{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  padding:1.2rem 1rem;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:background .25s,border-color .25s,transform .2s;
+  display:flex;align-items:flex-start;gap:.75rem;
+}
+.pk-role:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);transform:translateY(-2px)}
+.pk-role.primary{
+  background:rgba(201,168,76,.1)!important;
+  border-color:#c9a84c!important;
+  box-shadow:0 0 0 1px rgba(201,168,76,.3),inset 0 0 30px rgba(201,168,76,.03);
+}
+.pk-role.secondary{
+  background:rgba(201,168,76,.04)!important;
+  border-color:rgba(201,168,76,.4)!important;
+}
+/* Color overrides per role */
+.pk-role[data-c="retail"].primary{background:rgba(255,107,26,.12)!important;border-color:#ff6b1a!important;box-shadow:0 0 0 1px rgba(255,107,26,.3)}
+.pk-role[data-c="retail"].secondary{background:rgba(255,107,26,.05)!important;border-color:rgba(255,107,26,.35)!important}
+.pk-role[data-c="erp"].primary{background:rgba(26,143,255,.12)!important;border-color:#1a8fff!important;box-shadow:0 0 0 1px rgba(26,143,255,.3)}
+.pk-role[data-c="erp"].secondary{background:rgba(26,143,255,.05)!important;border-color:rgba(26,143,255,.35)!important}
+.pk-role[data-c="edu"].primary{background:rgba(34,197,101,.12)!important;border-color:#22c565!important;box-shadow:0 0 0 1px rgba(34,197,101,.3)}
+.pk-role[data-c="edu"].secondary{background:rgba(34,197,101,.05)!important;border-color:rgba(34,197,101,.35)!important}
+.pk-role[data-c="teacher"].primary{background:rgba(34,197,101,.12)!important;border-color:#22c565!important;box-shadow:0 0 0 1px rgba(34,197,101,.3)}
+.pk-role[data-c="teacher"].secondary{background:rgba(34,197,101,.05)!important;border-color:rgba(34,197,101,.35)!important}
+.pk-role[data-c="student"].primary{background:rgba(162,89,255,.12)!important;border-color:#a259ff!important;box-shadow:0 0 0 1px rgba(162,89,255,.3)}
+.pk-role[data-c="student"].secondary{background:rgba(162,89,255,.05)!important;border-color:rgba(162,89,255,.35)!important}
+.pk-role[data-c="home"].primary{background:rgba(255,77,106,.12)!important;border-color:#ff4d6a!important;box-shadow:0 0 0 1px rgba(255,77,106,.3)}
+.pk-role[data-c="home"].secondary{background:rgba(255,77,106,.05)!important;border-color:rgba(255,77,106,.35)!important}
+.pk-role[data-c="partner"].primary{background:rgba(57,224,122,.12)!important;border-color:#39e07a!important;box-shadow:0 0 0 1px rgba(57,224,122,.3)}
+.pk-role[data-c="partner"].secondary{background:rgba(57,224,122,.05)!important;border-color:rgba(57,224,122,.35)!important}
+.pk-role[data-c="ngo"].primary{background:rgba(14,184,160,.12)!important;border-color:#0eb8a0!important;box-shadow:0 0 0 1px rgba(14,184,160,.3)}
+.pk-role[data-c="ngo"].secondary{background:rgba(14,184,160,.05)!important;border-color:rgba(14,184,160,.35)!important}
+
+/* Badge inside role card */
+.pk-badge{
+  position:absolute;top:.45rem;right:.5rem;
+  font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:.15rem .4rem;border:1px solid currentColor;
+  opacity:0;transition:opacity .2s;
+}
+.pk-role.primary .pk-badge{opacity:1;color:#c9a84c}
+.pk-role[data-c="retail"].primary .pk-badge{color:#ff6b1a}
+.pk-role[data-c="erp"].primary .pk-badge{color:#1a8fff}
+.pk-role[data-c="edu"].primary .pk-badge{color:#22c565}
+.pk-role[data-c="teacher"].primary .pk-badge{color:#22c565}
+.pk-role[data-c="student"].primary .pk-badge{color:#a259ff}
+.pk-role[data-c="home"].primary .pk-badge{color:#ff4d6a}
+.pk-role[data-c="partner"].primary .pk-badge{color:#39e07a}
+.pk-role[data-c="ngo"].primary .pk-badge{color:#0eb8a0}
+.pk-role[data-c="ecom"].primary{background:rgba(108,99,255,.12)!important;border-color:#6c63ff!important;box-shadow:0 0 0 1px rgba(108,99,255,.3)}
+.pk-role[data-c="ecom"].secondary{background:rgba(108,99,255,.05)!important;border-color:rgba(108,99,255,.35)!important}
+.pk-role[data-c="ecom"].primary .pk-badge{color:#6c63ff}
+.pk-role[data-c="ai"].primary{background:rgba(162,89,255,.12)!important;border-color:#a259ff!important;box-shadow:0 0 0 1px rgba(162,89,255,.3)}
+.pk-role[data-c="ai"].secondary{background:rgba(162,89,255,.05)!important;border-color:rgba(162,89,255,.35)!important}
+.pk-role[data-c="ai"].primary .pk-badge{color:#a259ff}
+.pk-role[data-c="lef"].primary{background:rgba(245,166,35,.12)!important;border-color:#f5a623!important;box-shadow:0 0 0 1px rgba(245,166,35,.3)}
+.pk-role[data-c="lef"].secondary{background:rgba(245,166,35,.05)!important;border-color:rgba(245,166,35,.35)!important}
+.pk-role[data-c="lef"].primary .pk-badge{color:#f5a623}
+.pk-role.secondary .pk-badge{opacity:.7;font-size:.42rem}
+.pk-role.secondary .pk-badge::before{content:'+'}
+
+.pk-r-ico{font-size:1.6rem;flex-shrink:0;line-height:1;transition:transform .3s;display:block;margin-top:.1rem}
+.pk-role:hover .pk-r-ico{transform:scale(1.1)}
+.pk-r-txt h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.04em;line-height:1.1;margin-bottom:.2rem;color:#ddd;transition:color .3s}
+.pk-r-txt p{font-size:.64rem;color:#888;line-height:1.5;transition:color .3s}
+.pk-role:hover .pk-r-txt h4{color:#fff}
+.pk-role:hover .pk-r-txt p{color:#aaa}
+
+/* Hint line under grid */
+.pk-hint{
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;flex-wrap:wrap;
+}
+.pk-hint-item{font-family:'Space Mono',monospace;font-size:.55rem;color:#333;letter-spacing:.07em;display:flex;align-items:center;gap:.4rem}
+.pk-hint-item .dot{width:8px;height:8px;border-radius:50%;border:1px solid}
+.pk-hint-item.h-pri .dot{background:rgba(201,168,76,.3);border-color:#c9a84c}
+.pk-hint-item.h-sec .dot{background:transparent;border-color:#555}
+
+/* CTA row */
+.pk-actions{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.pk-go{
+  padding:.9rem 2.5rem;background:#c9a84c;color:#060400;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:.76rem;
+  letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;
+  position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,opacity .3s;
+  opacity:.35;pointer-events:none;
+}
+.pk-go.ready{opacity:1;pointer-events:auto}
+.pk-go.ready:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(201,168,76,.35)}
+.pk-go::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-101%);transition:transform .38s}
+.pk-go.ready:hover::before{transform:translateX(0)}
+.pk-go span{position:relative;z-index:1}
+.pk-skip{
+  font-family:'Space Mono',monospace;font-size:.58rem;color:#333;letter-spacing:.1em;
+  background:none;border:none;border-bottom:1px solid #2a2a2a;padding-bottom:2px;cursor:pointer;
+  transition:color .3s,border-color .3s;
+}
+.pk-skip:hover{color:#c9a84c;border-color:#c9a84c}
+
+/* Selection summary */
+.pk-summary{
+  font-family:'Space Mono',monospace;font-size:.58rem;color:#444;
+  letter-spacing:.08em;min-height:1.2em;transition:color .3s;
+  margin-left:auto;
+}
+.pk-summary.has{color:#c9a84c}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   AUDIENCE SECTIONS — hidden by default
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.aud-section{display:none;min-height:100vh}
+.aud-section.active{display:block}
+
+/* HERO */
+.aud-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:7rem 3rem 4rem;position:relative;overflow:hidden}
+@media(max-width:768px){.aud-hero{padding:6rem 1.2rem 4rem}}
+.hero-eyebrow{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.hero-eyebrow .etag{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+.hero-eyebrow .eline{width:36px;height:1px;background:var(--a);opacity:.4}
+.hero-eyebrow .esub{color:var(--muted);font-size:.6rem;letter-spacing:.08em}
+.hero-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,12rem);line-height:.88;letter-spacing:-.01em;margin-bottom:2rem}
+.hero-h .acc{color:var(--a)}
+.hero-body{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+.hero-desc{max-width:420px;color:var(--muted);line-height:1.85;font-size:.88rem}
+.hero-desc strong{color:var(--text);font-weight:600}
+.hero-acts{display:flex;flex-direction:column;gap:.75rem;align-items:flex-end}
+@media(max-width:600px){.hero-acts{align-items:flex-start}}
+.btn-primary{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2.2rem;background:var(--a);color:var(--btn-text);font-weight:700;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s,background .5s}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 55px rgba(var(--pr),.3)}
+.btn-ghost{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .3s,border-color .3s;background:none;border-left:none;border-right:none;border-top:none;cursor:pointer}
+.btn-ghost:hover{color:var(--a);border-color:var(--a)}
+.hint{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em}
+
+/* TRUST */
+.trust-row{display:flex;gap:1px;background:var(--border)}
+.ti{flex:1;background:var(--deep);padding:1.1rem 1.2rem;display:flex;align-items:center;gap:.7rem;min-width:0;transition:background .3s}
+.ti:hover{background:var(--card)}
+.ti-ico{font-size:1.2rem;flex-shrink:0}
+.ti h4{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.06em;color:var(--a);transition:color .5s;white-space:nowrap}
+.ti p{font-size:.64rem;color:var(--muted);line-height:1.3}
+@media(max-width:800px){.trust-row{flex-wrap:wrap}.ti{flex:1 1 45%}}
+@media(max-width:420px){.ti{flex:1 1 100%}}
+
+/* MARQUEE */
+.mq{padding:.85rem 0;overflow:hidden;border-bottom:1px solid var(--border);background:rgba(var(--pr),.03);transition:background .5s}
+.mq-t{display:flex;gap:2.5rem;white-space:nowrap;animation:mq 28s linear infinite}
+.mq-t span{font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:.15em;color:var(--muted)}
+.mq-t .dot{color:var(--a);margin:0 .2rem;transition:color .5s}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.sb{background:var(--deep);padding:2.2rem 1rem;text-align:center;position:relative;overflow:hidden;transition:background .3s}
+.sb:hover{background:var(--card)}
+.sb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(var(--pr),.09),transparent 70%);opacity:0;transition:opacity .4s}
+.sb:hover::before{opacity:1}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:3rem;background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;display:block;margin-bottom:.3rem;transition:background .5s}
+.sl{font-size:.62rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:580px){.stats{grid-template-columns:1fr 1fr}.sn{font-size:2.2rem}}
+
+/* SECTION */
+.sec{padding:5rem 3rem}
+@media(max-width:768px){.sec{padding:4rem 1.2rem}}
+.sh{display:flex;align-items:center;gap:1.5rem;margin-bottom:.7rem}
+.snum{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--a);letter-spacing:.15em;white-space:nowrap;transition:color .5s}
+.sline{flex:1;height:1px;background:var(--border)}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4rem);letter-spacing:.02em;line-height:1;margin-bottom:2rem}
+.sdesc{color:var(--muted);font-size:.87rem;line-height:1.8;margin-bottom:2rem;max-width:600px}
+.sdesc strong{color:var(--text)}
+
+/* PRODUCT CARDS */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+@media(max-width:900px){.prod-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.prod-grid{grid-template-columns:1fr}}
+.prod-card{background:var(--deep);padding:2.2rem;position:relative;overflow:hidden;transition:background .3s;cursor:default}
+.prod-card:hover{background:var(--card)}
+.prod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--a),transparent);opacity:0;transition:opacity .3s}
+.prod-card:hover::before{opacity:1}
+.prod-icon{font-size:2.2rem;margin-bottom:1rem;display:block}
+.prod-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;color:var(--a);margin-bottom:.5rem;transition:color .5s}
+.prod-card p{font-size:.78rem;color:var(--muted);line-height:1.75}
+.prod-card p strong{color:var(--text)}
+.prod-card ul{list-style:none;margin-top:.8rem;display:flex;flex-direction:column;gap:.3rem}
+.prod-card ul li{font-size:.72rem;color:var(--muted);padding-left:.9rem;position:relative}
+.prod-card ul li::before{content:'↳';position:absolute;left:0;color:var(--a);font-size:.6rem}
+.badge-cs{display:inline-block;background:rgba(var(--pr),.12);border:1px solid var(--a);color:var(--a);font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;padding:.2rem .55rem;margin-bottom:.8rem;transition:background .5s,border-color .5s,color .5s}
+.badge-live{display:inline-block;background:rgba(45,200,100,.1);border:1px solid #2dc864;color:#2dc864;font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;padding:.2rem .55rem;margin-bottom:.8rem;animation:lp 2s infinite}
+
+/* PROJECT LIST */
+.proj-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.pi{background:var(--deep);display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:1.5rem;padding:1.8rem 2rem;cursor:pointer;transition:background .3s,padding-left .3s;position:relative;overflow:hidden}
+.pi::after{content:'';position:absolute;left:0;inset-block:0;width:0;background:linear-gradient(to right,rgba(var(--pr),.08),transparent);transition:width .4s}
+.pi:hover{background:var(--card);padding-left:2.5rem}.pi:hover::after{width:100%}
+.pn{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);z-index:1;position:relative}
+.pb{z-index:1;position:relative}
+.pb h3{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.04em;margin-bottom:.2rem;transition:color .3s}
+.pi:hover .pb h3{color:var(--a)}
+.pb p{font-size:.75rem;color:var(--muted);max-width:500px;line-height:1.6}
+.pt{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.ptag{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--a);border:1px solid rgba(var(--pr),.22);padding:.14rem .44rem;transition:border-color .5s,color .5s}
+.ptag.live{background:rgba(45,200,100,.09);color:#3dd87a;border-color:rgba(45,200,100,.28);animation:lp 2s infinite}
+.pa{font-size:1.1rem;color:var(--muted);transition:transform .3s,color .3s;z-index:1;position:relative}
+.pi:hover .pa{transform:translate(4px,-4px);color:var(--a)}
+@media(max-width:580px){.pi{grid-template-columns:1fr auto;gap:.8rem;padding:1.4rem 1.2rem}.pn{display:none}.pi:hover{padding-left:1.2rem}}
+
+/* PROMISE BOX */
+.promise{background:linear-gradient(135deg,rgba(var(--pr),.08),rgba(var(--pr),.02));border:1px solid rgba(var(--pr),.3);padding:2rem 2.5rem;margin:3rem 0;position:relative;overflow:hidden;transition:background .5s,border-color .5s}
+.promise::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--a);transition:background .5s}
+.promise h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em;color:var(--a);margin-bottom:.5rem;transition:color .5s}
+.promise p{font-size:.86rem;color:var(--muted);line-height:1.8}
+.promise p strong{color:var(--text)}
+
+/* TESTIMONY STRIP */
+.testi-row{display:flex;gap:1px;background:var(--border);margin:2rem 0}
+.testi{flex:1;background:var(--deep);padding:1.8rem;transition:background .3s}
+.testi:hover{background:var(--card)}
+.testi p{font-size:.8rem;color:var(--muted);line-height:1.75;font-style:italic;margin-bottom:.8rem}
+.testi .name{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--a);letter-spacing:.08em;transition:color .5s}
+@media(max-width:680px){.testi-row{flex-direction:column}}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr;gap:2rem}}
+.cl p{color:var(--muted);font-size:.86rem;line-height:1.8;margin-bottom:1.2rem}
+.cl p strong{color:var(--text)}
+.clinks{display:flex;flex-direction:column}
+.clink{display:flex;justify-content:space-between;align-items:center;padding:.85rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:padding-left .3s,color .3s}
+.clink:hover{padding-left:.5rem;color:var(--a)}
+.cll{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:70px;flex-shrink:0}
+.clv{font-size:.8rem}
+.cla{color:var(--muted);transition:transform .3s,color .3s}
+.clink:hover .cla{transform:translate(3px,-3px);color:var(--a)}
+.cf{display:flex;flex-direction:column;gap:.9rem}
+.ff{display:flex;flex-direction:column;gap:.35rem}
+.ff label{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);transition:color .5s}
+.ff input,.ff textarea,.ff select{background:rgba(var(--pr),.04);border:1px solid var(--border);padding:.8rem .9rem;color:var(--text);font-family:'Outfit',sans-serif;font-size:.84rem;outline:none;transition:border-color .3s,background .3s;-webkit-appearance:none;resize:none}
+.ff input:focus,.ff textarea:focus,.ff select:focus{border-color:var(--a);background:rgba(var(--pr),.07)}
+.ff textarea{min-height:110px}
+.ff select option{background:#03040a;color:#e8e4da}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media(max-width:460px){.frow{grid-template-columns:1fr}}
+.bsend{align-self:flex-start;padding:.85rem 2rem;background:transparent;border:1px solid var(--a);color:var(--a);font-family:'Outfit',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color .35s,border-color .5s}
+.bsend::before{content:'';position:absolute;inset:0;background:var(--a);transform:translateX(-101%);transition:transform .38s cubic-bezier(.16,1,.3,1),background .5s}
+.bsend:hover::before{transform:translateX(0)}.bsend:hover{color:var(--btn-text)}
+.bsend span{position:relative;z-index:1}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+footer p{font-size:.64rem;color:var(--muted)}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+@media(max-width:768px){footer{padding:1.2rem 1.2rem 5rem;flex-direction:column;text-align:center}}
+
+/* BACK BTN */
+.back-btn{position:fixed;bottom:2rem;left:2rem;z-index:400;display:none;align-items:center;gap:.5rem;background:rgba(0,0,0,.8);border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;padding:.6rem 1rem;cursor:pointer;transition:color .3s,border-color .3s;backdrop-filter:blur(10px)}
+.back-btn:hover{color:var(--a);border-color:var(--a)}
+.back-btn.show{display:flex}
+@media(max-width:768px){.back-btn{bottom:4.5rem;left:1rem}}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.rv.on{opacity:1;transform:translateY(0)}
+.aud-section:not(.active) .rv{transition:none}
+.rv2{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.rv2.on{opacity:1;transform:translateY(0)}
+
+/* ANIMATIONS */
+@keyframes sU{from{opacity:0;transform:translateY(110%)}to{opacity:1;transform:translateY(0)}}
+@keyframes fU{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pd{0%,100%{box-shadow:0 0 0 0 rgba(var(--pr),.4)}50%{box-shadow:0 0 0 7px rgba(var(--pr),0)}}
+@keyframes sh{0%{background-position:0%}100%{background-position:200%}}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes lp{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* SELECTOR HOVER GLOW */
+.sel-card:hover{
+  box-shadow:0 0 0 1px var(--sel-color,#c9a84c),
+             inset 0 0 40px rgba(255,255,255,.01);
+}
+.sel-card:hover .sel-emoji{transform:scale(1.15) rotate(-5deg);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.sel-emoji{transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.sel-card:hover h3{color:var(--sel-color,#c9a84c)}
+.sel-card:hover p{color:#888}
+
+/* EXTRA RESPONSIVE */
+@media(max-width:480px){
+  .hero-h{font-size:clamp(2.6rem,14vw,5rem)!important}
+  .big-title{font-size:clamp(3rem,13vw,6rem)!important}
+  .stitle,.st-h{font-size:clamp(1.8rem,8vw,3rem)!important}
+  .prod-grid,.hc-wrap{grid-template-columns:1fr!important}
+  .stats{grid-template-columns:1fr 1fr!important}
+  .frow{grid-template-columns:1fr!important}
+  .contact-grid,.ct-grid{grid-template-columns:1fr!important}
+  .about-grid{grid-template-columns:1fr!important}
+  .trust-row,.trust{grid-template-columns:1fr!important}
+  .pi{grid-template-columns:1fr auto!important}
+  .back-btn{bottom:4.5rem!important;left:1rem!important;font-size:.55rem!important;padding:.5rem .9rem!important}
+  footer{padding-bottom:5rem!important}
+  .ft{padding-bottom:5rem!important}
+}
+
+/* NICE SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg,#03040a)}
+::-webkit-scrollbar-thumb{background:var(--a,#c9a84c);border-radius:2px}
+
+/* SELECTION COLOR */
+::selection{background:rgba(var(--pr,201,168,76),.25);color:var(--text,#e8e4da)}
+
+/* LINK VISITED */
+a:visited{color:inherit}
+</style>
+
+<!-- ════════════════════════════════════════════
+     AITDL SITE SKELETON
+     Structure + CSS + JS — content stripped.
+     Use this as the base for new builds.
+     
+     SECTIONS IN FULL SITE:
+     retail · erp · education · teacher · student
+     home · partner · ngo · ecom · ai · lef
+     
+     TO ADD A NEW SECTION:
+     1. Add theme to CSS (.t-{name})
+     2. Add entry to themes, pageTitles, roleNames JS
+     3. Add overview card to #overview
+     4. Add picker card to #picker
+     5. Copy section template below, fill content
+════════════════════════════════════════════ -->
+
+<body>
+<canvas id="cv"></canvas>
+<div id="cur"></div><div id="curR"></div>
+
+<!-- BACK BUTTON -->
+<button class="back-btn" id="backBtn" onclick="goHome()">← Back</button>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AITDL</div>
+  <div class="nav-links">
+    <a href="#" onclick="goHome()">Home</a>
+    <a href="#" onclick="enterUniverse()">All Products</a>
+    <a href="#" onclick="openPicker()">My World</a>
+    <a href="#" onclick="enterPartnerLanding()">Partner</a>
+  </div>
+  <button class="nav-cta" onclick="openPicker()">Get Started</button>
+</nav>
+
+<div class="wrap">
+
+<!-- ━━ GATE ━━ -->
+id="gate">
+  <div class="orb o1"></div><div class="orb o2"></div>
+
+  <!-- Brand -->
+  <div class="gate-brand" style="padding:7rem 3rem 0">
+    <span class="logo">AITDL</span>
+    <div class="tagline"><!-- tagline --></div>
+  </div>
+
+  <!-- Three Doors -->
+  <div style="padding:2.5rem 0 5rem">
+    <div class="gate-doors">
+
+      <!-- Door 1 — Universe -->
+      <div class="door door-universe" onclick="enterUniverse()" style="--dl:#c9a84c">
+        <div class="door-line"></div>
+        <div class="door-top">
+          <span class="door-icon">🌌</span>
+          <div class="door-label">WHOLE UNIVERSE</div>
+          <h2><!-- headline --></h2>
+          <p class="door-desc"><!-- door description --></p>
+        </div>
+        <div class="door-cta">Overview Dashboard <span class="arr">→</span></div>
+      </div>
+
+      <!-- Door 2 — Destination -->
+      <div class="door door-destination" onclick="openPicker()" style="--dl:#c9a84c">
+        <div class="door-line"></div>
+        <div class="door-top">
+          <span class="door-icon">🎯</span>
+          <div class="door-label">SPECIFIC DESTINATION</div>
+          <h2><!-- headline --></h2>
+          <p class="door-desc"><!-- door description --></p>
+        </div>
+        <div class="door-cta">Choose My Role <span class="arr">→</span></div>
+      </div>
+
+      <!-- Door 3 — Partner -->
+      <div class="door door-partner" onclick="enterPartnerLanding()">
+        <div class="door-line"></div>
+        <div class="door-top">
+          <span class="door-icon">🤝</span>
+          <div class="door-label">BECOME A PARTNER</div>
+          <h2><!-- headline --></h2>
+          <p class="door-desc"><!-- door description --></p>
+        </div>
+        <div class="door-cta">Partner Programme <span class="arr">→</span></div>
+      </div>
+
+      <!-- Door 4 — Learn Earn Fun -->
+      <div class="door door-lef" onclick="activate('lef')" style="--dl:#f5a623">
+        <div class="door-line" style="background:linear-gradient(180deg,#f5a623,transparent)"></div>
+        <div class="door-top">
+          <span class="door-icon">🎯</span>
+          <div class="door-label" style="color:#f5a623">LEARN · EARN · FUN</div>
+          <h2 style="color:#fff8ec"><!-- headline --></h2>
+          <p class="door-desc"><!-- door description --></p>
+        </div>
+        <div class="door-cta" style="color:#f5a623">Explore Platform <span class="arr">→</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Gate Footer Card -->
+  <!-- ... cinematic footer card ... -->
+
+</div><!-- /gate -->
+
+<!-- ━━ OVERVIEW DASHBOARD ━━ -->
+id="overview">
+
+  <div class="ov-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="ov-tag">
+      <div class="ov-tag pd"></div>
+      <span>Full Overview</span>
+      <div class="dl"></div>
+      <span class="sb">All Solutions · All Audiences · Pan India</span>
+    </div>
+    <div class="ov-head">EVERY<br>WORLD.<br><span class="gold">ONE AITDL.</span></div>
+    <p class="ov-sub">18 years · 100+ clients · Retail · ERP · Education · AI. <strong>Everything we build</strong> — in one place. Click any world to go deep.</p>
+  </div>
+
+  <!-- 6-World Grid -->
+  <div class="ov-grid">
+    <div class="ov-card" style="--oc:#ff6b1a" onclick="activate('retail')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>Retail Technology</h3>
+      <p>Shoper POS, Head Office & our upcoming AI Retail POS. From single shops to 100-store chains. Titan, Raymond, GVK Airport and 95+ more.</p>
+      <div class="ov-foot"><span class="ov-tags">Shoper · Multi-Store · AI POS</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#1a8fff" onclick="activate('erp')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>ERP & Business</h3>
+      <p>TallyPrime, TallyTDL, ERPNext & Odoo. GST, payroll, custom modules, API integrations. 100+ businesses trust AITDL Pan India.</p>
+      <div class="ov-foot"><span class="ov-tags">Tally · ERPNext · Odoo</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#22c565" onclick="activate('education')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>Schools & Coaching</h3>
+      <p>Complete AI-powered school ERP & coaching management. Admissions, fees, exams, timetables, parent portal. PrathamOne live now.</p>
+      <div class="ov-foot"><span class="ov-tags">School ERP · Coaching · PrathamOne</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#22c565" onclick="activate('teacher')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>AI Tools for Teachers</h3>
+      <p>Lesson plans, question papers, student tracking, parent updates — all automated. You teach. AI does the rest.</p>
+      <div class="ov-foot"><span class="ov-tags">Lesson Plans · Auto-Admin · EdTech</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#a259ff" onclick="activate('student')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>AI Learning for Students</h3>
+      <p>Ganitsutram for Maths. My AI Pathasala for every subject. Home Study Buddy coming. India's own AI learning ecosystem.</p>
+      <div class="ov-foot"><span class="ov-tags">Ganitsutram · AI Pathasala · Study Buddy</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#ff4d6a" onclick="activate('home')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>Home & Family AI</h3>
+      <p>Saathi Book for home accounts & tasks. Home Study Buddy for your child's education. Simple AI for every Indian family.</p>
+      <div class="ov-foot"><span class="ov-tags">Saathi Book · Study Buddy · Family</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#39e07a" onclick="activate('partner')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>Partner / Reseller</h3>
+      <p>You have the network. We have 18 years of proven products. Resell AITDL's entire portfolio — POS, ERP, school systems, AI tools — in your city. Grow together.</p>
+      <div class="ov-foot"><span class="ov-tags">Reseller · Channel Partner · Revenue Share</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#0eb8a0" onclick="activate('ngo')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>NGO / Trust / Social</h3>
+      <p>Donation tracking, fund accounting, member & volunteer management, project impact reporting. Purpose-built for temples, trusts, NGOs and social organisations across India.</p>
+      <div class="ov-foot"><span class="ov-tags">Donations · Fund Mgmt · Temple Trust</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#6c63ff" onclick="activate('ecom')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>AI Features</h3>
+      <p>Data entry automation, sales & stock predictions, market trend intelligence, AI report analysis — across Retail, Education, NGO and Ecommerce. Local AI, Open Source & Paid tiers.</p>
+      <div class="ov-foot"><span class="ov-tags">Data Entry · Predictions · Trends · Reports</span><span class="ov-arr">↗</span></div>
+    </div>
+      <div class="ov-ico">🛒</div>
+      <h3>Ecommerce <span style="font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;border:1px solid #6c63ff;color:#6c63ff;padding:.1rem .35rem;vertical-align:middle;margin-left:.3rem">COMING SOON</span></h3>
+      <p>Standalone ecommerce platform for any Indian business. Online store, UPI payments, order management, marketplace sync — built for Bharat. Join the waitlist now.</p>
+      <div class="ov-foot"><span class="ov-tags">Online Store · Orders · Payments · Catalogue</span><span class="ov-arr">↗</span></div>
+    </div>
+    <div class="ov-card" style="--oc:#f5a623" onclick="activate('lef')">
+      <div class="ov-ico"><!-- icon --></div>
+      <h3><!-- card title --></h3>
+      <p><!-- description --></p>
+      <div class="ov-foot"><span class="ov-tags"><!-- tags --></span><span class="ov-arr">↗</span></div>
+    </div>
+      <h3>Learn, Earn, Fun</h3>
+      <p>Upskill with online courses, earn through referrals & affiliate rewards, and enjoy gamified challenges — all in one platform built for working professionals who want to grow without slowing down.</p>
+      <div class="ov-foot"><span class="ov-tags">Courses · Affiliate · Games · Rewards</span><span class="ov-arr">↗</span></div>
+    </div>
+
+  <footer style="border-top:1px solid rgba(255,255,255,.06);padding:1.4rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem">
+    <p style="font-size:.64rem;color:#444">© 2026 AITDL · Technology Solutions · Pan India · Since 2007</p>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;background:linear-gradient(135deg,#c9a84c,#f0d080);-webkit-background-clip:text;-webkit-text-fill-color:transparent">AITDL</div>
+    <p style="font-size:.64rem;color:#444">Mumbai · Nashik · Surat · Gorakhpur</p>
+  </footer>
+</div><!-- /overview -->
+
+<!-- ━━ AUDIENCE SECTIONS ━━ -->
+<!-- 
+  Full site has 11 sections. Skeleton shows template only.
+  See AITDL-portfolio-elite.html for all 11 filled sections.
+-->
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     AUDIENCE SECTION TEMPLATE
+     Copy and fill for each audience.
+     Replace {SECTION_ID}, {THEME_CLASS}, {ACCENT_HEX}, {ACCENT_RGB}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="aud-section" id="s-{SECTION_ID}">
+
+  <!-- ── HERO ── -->
+  <div class="aud-hero">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="hero-eyebrow">
+      <div class="pulse-dot"></div>
+      <span class="etag"><!-- Section Tag --></span>
+      <div class="eline"></div>
+      <span class="esub"><!-- Sub tag --></span>
+    </div>
+    <div class="hero-h"><!-- LINE 1 --><br><!-- LINE 2 --><br><span class="acc"><!-- ACCENTED LINE --></span></div>
+    <div class="hero-body">
+      <p class="hero-desc"><!-- Hero description. Include <strong> for key phrases. End with See it. Love it. Then pay for it. --></p>
+      <div class="hero-acts">
+        <a href="#" class="btn-primary" onclick="scrollTo('products')">See Our Solutions ↓</a>
+        <button class="btn-ghost" onclick="scrollTo('contact')">Get a Free Demo →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TRUST STRIP ── -->
+  <div class="trust-row rv">
+    <div class="ti"><span class="ti-ico"><!-- emoji --></span><div><h4><!-- stat --></h4><p><!-- sub --></p></div></div>
+    <div class="ti"><span class="ti-ico"><!-- emoji --></span><div><h4><!-- stat --></h4><p><!-- sub --></p></div></div>
+    <div class="ti"><span class="ti-ico"><!-- emoji --></span><div><h4><!-- stat --></h4><p><!-- sub --></p></div></div>
+    <div class="ti"><span class="ti-ico">👀</span><div><h4>See It First</h4><p>Pay only after you love it</p></div></div>
+  </div>
+
+  <!-- ── MARQUEE ── -->
+  <div class="mq"><div class="mq-t">
+    <span><!-- keyword --></span><span class="dot">✦</span>
+    <span><!-- keyword --></span><span class="dot">✦</span>
+    <!-- Repeat 8-10 keywords, then duplicate for seamless loop -->
+  </div></div>
+
+  <!-- ── STATS ── -->
+  <div class="stats rv">
+    <div class="sb"><span class="sn" data-target="18">0+</span><span class="sl">Years Experience</span></div>
+    <div class="sb"><span class="sn" data-target="100">0+</span><span class="sl">Clients</span></div>
+    <div class="sb"><span class="sn" data-target="99">0%</span><span class="sl">Satisfaction</span></div>
+    <div class="sb"><span class="sn" data-target="0"><!-- custom --></span><span class="sl"><!-- custom --></span></div>
+  </div>
+
+  <!-- ── PRODUCTS SECTION ── -->
+  <div class="sec alt" id="products">
+    <div class="sh rv"><span class="snum">01 — OUR SOLUTIONS</span><div class="sline"></div></div>
+    <div class="stitle rv"><!-- Section Title.<br>Line Two. --></div>
+    <p class="sdesc rv"><!-- Section description --></p>
+    <div class="prod-grid rv">
+
+      <!-- Repeat prod-card for each product/feature -->
+      <div class="prod-card">
+        <span class="prod-icon"><!-- emoji --></span>
+        <!-- Optional: <span class="badge-cs">COMING SOON</span> -->
+        <h3><!-- Product Name --></h3>
+        <p><!-- Product description --></p>
+        <ul>
+          <li><!-- feature --></li>
+          <li><!-- feature --></li>
+          <li><!-- feature --></li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="promise rv"><h3><!-- Promise headline --></h3><p><!-- Promise copy --></p></div>
+  </div>
+
+  <!-- ── CLIENTS / SOCIAL PROOF ── -->
+  <div class="sec" id="clients">
+    <div class="sh rv"><span class="snum">02 — WHY AITDL</span><div class="sline"></div></div>
+    <div class="stitle rv"><!-- Social proof headline --></div>
+    <div class="testi-row rv">
+      <div class="testi"><p>"<!-- testimonial quote -->"</p><span class="name">— <!-- Name, City --></span></div>
+      <div class="testi"><p>"<!-- testimonial quote -->"</p><span class="name">— <!-- Name, City --></span></div>
+    </div>
+  </div>
+
+  <!-- ── CONTACT ── -->
+  <div class="sec alt" id="contact">
+    <div class="sh rv"><span class="snum">03 — CONTACT US</span><div class="sline"></div></div>
+    <div class="stitle rv">See It First.<br>Then Decide.</div>
+    <div class="contact-grid">
+      <div class="cl rv">
+        <p><!-- Contact left copy --></p>
+        <div class="clinks">
+          <a href="mailto:contact@aitdl.com" class="clink"><span class="cll">Email</span><span class="clv">contact@aitdl.com</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Mumbai</span><span class="clv">Mumbai, Maharashtra</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Nashik</span><span class="clv">Nashik, Maharashtra</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Surat</span><span class="clv">Surat, Gujarat</span><span class="cla">↗</span></a>
+          <a href="#" class="clink"><span class="cll">Gorakhpur</span><span class="clv">Gorakhpur, Uttar Pradesh</span><span class="cla">↗</span></a>
+        </div>
+      </div>
+      <form class="cf rv" onsubmit="sendForm(event)">
+        <div class="frow">
+          <div class="ff"><label>Your Name</label><input type="text" placeholder="Full name" required/></div>
+          <div class="ff"><label>Phone</label><input type="tel" placeholder="Mobile number" required/></div>
+        </div>
+        <div class="ff"><label><!-- field --></label><input type="text" placeholder="<!-- placeholder -->"/></div>
+        <div class="ff"><label>Message</label><textarea placeholder="<!-- placeholder -->"></textarea></div>
+        <button type="submit" class="bsend"><span><!-- CTA text --> →</span></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── CINEMATIC FOOTER CARD ── -->
+  <div class="cin-footer">
+    <div class="cin-f-eyebrow">AITDL · <!-- Section Name --></div>
+    <div class="cin-f-headline"><!-- LINE 1 --><br><span><!-- ACCENTED LINE --></span></div>
+    <p class="cin-f-sub"><!-- Footer CTA sub copy --></p>
+    <a href="#contact" class="cin-f-btn" onclick="scrollTo('contact')"><!-- CTA --> <span class="arr">→</span></a>
+    <div class="cin-f-meta">
+      <span class="cin-f-wordmark">AITDL</span>
+      <a href="#">Mumbai</a><a href="#">Nashik</a><a href="#">Surat</a><a href="#">Gorakhpur</a>
+      <a href="mailto:contact@aitdl.com">contact@aitdl.com</a>
+    </div>
+    <div class="cin-f-copy">© 2026 AITDL · All rights reserved · Pan India Since 2007</div>
+  </div>
+
+</div><!-- /{SECTION_ID} -->
+
+
+<!-- ━━ PARTNER LANDING (separate from s-partner) ━━ -->
+<!-- Full partner landing page — see portfolio-elite.html -->
+<div id="partner-landing" style="display:none">
+  <!-- ... partner landing content ... -->
+</div>
+
+</div><!-- /wrap -->
+
+<!-- ━━ ROLE PICKER MODAL (outside wrap — avoids stacking context) ━━ -->
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ROLE PICKER MODAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="picker">
+  <button class="pk-close" onclick="closePicker()">✕</button>
+
+  <div class="pk-wrap">
+
+    <!-- Step indicator -->
+    <div class="pk-steps">
+      <span class="pk-step act" id="pkStep1">01 · Primary Role</span>
+      <div class="pk-sdiv"></div>
+      <span class="pk-step" id="pkStep2">02 · Add More (Optional)</span>
+      <div class="pk-sdiv"></div>
+      <span class="pk-step" id="pkStep3">03 · Enter</span>
+    </div>
+
+    <!-- Heading -->
+    <div class="pk-head">CHOOSE YOUR<br><span style="background:linear-gradient(135deg,#c9a84c,#f0d080);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:sh 4s linear infinite">PRIMARY ROLE.</span></div>
+    <p class="pk-sub">One click = your personalised world. <em>First click = primary</em> (mandatory). Second click on others = add them too. We'll show only what's relevant to you.</p>
+
+    <!-- Role grid -->
+    <div class="pk-grid">
+      <div class="pk-role" data-role="retail" data-c="retail" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🛍️</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="erp" data-c="erp" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">⚙️</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="education" data-c="edu" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🏫</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="teacher" data-c="teacher" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">👩‍🏫</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="student" data-c="student" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🎓</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="home" data-c="home" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">👨‍👩‍👧</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="partner" data-c="partner" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🤝</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="ngo" data-c="ngo" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🏛️</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="ecom" data-c="ecom" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🛒</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="ai" data-c="ai" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🤖</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+      <div class="pk-role" data-role="lef" data-c="lef" onclick="pickRole(this)">
+        <div class="pk-badge">PRIMARY</div>
+        <span class="pk-r-ico">🎯</span>
+        <div class="pk-r-txt">
+          <h4><!-- role name --></h4>
+          <p><!-- role desc --></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="pk-hint">
+      <div class="pk-hint-item h-pri"><span class="dot"></span> First click = Primary role</div>
+      <div class="pk-hint-item h-sec"><span class="dot"></span> Click again on others = Add secondary</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="pk-actions">
+      <button class="pk-go" id="pkGo" onclick="enterMyWorld()"><span>Enter My World →</span></button>
+      <button class="pk-skip" onclick="enterUniverse();closePicker()">Show me everything instead</button>
+      <span class="pk-summary" id="pkSummary"></span>
+    </div>
+
+  </div>
+</div><!-- /picker -->
+
+<!-- ━━ JS CONFIG — update when adding new sections ━━ -->
+<script>
+// ── THEME CONFIG ──
+// Add new entry for each new section
+const themes={
+  retail:{cls:'t-retail',color:[255,107,26]},
+  erp:{cls:'t-erp',color:[26,143,255]},
+  education:{cls:'t-education',color:[34,197,101]},
+  teacher:{cls:'t-education',color:[34,197,101]},
+  student:{cls:'t-ai',color:[162,89,255]},
+  home:{cls:'t-home',color:[255,77,106]},
+  partner:{cls:'t-partner',color:[57,224,122]},
+  ngo:{cls:'t-ngo',color:[14,184,160]},
+  ecom:{cls:'t-ecom',color:[108,99,255]},
+  ai:{cls:'t-ai',color:[162,89,255]},
+  lef:{cls:'t-lef',color:[245,166,35]},
+};
+
+// ── PAGE TITLES ──
+const pageTitles={
+  retail:'AITDL — Retail Technology',erp:'AITDL — ERP & Business',
+  education:'AITDL — Education Technology',teacher:'AITDL — AI for Teachers',
+  student:'AITDL — AI Learning',home:'AITDL — Home & Family AI',
+  partner:'AITDL — Become a Partner',
+  ngo:'AITDL — NGO & Social Sector',
+  ecom:'AITDL — Ecommerce Platform',
+  lef:'AITDL — Learn, Earn, Fun',
+  ai:'AITDL — AI Features',
+};
+
+// ── ROLE DISPLAY NAMES ──
+const roleNames={retail:'Retailer',erp:'Business',education:'School/Coaching',teacher:'Teacher',student:'Student',home:'Parent',partner:'Partner',ngo:'NGO / Trust',ecom:'Ecommerce',ai:'AI Features',lef:'Learn Earn Fun'};
+
+// ── FULL JS ── (particle system, activate, picker logic etc)
+// See portfolio-elite.html for complete implementation
+
+</script>
+</body>
+</html>

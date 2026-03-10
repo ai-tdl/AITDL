@@ -87,15 +87,15 @@ export default function PartnerPage() {
       {/* ── Partner Types ─────────────────────────────────────── */}
       <section className="px-6 py-20">
         <div className="max-w-5xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-white text-center mb-4">
+          <h2 className="font-display text-3xl font-bold text-white text-center mb-4 rv">
             Three ways to partner
           </h2>
-          <p className="text-zinc-500 text-center mb-14 max-w-lg mx-auto text-sm">
+          <p className="text-zinc-500 text-center mb-14 max-w-lg mx-auto text-sm rv">
             Choose the model that fits your business. Most partners start as resellers and grow into implementers.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PARTNER_TYPES.map((p) => (
-              <div key={p.title} className={`rounded-2xl p-8 bg-gradient-to-br ${p.color} border ${p.border}`}>
+              <div key={p.title} className={`rounded-2xl p-8 bg-gradient-to-br ${p.color} border ${p.border} rv`}>
                 <span className="text-4xl mb-4 block">{p.icon}</span>
                 <h3 className="font-display font-bold text-white text-xl mb-3">{p.title}</h3>
                 <p className="text-sm text-zinc-300 mb-6 leading-relaxed">{p.desc}</p>
@@ -115,7 +115,7 @@ export default function PartnerPage() {
       {/* ── Stats ─────────────────────────────────────────────── */}
       <section className="px-6 py-12">
         <div className="max-w-5xl mx-auto">
-          <div className="glass rounded-2xl p-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="glass rounded-2xl p-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center rv">
             {[
               { value: '2007', label: 'Founded' },
               { value: '4+', label: 'Cities' },
@@ -133,7 +133,7 @@ export default function PartnerPage() {
 
       {/* ── Apply Form ────────────────────────────────────────── */}
       <section id="apply" className="px-6 py-24">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto rv">
           <h2 className="font-display text-3xl font-bold text-white text-center mb-3">
             Apply to Partner
           </h2>

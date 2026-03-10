@@ -4,6 +4,10 @@
 
 import type { Metadata } from 'next'
 import './globals.css'
+import CustomCursor from '@/components/visual/CustomCursor'
+import CanvasBackground from '@/components/visual/CanvasBackground'
+import RolePicker from '@/components/visual/RolePicker'
+import RevealOnScroll from '@/components/visual/RevealOnScroll'
 
 export const metadata: Metadata = {
   title: {
@@ -32,73 +36,68 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="bg-zinc-950 text-white antialiased font-sans">
-        {/* Global Nav */}
-        <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/80 backdrop-blur-md">
-          <nav className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-            <a href="/" className="font-display text-lg font-bold text-white tracking-tight hover:text-purple-300 transition-colors">
+      <body className="antialiased">
+        <CustomCursor />
+        <CanvasBackground />
+        <RolePicker />
+        <RevealOnScroll />
+
+        {/* Header - Transparent/Minimal */}
+        <header className="fixed top-0 left-0 right-0 z-[100] border-b border-white/5 bg-transparent backdrop-blur-sm">
+          <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="/" className="font-heading text-2xl tracking-[0.1em] text-white hover:text-[#c9a84c] transition-colors">
               AITDL
             </a>
-            <div className="hidden md:flex items-center gap-8 text-sm text-zinc-400">
-              <a href="/explore"     className="hover:text-white transition-colors">Products</a>
-              <a href="/ganitsutram" className="hover:text-white transition-colors">GanitSūtram</a>
-              <a href="/blog"        className="hover:text-white transition-colors">Blog</a>
-              <a href="/partner"     className="hover:text-white transition-colors">Partner</a>
+
+            <div className="hidden md:flex items-center gap-10 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6a6860]">
+              <a href="/explore" className="hover:text-[#c9a84c] transition-colors">Universe</a>
+              <a href="/ganitsutram" className="hover:text-[#c9a84c] transition-colors">Sūtram</a>
+              <a href="/blog" className="hover:text-[#c9a84c] transition-colors">Intelligence</a>
+              <a href="/partner" className="hover:text-[#c9a84c] transition-colors font-bold text-[#c9a84c]">Partner</a>
             </div>
-            <a
-              href="/partner"
-              className="text-xs font-semibold px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white transition-colors"
-            >
-              Get Started
-            </a>
+
+            <button className="md:hidden text-white p-2">
+              <span className="font-mono text-[10px] tracking-[0.2em]">MEMU</span>
+            </button>
           </nav>
         </header>
 
-        {/* Page content — padded for fixed nav */}
-        <div className="pt-14">{children}</div>
+        <main className="relative min-h-screen">
+          {children}
+        </main>
 
-        {/* Global Footer */}
-        <footer className="border-t border-white/5 mt-24 py-12 px-6">
-          <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-zinc-500">
-            <div>
-              <p className="font-display font-bold text-white text-base mb-3">AITDL</p>
-              <p className="text-xs leading-relaxed">A Living Knowledge Ecosystem.<br />Pan India · Since 2007.</p>
+        {/* Minimal Footer */}
+        <footer className="relative z-10 border-t border-white/5 py-16 px-6 bg-[#03040a]/80 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+            <div className="col-span-1 md:col-span-2">
+              <p className="font-heading text-3xl tracking-[0.05em] text-white mb-4">AITDL</p>
+              <p className="text-[#6a6860] max-w-sm leading-relaxed text-xs">
+                A living knowledge ecosystem providing 18 years of business technology solutions across India.
+                Built with precision, delivered with pride.
+              </p>
             </div>
-            <div>
-              <p className="font-semibold text-zinc-300 mb-3">Products</p>
-              <ul className="space-y-2">
-                <li><a href="/ganitsutram" className="hover:text-white transition-colors">GanitSūtram</a></li>
-                <li><a href="/dailyboard"  className="hover:text-white transition-colors">Dailyboard</a></li>
-                <li><a href="/explore"     className="hover:text-white transition-colors">All Products</a></li>
+
+            <div className="flex flex-col gap-4">
+              <p className="font-heading text-lg tracking-[0.1em] text-[#c9a84c]">Network</p>
+              <ul className="space-y-2 font-mono text-[10px] uppercase tracking-[0.15em] text-[#6a6860]">
+                <li><a href="/partner" className="hover:text-white">Partner Program</a></li>
+                <li><a href="/blog" className="hover:text-white">AITDL Blog</a></li>
+                <li><a href="/explore" className="hover:text-white">The Universe</a></li>
               </ul>
             </div>
-            <div>
-              <p className="font-semibold text-zinc-300 mb-3">Company</p>
-              <ul className="space-y-2">
-                <li><a href="/partner"  className="hover:text-white transition-colors">Partner</a></li>
-                <li><a href="/blog"     className="hover:text-white transition-colors">Blog</a></li>
-              </ul>
-            </div>
-            <div>
-              <p className="font-semibold text-zinc-300 mb-3">Contact</p>
-              <ul className="space-y-2">
-                <li><a href="mailto:contact@aitdl.com"  className="hover:text-white transition-colors">contact@aitdl.com</a></li>
-                <li><a href="mailto:partners@aitdl.com" className="hover:text-white transition-colors">partners@aitdl.com</a></li>
-                <li className="text-xs pt-1">Mumbai · Nashik · Surat · Gorakhpur</li>
+
+            <div className="flex flex-col gap-4">
+              <p className="font-heading text-lg tracking-[0.1em] text-[#c9a84c]">Direct</p>
+              <ul className="space-y-2 font-mono text-[10px] uppercase tracking-[0.15em] text-[#6a6860]">
+                <li><a href="mailto:contact@aitdl.com" className="hover:text-white">contact@aitdl.com</a></li>
+                <li className="text-white/20">Mumbai · Nashik · Surat · Gorakhpur</li>
               </ul>
             </div>
           </div>
-          <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-zinc-600">
-            <p>© aitdl.com · AITDL | GANITSUTRAM.com</p>
-            <p className="font-mono">628 CE · Brahmasphuṭasiddhānta → Vikram Samvat 2082</p>
+
+          <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[9px] font-mono uppercase tracking-[0.2em] text-[#2a2a2a]">
+            <p>© 2026 aitdl.com · All rights reserved</p>
+            <p>Pan India Since 2007 · Brahmasphuṭasiddhānta 628</p>
           </div>
         </footer>
       </body>

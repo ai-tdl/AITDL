@@ -1,67 +1,127 @@
+"use client";
+
 // SSR · Public Homepage · SEO indexed
 // Migrated from apps/portal/index.html — Gate concept preserved
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-brand-900 flex flex-col items-center justify-center px-6">
+    <div id="gate" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6 pt-20 pb-12">
 
-      {/* Gate Brand */}
-      <div className="text-center mb-16">
-        <h1 className="text-7xl font-bold text-white tracking-tight">AITDL</h1>
-        <p className="mt-4 text-xl text-purple-300">Choose Your World</p>
-        <p className="mt-2 text-sm text-gray-500">
-          Technology Solutions · Pan India · Since 2007
+      {/* Cinematic Logo/Hero */}
+      <div className="text-center mb-16 relative z-10 fade-up">
+        <div className="badge-cs">AITDL · LIVING KNOWLEDGE</div>
+        <h1 className="text-8xl md:text-[12rem] font-heading leading-tight tracking-[0.05em] text-white">
+          AITDL
+        </h1>
+        <div className="h-[1px] w-24 bg-[#c9a84c] mx-auto my-6" />
+        <p className="font-heading text-lg md:text-2xl tracking-[0.3em] text-[#6a6860] uppercase">
+          Choose Your World
         </p>
       </div>
 
-      {/* The Three Doors */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
-        <GateCard
-          href="/explore"
+      {/* The 4-Door Primary Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-[1400px] relative z-20">
+
+        <Door
+          num="01"
           title="Universe"
-          description="Explore all products — Retail, ERP, Education, AI"
-          color="from-violet-600 to-purple-900"
+          desc="The All-In-One Dashboard. Explore every tool and solution AITDL provides."
+          href="/explore"
+          icon="✦"
+          theme="gold"
         />
-        <GateCard
-          href="/ganitsutram"
-          title="GanitSūtram"
-          description="AI-powered mathematics learning platform"
-          color="from-blue-600 to-cyan-900"
+
+        <Door
+          num="02"
+          title="Start Here"
+          desc="Enter your personalized world. Pick your role to see only what matters."
+          href="#"
+          icon="◈"
+          theme="purple"
+          isPickerTrigger
         />
-        <GateCard
-          href="/partner"
+
+        <Door
+          num="03"
           title="Partner"
-          description="Join the AITDL reseller & implementation network"
-          color="from-emerald-600 to-green-900"
+          desc="Join the ecosystem. Become an implementation partner or reseller."
+          href="/partner"
+          icon="◈"
+          theme="green"
         />
+
+        <Door
+          num="04"
+          title="Maths Lab"
+          desc="GanitSūtram. AI-powered mathematical intelligence and learning."
+          href="/ganitsutram"
+          icon="✧"
+          theme="blue"
+        />
+
       </div>
 
-    </main>
+      {/* Background Decor */}
+      <div className="orb w-[500px] h-[500px] bg-[#c9a84c]/10 top-[-200px] left-[-200px]" />
+      <div className="orb w-[600px] h-[600px] bg-[#1a8fff]/5 bottom-[-300px] right-[-300px]" />
+    </div>
   )
 }
 
-function GateCard({
-  href, title, description, color
+function Door({
+  num, title, desc, href, icon, theme, isPickerTrigger
 }: {
-  href: string
-  title: string
-  description: string
-  color: string
+  num: string, title: string, desc: string, href: string, icon: string, theme: 'gold' | 'purple' | 'green' | 'blue', isPickerTrigger?: boolean
 }) {
+  const themeClasses: Record<'gold' | 'purple' | 'green' | 'blue', string> = {
+    gold: 'border-[#c9a84c]/20 hover:border-[#c9a84c]/60 group-hover:text-[#c9a84c]',
+    purple: 'border-[#a259ff]/20 hover:border-[#a259ff]/60 group-hover:text-[#a259ff]',
+    green: 'border-[#39e07a]/20 hover:border-[#39e07a]/60 group-hover:text-[#39e07a]',
+    blue: 'border-[#1a8fff]/20 hover:border-[#1a8fff]/60 group-hover:text-[#1a8fff]'
+  };
+
+  const currentThemeClass = themeClasses[theme];
+
   return (
     <a
       href={href}
       className={`
-        block p-8 rounded-2xl bg-gradient-to-br ${color}
-        border border-white/10 hover:border-white/30
-        transition-all duration-300 hover:scale-105 hover:shadow-2xl
-        group cursor-pointer
+        relative group block p-8 h-[400px] glass transition-all duration-700 
+        hover:translate-y-[-8px] flex flex-col justify-between overflow-hidden
+        ${currentThemeClass}
       `}
+      onClick={(e) => {
+        if (isPickerTrigger) {
+          e.preventDefault();
+          // window.openPicker() will be implemented via client component pattern
+          (window as any).dispatchRolePicker?.();
+        }
+      }}
     >
-      <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-purple-200 transition-colors">
-        {title}
-      </h2>
-      <p className="text-sm text-white/70">{description}</p>
+      <div className="relative z-10">
+        <div className="flex justify-between items-start mb-4">
+          <span className="font-mono text-[10px] tracking-[0.3em] text-[#6a6860]">{num}</span>
+          <span className="text-xl opacity-20 group-hover:opacity-100 transition-opacity duration-500">{icon}</span>
+        </div>
+        <h2 className="font-heading text-4xl tracking-[0.05em] text-white group-hover:translate-x-2 transition-transform duration-500">
+          {title}
+        </h2>
+        <p className="mt-4 text-xs leading-relaxed text-[#6a6860] group-hover:text-[#e8e4da] transition-colors duration-500 max-w-[200px]">
+          {desc}
+        </p>
+      </div>
+
+      <div className="relative z-10 flex justify-end">
+        <span className="font-mono text-[10px] tracking-[0.2em] text-[#6a6860] group-hover:text-white transition-colors duration-500">
+          ENTER →
+        </span>
+      </div>
+
+      {/* Decorative Gradient Shine */}
+      <div className={`
+        absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000
+        bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none
+      `} />
     </a>
-  )
+  );
 }

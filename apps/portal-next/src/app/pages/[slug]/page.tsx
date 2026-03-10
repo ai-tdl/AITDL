@@ -33,9 +33,10 @@ async function getCMSPage(slug: string): Promise<CMSPage | null> {
 }
 
 export async function generateMetadata(
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
-  const page = await getCMSPage(params.slug)
+  const { slug } = await params
+  const page = await getCMSPage(slug)
   if (!page) return { title: 'Page Not Found — AITDL' }
   return {
     title: page.seo_title ?? page.title,
@@ -43,8 +44,9 @@ export async function generateMetadata(
   }
 }
 
-export default async function CMSPageRenderer({ params }: { params: { slug: string } }) {
-  const page = await getCMSPage(params.slug)
+export default async function CMSPageRenderer({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const page = await getCMSPage(slug)
   if (!page) notFound()
 
   return (

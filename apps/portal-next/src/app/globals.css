@@ -1,103 +1,213 @@
 /* || ॐ श्री गणेशाय नमः || · AITDL Portal · globals.css */
 
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Brand Fonts ──────────────────────────────────────────────── */
-:root {
-  --font-display: 'Syne', sans-serif;
-  --font-body:    'DM Sans', sans-serif;
+@layer base {
+  :root {
+    --bg: #03040a;
+    --deep: #06070e;
+    --card: #0a0c16;
+    --text: #e8e4da;
+    --muted: #6a6860;
+    --border: rgba(255, 255, 255, 0.05);
+    
+    /* Default Gold Theme */
+    --primary: 201, 168, 76;
+    --accent: #c9a84c;
+    
+    --font-heading: 'Bebas Neue', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
 }
 
-/* ── Brand Color Tokens ───────────────────────────────────────── */
-:root {
-  --brand-bg:       #09090b;   /* zinc-950 */
-  --brand-surface:  #18181b;   /* zinc-900 */
-  --brand-border:   rgba(255,255,255,0.06);
-  --brand-accent:   #7c3aed;   /* violet-700 */
-  --brand-accent-2: #0ea5e9;   /* sky-500 — GanitSūtram blue */
-  --brand-muted:    #71717a;   /* zinc-500 */
+@layer utilities {
+  /* Animation Utilities */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .shimmer-text {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 4s linear infinite;
+  }
+
+  /* Structural Utilities */
+  .glass {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.4;
+  }
+
+  /* Reveal Utility */
+  .rv {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .rv-on {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Marquee Utility */
+  .mq {
+    padding: 1.2rem 0;
+    overflow: hidden;
+    background: rgba(var(--primary), 0.02);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .mq-t {
+    display: inline-flex;
+    gap: 4rem;
+    animation: marquee 50s linear infinite;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Section Styling */
+  .sec {
+    padding: 10rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .stitle {
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    margin-bottom: 2.5rem;
+  }
+  .snum {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  /* Stats and Badges */
+  .badge-cs {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: rgba(var(--primary), 0.1);
+    border: 1px solid rgba(var(--primary), 0.25);
+    color: var(--accent);
+    padding: 0.4rem 1rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+  }
+
+  .sn {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .sl {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  /* Theme Overrides */
+  .t-retail { --primary: 255, 107, 26; --accent: #ff6b1a; }
+  .t-erp { --primary: 26, 143, 255; --accent: #1a8fff; }
+  .t-education { --primary: 34, 197, 101; --accent: #22c565; }
+  .t-teacher { --primary: 34, 197, 101; --accent: #22c565; }
+  .t-student { --primary: 162, 89, 255; --accent: #a259ff; }
+  .t-home { --primary: 255, 77, 106; --accent: #ff4d6a; }
+  .t-partner { --primary: 57, 224, 122; --accent: #39e07a; }
+  .t-ngo { --primary: 14, 184, 160; --accent: #0eb8a0; }
+  .t-ecom { --primary: 108, 99, 255; --accent: #6c63ff; }
+  .t-ai { --primary: 162, 89, 255; --accent: #a259ff; }
+  .t-lef { --primary: 245, 166, 35; --accent: #f5a623; }
 }
 
-/* ── Base Resets ──────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-
-html { font-size: 16px; }
-
-body {
-  font-family: var(--font-body);
-  background-color: var(--brand-bg);
-  color: #fafafa;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Custom Cursor Elements */
+#cur, #curR {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background 0.3s, transform 0.1s;
+}
+#curR {
+  width: 36px; height: 36px;
+  background: none;
+  border: 1px solid rgba(var(--primary), 0.3);
+  transition: width 0.4s, height 0.4s, border 0.4s;
 }
 
-/* ── Font utilities ───────────────────────────────────────────── */
-.font-display { font-family: var(--font-display); }
-.font-sans    { font-family: var(--font-body); }
-
-/* ── Scrollbar styling ────────────────────────────────────────── */
-::-webkit-scrollbar       { width: 6px; }
-::-webkit-scrollbar-track { background: var(--brand-bg); }
-::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #52525b; }
-
-/* ── Selection ────────────────────────────────────────────────── */
-::selection { background: rgba(124,58,237,0.35); color: #fff; }
-
-/* ── Focus rings ──────────────────────────────────────────────── */
-:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; border-radius: 4px; }
-
-/* ── Prose overrides for dark mode ───────────────────────────── */
-.prose-invert {
-  --tw-prose-body:        #a1a1aa;
-  --tw-prose-headings:    #fafafa;
-  --tw-prose-links:       #a78bfa;
-  --tw-prose-code:        #e879f9;
-  --tw-prose-pre-bg:      #18181b;
-  --tw-prose-hr:          rgba(255,255,255,0.08);
-  --tw-prose-quotes:      #a1a1aa;
-  --tw-prose-quote-borders: var(--brand-accent);
+/* Hide default cursor only if not on touch */
+@media (pointer: fine) {
+  body { cursor: none; }
 }
 
-/* ── Utility: gradient text ───────────────────────────────────── */
-.text-gradient {
-  background: linear-gradient(135deg, #a78bfa, #38bdf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* Selection & Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #1a1b26; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* ── Utility: glass card ──────────────────────────────────────── */
-.glass {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(12px);
+::selection {
+  background: var(--accent);
+  color: #000;
 }
-
-/* ── Page transitions ─────────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-up { animation: fadeUp 0.5s ease both; }
-
-/* ── Contact form inputs ──────────────────────────────────────── */
-.form-input {
-  width: 100%;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 0.75rem;
-  padding: 0.75rem 1rem;
-  color: #fafafa;
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  outline: none;
-}
-.form-input:focus {
-  border-color: rgba(124,58,237,0.6);
-  box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
-}
-.form-input::placeholder { color: #52525b; }
