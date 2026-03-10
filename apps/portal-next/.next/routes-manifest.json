@@ -130,6 +130,12 @@
       "namedRegex": "^/dailyboard(?:/)?$"
     },
     {
+      "page": "/erp",
+      "regex": "^/erp(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/erp(?:/)?$"
+    },
+    {
       "page": "/explore",
       "regex": "^/explore(?:/)?$",
       "routeKeys": {},
@@ -146,6 +152,18 @@
       "regex": "^/partner(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/partner(?:/)?$"
+    },
+    {
+      "page": "/retail",
+      "regex": "^/retail(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/retail(?:/)?$"
+    },
+    {
+      "page": "/school",
+      "regex": "^/school(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/school(?:/)?$"
     }
   ],
   "dataRoutes": [],

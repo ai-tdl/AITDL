@@ -97,7 +97,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "D:\\IMP\\GitHub\\aitdl\\AITDL\\apps\\portal-next",
+    "outputFileTracingRoot": "D:\\IMP\\GitHub",
     "experimental": {
       "useSkewCookie": false,
       "nodeMiddleware": false,
@@ -289,7 +289,7 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
     "turbopack": {
-      "root": "D:\\IMP\\GitHub\\aitdl\\AITDL\\apps\\portal-next"
+      "root": "D:\\IMP\\GitHub"
     },
     "_originalRewrites": {
       "beforeFiles": [],
@@ -303,7 +303,7 @@
     }
   },
   "appDir": "D:\\IMP\\GitHub\\aitdl\\AITDL\\apps\\portal-next",
-  "relativeAppDir": "",
+  "relativeAppDir": "aitdl\\AITDL\\apps\\portal-next",
   "files": [
     ".next\\routes-manifest.json",
     ".next\\server\\pages-manifest.json",
