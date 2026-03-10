@@ -34,6 +34,9 @@ Fingerprint: AITDL-PLATFORM-V3
   <meta property="og:url" content="https://aitdl.com" />
   <title>AITDL — Choose Your World</title>
 
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
+
   <!-- Styles: themes first, then core, then animations -->
   <link rel="stylesheet" href="css/themes.css" />
   <link rel="stylesheet" href="css/main.css" />
@@ -57,10 +60,10 @@ Fingerprint: AITDL-PLATFORM-V3
     <nav>
       <div class="nav-logo" onclick="goHome()" title="Back to Gate">AITDL</div>
       <div class="nav-links" id="navL">
-        <a href="#" onclick="scrollToId('about');closeMenu()">About</a>
-        <a href="#" onclick="scrollToId('products');closeMenu()">Products</a>
-        <a href="#" onclick="scrollToId('clients');closeMenu()">Clients</a>
-        <a href="#" onclick="scrollToId('contact');closeMenu()">Contact</a>
+        <a href="#" onclick="enterUniverse();closeMenu()">Explore</a>
+        <a href="#" onclick="openPicker();closeMenu()">Personalise</a>
+        <a href="#" onclick="enterPartnerLanding();closeMenu()">Partner</a>
+        <a href="#" onclick="enterLearn();closeMenu()">Learn</a>
         <a href="#" onclick="goHome();closeMenu()" class="nav-cta">← Gate</a>
       </div>
       <button class="burger" onclick="openMenu()"><span></span><span></span><span></span></button>
