@@ -14,9 +14,9 @@ export default async function HomePage({
 
       {/* Cinematic Logo/Hero */}
       <div className="text-center mb-16 relative z-10 fade-up">
-        <div className="badge-cs">AITDL · LIVING KNOWLEDGE</div>
+        <div className="badge-cs">{dict.common.brand} · LIVING KNOWLEDGE</div>
         <h1 className="text-8xl md:text-[12rem] font-heading leading-tight tracking-[0.05em] text-white">
-          AITDL
+          {dict.common.brand}
         </h1>
         <div className="h-[1px] w-24 bg-[#c9a84c] mx-auto my-6" />
         <p className="font-heading text-lg md:text-2xl tracking-[0.3em] text-[#6a6860] uppercase">

@@ -3,6 +3,7 @@
 // Public Portal Layout — Wrapper with Header and Footer
 
 import LanguageSwitcher from '@/components/visual/LanguageSwitcher'
+import { getDictionary } from '@/lib/get-dictionary'
 
 export default async function PortalLayout({ 
   children,
@@ -12,13 +13,15 @@ export default async function PortalLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const dict = await getDictionary(locale as any)
+
   return (
     <>
       {/* Header - Transparent/Minimal */}
       <header className="fixed top-0 left-0 right-0 z-[100] border-b border-white/5 bg-transparent backdrop-blur-sm">
         <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href={`/${locale}`} className="font-heading text-2xl tracking-[0.1em] text-white hover:text-[#c9a84c] transition-colors">
-            AITDL
+            {dict.common.brand}
           </a>
 
           <div className="flex items-center">
@@ -46,7 +49,7 @@ export default async function PortalLayout({
       <footer className="relative z-10 border-t border-white/5 py-16 px-6 bg-[#03040a]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
           <div className="col-span-1 md:col-span-2">
-            <p className="font-heading text-3xl tracking-[0.05em] text-white mb-4">AITDL</p>
+            <p className="font-heading text-3xl tracking-[0.05em] text-white mb-4">{dict.common.brand}</p>
             <p className="text-[#6a6860] max-w-sm leading-relaxed text-xs">
               A living knowledge ecosystem providing 18 years of business technology solutions across India.
               Built with precision, delivered with pride.

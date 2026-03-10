@@ -30,6 +30,7 @@
     }
   },
   "common": {
+    "brand": "AITDL",
     "backToGate": "Back to The Gate",
     "exploreUniverse": "Explore The Universe",
     "contact": "Contact Us",

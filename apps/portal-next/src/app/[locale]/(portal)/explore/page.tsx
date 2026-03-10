@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-const getProducts = (locale: string) => [
+const getProducts = (locale: string, dict: any) => [
   {
     id: '01',
     name: 'GanitSūtram',
@@ -39,7 +39,7 @@ const getProducts = (locale: string) => [
     id: '04',
     name: 'Education Cloud',
     href: `/${locale}/education`,
-    desc: 'Complete institutional management. Admissions, fees, exams, and attendance — all powered by AITDL AI.',
+    desc: `Complete institutional management. Admissions, fees, exams, and attendance — all powered by ${dict.common.brand} AI.`,
     theme: 'green',
     icon: '🏫'
   },
@@ -47,7 +47,7 @@ const getProducts = (locale: string) => [
     id: '05',
     name: 'Saathibook',
     href: `/${locale}/saathibook`,
-    desc: 'Professional sync and productivity tool for growing teams. Stay aligned, stay productive with AITDL.',
+    desc: `Professional sync and productivity tool for growing teams. Stay aligned, stay productive with ${dict.common.brand}.`,
     theme: 'purple',
     icon: '◈'
   },
@@ -55,7 +55,7 @@ const getProducts = (locale: string) => [
     id: '06',
     name: 'Partner Network',
     href: `/${locale}/partner`,
-    desc: 'The official AITDL reseller and implementation partner programme. Build your business with our technology.',
+    desc: `The official ${dict.common.brand} reseller and implementation partner programme. Build your business with our technology.`,
     theme: 'green',
     icon: '🤝'
   },
@@ -64,7 +64,7 @@ const getProducts = (locale: string) => [
 export default async function ExplorePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const dict = await getDictionary(locale)
-  const products = getProducts(locale)
+  const products = getProducts(locale, dict)
 
   return (
     <main className="min-h-screen pt-32 pb-24 px-6 max-w-[1400px] mx-auto">
