@@ -11,19 +11,59 @@ export default function CMSPagesPage() {
   const supabase = createSupabaseBrowserClient()
   const [pages, setPages] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<'SCHEMA_MISSING' | 'FETCH_FAILED' | null>(null)
 
   useEffect(() => {
     async function loadPages() {
-      const { data } = await supabase
+      setIsLoading(true)
+      const { data, error: fetchError } = await supabase
         .from('pages')
         .select('*')
         .order('updated_at', { ascending: false })
       
-      setPages(data || [])
+      if (fetchError) {
+        console.error('CMS Fetch Error:', fetchError)
+        if (fetchError.code === '42P01' || fetchError.message?.includes('not found')) {
+            setError('SCHEMA_MISSING')
+        } else {
+            setError('FETCH_FAILED')
+        }
+      } else {
+        setPages((data as any[]) || [])
+        setError(null)
+      }
       setIsLoading(false)
     }
     loadPages()
   }, [supabase])
+
+  if (error === 'SCHEMA_MISSING') {
+    return (
+      <div className="p-12 flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <div className="text-6xl mb-8 grayscale opacity-50">🧘</div>
+        <h2 className="text-3xl font-heading text-white mb-4 uppercase tracking-tight">Intelligence Not Initialized</h2>
+        <p className="text-zinc-500 mb-8 max-w-md mx-auto leading-relaxed">
+          "The path is ready, but the foundation is waiting to be cast." <br/>
+          The `pages` table was not found in your Supabase universe.
+        </p>
+        <div className="glass p-8 rounded-3xl border-white/5 bg-violet-600/5 max-w-lg">
+           <p className="text-xs text-violet-300 font-mono mb-6 leading-relaxed">
+              Please run the initialization script to activate this module:
+           </p>
+           <code className="block bg-black/40 p-4 rounded-xl text-[10px] text-zinc-400 font-mono mb-6 border border-white/5">
+              docs/SUPABASE_SCHEMA.sql
+           </code>
+           <a 
+             href="https://supabase.com/dashboard/project/_/sql"
+             target="_blank"
+             className="text-[10px] font-bold text-white uppercase tracking-[0.2em] px-6 py-3 bg-violet-600 rounded-xl hover:bg-violet-500 transition-all inline-block"
+           >
+             Open SQL Editor →
+           </a>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="p-12">

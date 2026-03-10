@@ -40,6 +40,7 @@
 18. [**Advanced UI Tokens & Motion**](#-chapter-18-advanced-ui-tokens--motion)
 19. [**Performance & Edge Orchestration**](#-chapter-19-performance--edge-orchestration)
 20. [**Testing the Universe**](#-chapter-20-testing-the-universe)
+21. [**Graceful Resilience (404 Strategy)**](#-chapter-21-graceful-resilience-404-strategy)
 
 ---
 
@@ -340,6 +341,29 @@ Use **Playwright** screenshots to verify that CSS changes don't break the glassm
 
 ### Auth Flow Mocking
 Local tests use a `docker-compose` instance of Supabase to verify authentication redirects and RLS policies without consuming production tokens or data quotas.
+
+---
+
+## 🧘 Chapter 21: Graceful Resilience (404 Strategy)
+
+### The "Feel Good" Error Policy
+AITDL never lets a user feel abandoned. Even when a page is not found, the branding must maintain its cinematic authority and offer a comforting path back.
+
+- **`not-found.tsx`**: Must always include the spiritual invocation block and the particle background system.
+- **Copywriting**: Use words like "Reconnect," "Legacy," and "Universe" instead of "Error" or "Broken."
+- **Navigation**: Provide a minimum of two paths: **The Gate** (Homepage) and **The Universe** (Explore).
+
+### Technical Implementation
+The root `not-found.tsx` handles all invalid routes. It matches the `Glass` visual system:
+```tsx
+export default function NotFound() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center text-center">
+      {/* Cinematic Content */}
+    </div>
+  );
+}
+```
 
 ---
 *Last Refined: 11 March MMXXVI*
