@@ -24,8 +24,8 @@ export default async function HomePage({
         </p>
       </div>
 
-      {/* The 4-Door Primary Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 w-full max-w-[1600px] relative z-20 border-t border-white/5">
+      {/* The 4-Door Primary Grid - Flex based for magnetic expansion */}
+      <div className="flex flex-col lg:flex-row gap-0 w-full max-w-[1600px] relative z-20 border-t border-white/5">
 
         <Door
           subtext="WHOLE UNIVERSE"
@@ -71,8 +71,8 @@ export default async function HomePage({
       </div>
 
       {/* Background Decor */}
-      <div className="orb w-[500px] h-[500px] bg-[#c9a84c]/10 top-[-200px] left-[-200px]" />
-      <div className="orb w-[600px] h-[600px] bg-[#1a8fff]/5 bottom-[-300px] right-[-300px]" />
+      <div className="orb animate-float w-[500px] h-[500px] bg-[#c9a84c]/10 top-[-200px] left-[-200px]" />
+      <div className="orb animate-float-delayed w-[600px] h-[600px] bg-[#1a8fff]/5 bottom-[-300px] right-[-300px]" />
     </div>
   )
 }

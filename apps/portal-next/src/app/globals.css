@@ -63,6 +63,26 @@
     animation: shimmer 4s linear infinite;
   }
 
+  /* Cinematic Float */
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+  .animate-float {
+    animation: float 20s ease-in-out infinite;
+  }
+  .animate-float-delayed {
+    animation: float 25s ease-in-out infinite reverse;
+  }
+
+  /* Emissive Glows */
+  .glow-blue { filter: drop-shadow(0 0 15px rgba(26, 143, 255, 0.4)); }
+  .glow-purple { filter: drop-shadow(0 0 15px rgba(162, 89, 255, 0.4)); }
+  .glow-green { filter: drop-shadow(0 0 15px rgba(34, 197, 101, 0.4)); }
+  .glow-burgundy { filter: drop-shadow(0 0 15px rgba(255, 77, 106, 0.4)); }
+  .glow-gold { filter: drop-shadow(0 0 15px rgba(201, 168, 76, 0.4)); }
+
   /* Structural Utilities */
   .glass {
     background: rgba(255, 255, 255, 0.02);
