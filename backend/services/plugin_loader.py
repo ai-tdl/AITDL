@@ -13,8 +13,8 @@ log = logging.getLogger(__name__)
 _plugins: Dict[str, Any] = {}
 
 PLUGINS_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "../../plugins")
-) if '__file__' in locals() else os.path.abspath(os.path.join(os.getcwd(), "../plugins"))
+    os.path.join(os.path.dirname(__file__), "../plugins")
+) if '__file__' in locals() else os.path.abspath(os.path.join(os.getcwd(), "plugins"))
 
 
 def load_plugins(app: FastAPI) -> None:

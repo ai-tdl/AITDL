@@ -22,10 +22,19 @@ Fingerprint: AITDL-PLATFORM-V3
 
 from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import os
+from pathlib import Path
 
+# Resolve backend root directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+ENV_FILE = BASE_DIR / ".env"
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=ENV_FILE,
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
 
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5434/aitdl_dev"

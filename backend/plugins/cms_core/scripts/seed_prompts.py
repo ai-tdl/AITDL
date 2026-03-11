@@ -12,15 +12,9 @@ import sys
 import uuid
 
 # Resolve root to find backend and plugins
-_root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-
-_backend_dir = os.path.join(_root_dir, "backend")
+_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
-
-_plugins_dir = os.path.join(_root_dir, "plugins")
-if _plugins_dir not in sys.path:
-    sys.path.insert(0, _plugins_dir)
 
 from dotenv import load_dotenv
 load_dotenv(os.path.join(_backend_dir, ".env"))

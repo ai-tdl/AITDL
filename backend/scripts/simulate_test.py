@@ -1,6 +1,6 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.getcwd(), "backend"))
-sys.path.insert(0, os.path.join(os.getcwd(), "plugins"))
+sys.path.insert(0, os.path.join(os.getcwd(), "backend", "plugins"))
 
 from main import app
 from httpx import AsyncClient, ASGITransport

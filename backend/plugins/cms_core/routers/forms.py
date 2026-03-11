@@ -19,7 +19,7 @@ import sys, os, uuid, csv, io, hashlib, logging
 from datetime import datetime, timezone
 from typing import Optional, List
 
-_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "backend"))
+_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 

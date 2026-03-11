@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 
 # Absolute path resolution logic to ensure survival across cwd changes
 base_dir = os.path.dirname(__file__) if '__file__' in locals() else os.getcwd()
-PRODUCTS_DIR = os.path.abspath(os.path.join(base_dir, "../../products"))
+PRODUCTS_DIR = os.path.abspath(os.path.join(base_dir, "../products"))
 
 
 # Global registry of loaded products
