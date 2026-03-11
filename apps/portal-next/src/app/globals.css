@@ -1,6 +1,6 @@
 /* || ॐ श्री गणेशाय नमः || · AITDL Portal · globals.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Teko:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@300;400;500;600;700;800&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -44,20 +44,27 @@
 
   /* Hindi & Sanskrit Overrides */
   :lang(hi), :lang(sa) {
-    --font-heading: 'Teko', sans-serif;
+    --font-heading: 'Anek Devanagari', sans-serif;
   }
 
   :lang(hi) h1, :lang(hi) h2, :lang(hi) h3,
   :lang(sa) h1, :lang(sa) h2, :lang(sa) h3 {
-    text-transform: none; /* Devanagari has no case */
-    letter-spacing: 0;    /* Devanagari avoids tracking */
-    line-height: 1.1;     /* Extra leading for matras */
-    font-weight: 500;
+    text-transform: none; 
+    letter-spacing: -0.01em; /* Tighter for premium feel */
+    line-height: 1;        /* Tight leading for brand headers */
+    font-weight: 800;      /* Maximum visual impact */
   }
 
   /* Scaling factors for dense scripts */
-  :lang(hi) .stitle, :lang(sa) .stitle { font-size: clamp(3rem, 8vw, 7rem); }
-  :lang(hi) h2, :lang(sa) h2 { font-size: 0.9em; }
+  :lang(hi) .stitle, :lang(sa) .stitle { 
+    font-size: clamp(3rem, 10vw, 8.5rem); 
+    font-weight: 800;
+  }
+  
+  :lang(hi) h2, :lang(sa) h2 { 
+    font-size: 0.85em; 
+    font-weight: 700;
+  }
 }
 
 @layer utilities {

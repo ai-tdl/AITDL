@@ -16,16 +16,20 @@ export default async function HomePage({
       <div className="text-center mb-16 relative z-10 w-full max-w-4xl mx-auto">
         <div className="badge-cs">{dict.common.brand} · LIVING KNOWLEDGE</div>
         <h1 className="text-8xl md:text-[14rem] font-heading leading-tight tracking-[0.05em] text-white flex justify-center overflow-hidden h-[1.1em]">
-          {dict.common.brand.split('').map((char: string, i: number) => (
-            <span key={i} className="reveal-container">
-              <span 
-                className="reveal-letter"
-                style={{ animationDelay: `${0.1 + i * 0.1}s` }}
-              >
-                {char}
+          {(() => {
+            const segmenter = new Intl.Segmenter(locale, { granularity: 'grapheme' });
+            const segments = Array.from(segmenter.segment(dict.common.brand));
+            return segments.map((s, i) => (
+              <span key={i} className="reveal-container">
+                <span 
+                  className="reveal-letter"
+                  style={{ animationDelay: `${0.1 + i * 0.1}s` }}
+                >
+                  {s.segment}
+                </span>
               </span>
-            </span>
-          ))}
+            ));
+          })()}
         </h1>
         <div className="hero-divider" />
         <p className="font-heading text-lg md:text-2xl tracking-[0.4em] text-[#888] uppercase fade-up" style={{ animationDelay: '1.2s' }}>
