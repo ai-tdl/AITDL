@@ -1,13 +1,5 @@
 apps/
 archive/
-agents/
-guardian/
-pil/
-plugins/
-products/
-rules/
-core/
-infrastructure/
 deadzone/
 researchwork/
 aitdl-autocorrect.jsx
@@ -15,5 +7,3 @@ aitdl_master_agent.py
 project_skeleton.txt
 *.log
 .pytest_cache/
-tests/
-scripts/
