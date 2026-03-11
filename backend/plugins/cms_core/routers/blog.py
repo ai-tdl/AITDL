@@ -30,7 +30,7 @@ if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -66,6 +66,7 @@ class BlogUpdate(BaseModel):
     ai_summary:      Optional[str]      = None
 
 class BlogOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID; workspace_id: uuid.UUID; title: str; slug: str
     content: list; author_id: Optional[str]; status: str
     featured_image: Optional[uuid.UUID]; ai_summary: Optional[str]
@@ -73,7 +74,6 @@ class BlogOut(BaseModel):
     last_modified_by: Optional[str]
     published_at: Optional[datetime]
     created_at: datetime; updated_at: datetime
-    class Config: from_attributes = True
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────

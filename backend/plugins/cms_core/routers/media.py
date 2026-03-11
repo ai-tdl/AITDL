@@ -23,7 +23,7 @@ if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -50,12 +50,12 @@ _MAX_VIDEO_BYTES = 50 * 1024 * 1024   # 50 MB
 
 
 class MediaOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID; workspace_id: uuid.UUID; filename: str
     storage_path: str; cdn_url: Optional[str]
     mime_type: str; size_bytes: int; alt_text: Optional[str]
     uploaded_by: Optional[str]
     created_at: datetime; updated_at: datetime
-    class Config: from_attributes = True
 
 
 @router.post("/media/upload", response_model=MediaOut, status_code=status.HTTP_201_CREATED)

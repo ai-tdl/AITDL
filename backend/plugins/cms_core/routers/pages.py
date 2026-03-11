@@ -41,7 +41,7 @@ if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
 from fastapi import APIRouter, Depends, HTTPException, status, Header
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -74,6 +74,7 @@ class PageUpdate(BaseModel):
     seo_description: Optional[str] = Field(default=None, max_length=155)
 
 class PageOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID; workspace_id: uuid.UUID; title: str; slug: str
     status: str; template: str
     seo_title: Optional[str]; seo_description: Optional[str]
@@ -81,7 +82,6 @@ class PageOut(BaseModel):
     published_at: Optional[datetime]
     created_by: Optional[str]
     created_at: datetime; updated_at: datetime
-    class Config: from_attributes = True
 
 class BlockCreate(BaseModel):
     type:       str = Field(..., min_length=1)
@@ -94,10 +94,10 @@ class BlockUpdate(BaseModel):
     ai_generated: Optional[bool] = None
 
 class BlockOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID; page_id: uuid.UUID; type: str; sort_order: int
     config: dict; ai_generated: bool
     created_at: datetime; updated_at: datetime
-    class Config: from_attributes = True
 
 class ReorderRequest(BaseModel):
     page_id:    uuid.UUID

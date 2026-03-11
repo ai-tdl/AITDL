@@ -1,4 +1,5 @@
 import logging
+import inspect
 from typing import Callable, Dict, List, Any
 
 log = logging.getLogger(__name__)
@@ -30,8 +31,7 @@ async def trigger(event_name: str, *args: Any, **kwargs: Any) -> None:
     for callback in callbacks:
         try:
             # Check if callback is an async coroutine or a standard function
-            import asyncio
-            if asyncio.iscoroutinefunction(callback):
+            if inspect.iscoroutinefunction(callback):
                 await callback(*args, **kwargs)
             else:
                 callback(*args, **kwargs)

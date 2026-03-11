@@ -25,7 +25,7 @@ if _backend_dir not in sys.path:
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -54,16 +54,16 @@ class FormCreate(BaseModel):
     enabled:         bool      = True
 
 class FormOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID; workspace_id: uuid.UUID; title: str; slug: str
     fields: list; notify_email: Optional[str]
     success_message: str; enabled: bool; honeypot_field: str
     created_at: datetime; updated_at: datetime
-    class Config: from_attributes = True
 
 class SubmissionOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID; form_id: uuid.UUID; workspace_id: uuid.UUID
     data: dict; status: str; submitted_at: datetime
-    class Config: from_attributes = True
 
 class PublicSubmission(BaseModel):
     """Schema for public form submissions from the frontend."""

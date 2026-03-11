@@ -30,7 +30,7 @@ if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -73,13 +73,13 @@ class CardUpdate(BaseModel):
     tags:        Optional[List[str]] = None
 
 class CardOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID; workspace_id: uuid.UUID; parent_id: Optional[uuid.UUID]
     title: str; description: Optional[str]
     icon: Optional[str]; badge: Optional[str]
     cta_text: Optional[str]; cta_url: Optional[str]
     sort_order: int; enabled: bool; tags: list
     created_at: datetime; updated_at: datetime
-    class Config: from_attributes = True
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────

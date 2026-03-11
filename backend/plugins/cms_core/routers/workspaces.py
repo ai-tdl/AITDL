@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, func, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from core.database import get_db
 from cms_core.middleware import require_workspace_admin, get_current_workspace, require_cms_user
@@ -35,6 +35,7 @@ class WorkspaceUpdate(BaseModel):
     is_active: Optional[bool] = None
 
 class WorkspaceResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: uuid.UUID
     name: str
     slug: str
@@ -44,9 +45,6 @@ class WorkspaceResponse(BaseModel):
     is_active: bool
     created_at: datetime
     updated_at: datetime
-    
-    class Config:
-        from_attributes = True
 
 class WorkspaceStats(BaseModel):
     pages_count: int
