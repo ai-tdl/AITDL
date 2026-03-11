@@ -28,7 +28,7 @@ jobs:
           SUPABASE_ANON_KEY: "mock-key"
           SUPABASE_JWT_SECRET: "mock-secret"
         run: |
-          python scripts/aitdl_master_execute.py
+          python backend/scripts/aitdl_master_execute.py
 
   deploy-frontend:
     needs: verify

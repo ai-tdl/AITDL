@@ -31,9 +31,9 @@ def generate_dependency_map():
     layers = [
         "Infrastructure (backend/db, backend/core/config)",
         "Platform Kernel (backend/platform_kernel.py)",
-        "Core Platform (backend/api/*, core/*)",
-        "Plugins (plugins/*)",
-        "Products (products/*)"
+        "Core Platform (backend/api/*, backend/core/*)",
+        "Plugins (backend/plugins/*)",
+        "Products (backend/products/*)"
     ]
     
     print("\n[AITDL LAYERED HIERARCHY]")

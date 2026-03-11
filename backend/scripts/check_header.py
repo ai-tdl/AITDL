@@ -32,14 +32,15 @@ REQUIRED_INVOCATIONS = [
 ]
 
 def check_header():
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Scripts are now in backend/scripts, so root is 3 levels up from __file__
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     
     # Files to check (Core Backend & Identity)
     files_to_check = [
         os.path.join(root, "backend", "main.py"),
         os.path.join(root, "backend", "platform_kernel.py"),
         os.path.join(root, "backend", "core", "aitdl_identity.py"),
-        os.path.join(root, "scripts", "aitdl_signature.py"),
+        os.path.join(root, "backend", "scripts", "aitdl_signature.py"),
     ]
 
     failed = False

@@ -26,22 +26,23 @@ import sys
 REQUIRED_DIRS = [
     "apps",
     "backend",
-    "core",
-    "plugins",
-    "products",
-    "agents",
-    "guardian",
-    "scripts",
-    "infrastructure",
-    "tests",
-    "docs",
-    "archive",
     ".github/workflows",
 ]
 
+# These are now internal to backend
+CORE_BACKEND_DIRS = [
+    "backend/core",
+    "backend/plugins",
+    "backend/products",
+    "backend/agents",
+    "backend/scripts",
+    "backend/tests",
+]
+
 def check_structure():
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    print(f"Checking AITDL Repository Structure at: {root}")
+    # Scripts are now in backend/scripts, so root is 3 levels up from __file__
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    print(f"Checking AITDL Repository Structure (Monorepo V3) at: {root}")
     
     missing = []
     for d in REQUIRED_DIRS:

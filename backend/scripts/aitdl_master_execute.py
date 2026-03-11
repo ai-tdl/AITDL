@@ -3,15 +3,15 @@ import subprocess
 
 steps = [
 
-    ("Verify Repository Structure", "python scripts/check_structure.py"),
+    ("Verify Repository Structure", "python backend/scripts/check_structure.py"),
 
-    ("Verify Platform Kernel", "python scripts/check_kernel.py"),
+    ("Verify Platform Kernel", "python backend/scripts/check_kernel.py"),
 
-    ("Verify Header Compliance", "python scripts/check_header.py"),
+    ("Verify Header Compliance", "python backend/scripts/check_header.py"),
 
-    ("Generate Dependency Map", "python scripts/dependency_map.py"),
+    ("Generate Dependency Map", "python backend/scripts/dependency_map.py"),
 
-    ("Run Platform Signature", "python scripts/aitdl_signature.py"),
+    ("Run Platform Signature", "python backend/scripts/aitdl_signature.py"),
 
     ("Run Test Suite", "python -m pytest"),
 ]

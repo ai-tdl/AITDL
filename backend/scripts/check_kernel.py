@@ -24,7 +24,8 @@ import os
 import sys
 
 def check_kernel():
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Scripts are now in backend/scripts, so root is 3 levels up from __file__
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     kernel_path = os.path.join(root, "backend", "platform_kernel.py")
     main_path = os.path.join(root, "backend", "main.py")
 
