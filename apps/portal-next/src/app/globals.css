@@ -224,6 +224,29 @@
   .btn-premium-emerald {
     @apply bg-emerald-600 text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-500 hover:shadow-emerald-500/40;
   }
+
+  /* Nav Links Hover */
+  .nav-link {
+    position: relative;
+    @apply transition-colors duration-300;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .nav-link:hover {
+    @apply text-white;
+    color: var(--accent) !important;
+  }
+  .nav-link:hover::after {
+    width: 100%;
+  }
 }
 
 /* Custom Cursor Elements */

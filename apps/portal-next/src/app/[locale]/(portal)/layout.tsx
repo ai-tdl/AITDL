@@ -13,7 +13,7 @@ export default async function PortalLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const dict = await getDictionary(locale as any)
+  const dict = (await getDictionary(locale as any)) as any
 
   return (
     <>
@@ -26,17 +26,17 @@ export default async function PortalLayout({
 
           <div className="flex items-center">
             <div className="hidden md:flex items-center gap-10 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6a6860]">
-              <a href={`/${locale}/explore`} className="hover:text-[#c9a84c] transition-colors">Universe</a>
-              <a href={`/${locale}/student/tools/ganitsutram`} className="hover:text-[#c9a84c] transition-colors">Sūtram</a>
-              <a href={`/${locale}/blog`} className="hover:text-[#c9a84c] transition-colors">Intelligence</a>
-              <a href={`/${locale}/partner`} className="hover:text-[#c9a84c] transition-colors font-bold text-[#c9a84c]">Partner</a>
+              <a href={`/${locale}/explore`} className="nav-link">Universe</a>
+              <a href={`/${locale}/explore`} className="nav-link">Products</a>
+              <a href={`/${locale}/blog`} className="nav-link">AI</a>
+              <a href={`/${locale}/partner`} className="nav-link">Partner</a>
             </div>
 
             <LanguageSwitcher currentLocale={locale} />
           </div>
 
           <button className="md:hidden text-white p-2">
-            <span className="font-mono text-[10px] tracking-[0.2em]">MEMU</span>
+            <span className="font-mono text-[10px] tracking-[0.2em]">MENU</span>
           </button>
         </nav>
       </header>
@@ -49,19 +49,22 @@ export default async function PortalLayout({
       <footer className="relative z-10 border-t border-white/5 py-16 px-6 bg-[#03040a]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
           <div className="col-span-1 md:col-span-2">
-            <p className="font-heading text-3xl tracking-[0.05em] text-white mb-4">{dict.common.brand}</p>
-            <p className="text-[#6a6860] max-w-sm leading-relaxed text-xs">
-              A living knowledge ecosystem providing 18 years of business technology solutions across India.
-              Built with precision, delivered with pride.
+            <p className="font-heading text-4xl tracking-[0.05em] text-white mb-4">{dict.common.brand}</p>
+            <p className="text-[#6a6860] max-w-sm leading-relaxed text-[11px]">
+              18 years of business technology across India. 
+              <span className="block mt-1">Mumbai · Nashik · Surat · Gorakhpur.</span>
             </p>
           </div>
 
           <div className="flex flex-col gap-4">
             <p className="font-heading text-lg tracking-[0.1em] text-[#c9a84c]">Network</p>
             <ul className="space-y-2 font-mono text-[10px] uppercase tracking-[0.15em] text-[#6a6860]">
-              <li><a href="/partner" className="hover:text-white">Partner Program</a></li>
-              <li><a href="/blog" className="hover:text-white">AITDL Blog</a></li>
-              <li><a href="/explore" className="hover:text-white">The Universe</a></li>
+              <li><a href={`/${locale}/partner`} className="hover:text-white">Partner Program</a></li>
+              <li><a href={`/${locale}/blog`} className="hover:text-white">AITDL Blog</a></li>
+              <li><a href={`/${locale}/explore`} className="hover:text-white">The Universe</a></li>
+              <li><a href={`/${locale}/careers`} className="hover:text-white">Careers</a></li>
+              <li><a href={`/${locale}/products`} className="hover:text-white">All Products</a></li>
+              <li><a href={`/${locale}/contact`} className="hover:text-white">Contact Us</a></li>
             </ul>
           </div>
 
@@ -69,7 +72,12 @@ export default async function PortalLayout({
             <p className="font-heading text-lg tracking-[0.1em] text-[#c9a84c]">Direct</p>
             <ul className="space-y-2 font-mono text-[10px] uppercase tracking-[0.15em] text-[#6a6860]">
               <li><a href="mailto:contact@aitdl.com" className="hover:text-white">contact@aitdl.com</a></li>
-              <li className="text-white/20">Mumbai · Nashik · Surat · Gorakhpur</li>
+              <li className="flex gap-2 text-white/40 flex-wrap">
+                <a href={`/${locale}/contact`} className="hover:text-white">Mumbai</a> · 
+                <a href={`/${locale}/contact`} className="hover:text-white">Nashik</a> · 
+                <a href={`/${locale}/contact`} className="hover:text-white">Surat</a> · 
+                <a href={`/${locale}/contact`} className="hover:text-white">Gorakhpur</a>
+              </li>
             </ul>
           </div>
         </div>

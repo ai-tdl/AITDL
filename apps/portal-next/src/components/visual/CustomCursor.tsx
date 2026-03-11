@@ -50,8 +50,8 @@ export default function CustomCursor() {
 
     return (
         <>
-            <div id="cur" ref={curRef} className={`hidden md:block transition-opacity duration-1000 ${isIdle ? 'opacity-0' : 'opacity-100'}`} />
-            <div id="curR" ref={curRRef} className={`hidden md:block transition-opacity duration-1000 ${isIdle ? 'opacity-0' : 'opacity-100'}`} />
+        <div id="cur" ref={curRef} className={`hidden md:block fixed pointer-events-none z-[10000] transition-opacity duration-1000 ${isIdle ? 'opacity-0' : 'opacity-100'}`} />
+        <div id="curR" ref={curRRef} className={`hidden md:block fixed pointer-events-none z-[10000] transition-opacity duration-1000 ${isIdle ? 'opacity-0' : 'opacity-100'}`} />
         </>
     );
 }

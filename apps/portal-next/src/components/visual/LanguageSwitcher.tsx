@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -22,6 +23,7 @@ export default function LanguageSwitcher({ currentLocale }: { currentLocale: str
 
   return (
     <div className="flex items-center gap-3 font-mono text-[9px] tracking-[0.2em] border-l border-white/10 pl-6 ml-6">
+      <span className="text-white/20 mr-2">|</span>
       {locales.map((loc, index) => (
         <React.Fragment key={loc.code}>
           <Link
@@ -38,5 +40,3 @@ export default function LanguageSwitcher({ currentLocale }: { currentLocale: str
     </div>
   )
 }
-
-import React from 'react'

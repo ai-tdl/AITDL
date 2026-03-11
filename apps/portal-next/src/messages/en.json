@@ -4,11 +4,11 @@
     "subtitle": "Technology Solutions for Retail, ERP, Education & AI. Pan India. Since 2007.",
     "doors": {
       "retail": {
-        "label": "ALL PRODUCTS",
+        "label": "WHOLE UNIVERSE",
         "title": "EXPLORE EVERYTHING",
-        "subtitle": "Point of Sale (POS)",
-        "description": "GST Billing, Inventory & Multi-Store management for modern shops.",
-        "link": "Open Retail Hub",
+        "subtitle": "All Solutions",
+        "description": "All 11 product worlds — Retail, ERP, Education, AI, NGO, Ecommerce and more",
+        "link": "EXPLORE ALL PRODUCTS",
         "points": [
           "Retail · ERP · Education · NGO · AI · Ecommerce",
           "18 years · 100+ clients · Pan India",
@@ -16,11 +16,11 @@
         ]
       },
       "erp": {
-        "label": "YOUR WORLD",
+        "label": "SPECIFIC DESTINATION",
         "title": "GO TO MY WORLD",
-        "subtitle": "ERP & Tally Sync",
-        "description": "Automated accounting, custom TDLs, and deep business intelligence.",
-        "link": "Open Business Hub",
+        "subtitle": "Personalized",
+        "description": "Pick your role and see only what's relevant to you",
+        "link": "CHOOSE MY ROLE",
         "points": [
           "Pick your role — retailer, school, NGO, professional",
           "Only see what's relevant to you",
@@ -28,11 +28,11 @@
         ]
       },
       "education": {
-        "label": "PARTNER WITH US",
+        "label": "BECOME A PARTNER",
         "title": "GROW WITH AITDL",
-        "subtitle": "School Management",
-        "description": "Admissions, Fees, Exams & AI Learning for institutions.",
-        "link": "Open Education Hub",
+        "subtitle": "Empowerment",
+        "description": "Zero fee. Full portfolio. Your city, your business",
+        "link": "JOIN AS PARTNER",
         "points": [
           "Zero joining fee · Zero deposit",
           "Full product portfolio to resell",
@@ -42,9 +42,9 @@
       "ai": {
         "label": "LEARN · EARN · FUN",
         "title": "GROW ON YOUR TERMS",
-        "subtitle": "AI Student Hub",
-        "description": "GanitSūtram, AutoCorrect & personalised AI study companions.",
-        "link": "Open Learning Hub",
+        "subtitle": "AI Learning",
+        "description": "Courses, referral income, daily challenges — free to join",
+        "link": "START FOR FREE",
         "points": [
           "Online courses · Referral income · Daily challenges",
           "Free to join · Start earning from day one",
