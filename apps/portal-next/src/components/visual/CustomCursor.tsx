@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
     const curRef = useRef<HTMLDivElement>(null);
     const curRRef = useRef<HTMLDivElement>(null);
+    const [isIdle, setIsIdle] = useState(false);
+    const idleTimer = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const cur = curRef.current;
@@ -13,11 +15,18 @@ export default function CustomCursor() {
 
         let mx = 0, my = 0, rx = 0, ry = 0;
 
+        const resetIdle = () => {
+            setIsIdle(false);
+            if (idleTimer.current) clearTimeout(idleTimer.current);
+            idleTimer.current = setTimeout(() => setIsIdle(true), 2000);
+        };
+
         const onMouseMove = (e: MouseEvent) => {
             mx = e.clientX;
             my = e.clientY;
             cur.style.left = `${mx}px`;
             cur.style.top = `${my}px`;
+            resetIdle();
         };
 
         const animateR = () => {
@@ -30,17 +39,19 @@ export default function CustomCursor() {
 
         window.addEventListener('mousemove', onMouseMove);
         const animId = requestAnimationFrame(animateR);
+        resetIdle();
 
         return () => {
             window.removeEventListener('mousemove', onMouseMove);
             cancelAnimationFrame(animId);
+            if (idleTimer.current) clearTimeout(idleTimer.current);
         };
     }, []);
 
     return (
         <>
-            <div id="cur" ref={curRef} className="hidden md:block" />
-            <div id="curR" ref={curRRef} className="hidden md:block" />
+            <div id="cur" ref={curRef} className={`hidden md:block transition-opacity duration-1000 ${isIdle ? 'opacity-0' : 'opacity-100'}`} />
+            <div id="curR" ref={curRRef} className={`hidden md:block transition-opacity duration-1000 ${isIdle ? 'opacity-0' : 'opacity-100'}`} />
         </>
     );
 }

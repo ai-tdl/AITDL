@@ -7,7 +7,7 @@ export default async function HomePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const dict = await getDictionary(locale)
+  const dict = (await getDictionary(locale)) as any
 
   return (
     <div id="gate" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6 pt-20 pb-12">
@@ -28,42 +28,50 @@ export default async function HomePage({
       <div className="flex flex-col lg:flex-row gap-0 w-full max-w-[1600px] relative z-20 border-t border-white/5">
 
         <Door
-          subtext="WHOLE UNIVERSE"
+          label={dict.gate.doors.retail.label}
           title={dict.gate.doors.retail.title}
           desc={dict.gate.doors.retail.description}
+          points={dict.gate.doors.retail.points}
           href={`/${locale}/explore`}
           theme="blue"
+          accent="#c9a84c"
           linkText={dict.gate.doors.retail.link}
           emoji="🌌"
         />
 
         <Door
-          subtext="SPECIFIC DESTINATION"
+          label={dict.gate.doors.erp.label}
           title={dict.gate.doors.erp.title}
           desc={dict.gate.doors.erp.description}
+          points={dict.gate.doors.erp.points}
           href="#"
           theme="purple"
+          accent="#ff6b1a"
           linkText={dict.gate.doors.erp.link}
           isPickerTrigger
           emoji="🎯"
         />
 
         <Door
-          subtext="BECOME A PARTNER"
+          label={dict.gate.doors.education.label}
           title={dict.gate.doors.education.title}
           desc={dict.gate.doors.education.description}
+          points={dict.gate.doors.education.points}
           href={`/${locale}/partner`}
           theme="green"
+          accent="#39e07a"
           linkText={dict.gate.doors.education.link}
           emoji="🤝"
         />
 
         <Door
-          subtext="LEARN · EARN · FUN"
+          label={dict.gate.doors.ai.label}
           title={dict.gate.doors.ai.title}
           desc={dict.gate.doors.ai.description}
+          points={dict.gate.doors.ai.points}
           href={`/${locale}/student`}
           theme="burgundy"
+          accent="#f5a623"
           linkText={dict.gate.doors.ai.link}
           emoji="🎯"
         />

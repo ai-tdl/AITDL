@@ -4,28 +4,52 @@
     "subtitle": "Technology Solutions for Retail, ERP, Education & AI. Pan India. Since 2007.",
     "doors": {
       "retail": {
-        "title": "Retail",
+        "label": "ALL PRODUCTS",
+        "title": "EXPLORE EVERYTHING",
         "subtitle": "Point of Sale (POS)",
         "description": "GST Billing, Inventory & Multi-Store management for modern shops.",
-        "link": "Open Retail Hub"
+        "link": "Open Retail Hub",
+        "points": [
+          "Retail · ERP · Education · NGO · AI · Ecommerce",
+          "18 years · 100+ clients · Pan India",
+          "See everything before you decide"
+        ]
       },
       "erp": {
-        "title": "Business",
+        "label": "YOUR WORLD",
+        "title": "GO TO MY WORLD",
         "subtitle": "ERP & Tally Sync",
         "description": "Automated accounting, custom TDLs, and deep business intelligence.",
-        "link": "Open Business Hub"
+        "link": "Open Business Hub",
+        "points": [
+          "Pick your role — retailer, school, NGO, professional",
+          "Only see what's relevant to you",
+          "Personalised in one click"
+        ]
       },
       "education": {
-        "title": "Education",
+        "label": "PARTNER WITH US",
+        "title": "GROW WITH AITDL",
         "subtitle": "School Management",
         "description": "Admissions, Fees, Exams & AI Learning for institutions.",
-        "link": "Open Education Hub"
+        "link": "Open Education Hub",
+        "points": [
+          "Zero joining fee · Zero deposit",
+          "Full product portfolio to resell",
+          "Your city, your business"
+        ]
       },
       "ai": {
-        "title": "Learning",
+        "label": "LEARN · EARN · FUN",
+        "title": "GROW ON YOUR TERMS",
         "subtitle": "AI Student Hub",
         "description": "GanitSūtram, AutoCorrect & personalised AI study companions.",
-        "link": "Open Learning Hub"
+        "link": "Open Learning Hub",
+        "points": [
+          "Online courses · Referral income · Daily challenges",
+          "Free to join · Start earning from day one",
+          "Built for working professionals"
+        ]
       }
     }
   },

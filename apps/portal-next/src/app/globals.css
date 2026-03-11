@@ -65,15 +65,23 @@
 
   /* Cinematic Float */
   @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; filter: blur(120px); }
+    33% { transform: translate(30px, -50px) scale(1.1); opacity: 0.5; filter: blur(100px); }
+    66% { transform: translate(-20px, 20px) scale(0.9); opacity: 0.3; filter: blur(140px); }
   }
   .animate-float {
     animation: float 20s ease-in-out infinite;
   }
   .animate-float-delayed {
     animation: float 25s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(0.98); }
+  }
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
   }
 
   /* Emissive Glows */
@@ -162,6 +170,7 @@
     padding: 0.4rem 1rem;
     margin-bottom: 1.5rem;
     display: inline-block;
+    animation: pulse-soft 4s ease-in-out infinite;
   }
 
   .sn {
@@ -227,13 +236,13 @@
   pointer-events: none;
   z-index: 10000;
   transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background 0.3s, transform 0.1s;
+  transition: width 0.3s, height 0.3s, background 0.3s, transform 0.1s, opacity 1s ease-in-out;
 }
 #curR {
   width: 36px; height: 36px;
   background: none;
   border: 1px solid rgba(var(--primary), 0.3);
-  transition: width 0.4s, height 0.4s, border 0.4s;
+  transition: width 0.4s, height 0.4s, border 0.4s, opacity 1s ease-in-out;
 }
 
 /* Hide default cursor only if not on touch */
