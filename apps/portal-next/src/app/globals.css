@@ -240,8 +240,29 @@ nav, .nav-link {
   font-family: var(--font-label);
   font-size: var(--type-small);
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  position: relative;
+  transition: color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover {
+  color: var(--gold);
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
 
 /* ── Badge / Label Chips ──────────────────────────────────────────────────── */
@@ -354,6 +375,39 @@ footer, .footer-text {
 
 @keyframes charUp {
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Staggered Reveal ─────────────────────────────────────────────────────── */
+
+.reveal-stagger {
+  opacity: 0;
+  animation: revealStagger 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes revealStagger {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.fade-in-blur {
+  opacity: 0;
+  filter: blur(20px);
+  animation: fadeInBlur 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeInBlur {
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 /* ── Scroll Indicator ─────────────────────────────────────────────────────── */

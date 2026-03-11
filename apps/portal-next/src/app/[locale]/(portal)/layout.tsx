@@ -26,10 +26,10 @@ export default async function PortalLayout({
 
           <div className="flex items-center">
             <div className="hidden md:flex items-center gap-10 font-mono text-[10px] uppercase tracking-[0.2em] text-[#6a6860]">
-              <a href={`/${locale}/explore`} className="nav-link">Universe</a>
-              <a href={`/${locale}/explore`} className="nav-link">Products</a>
-              <a href={`/${locale}/blog`} className="nav-link">AI</a>
-              <a href={`/${locale}/partner`} className="nav-link">Partner</a>
+              <a href={`/${locale}/explore`} className="nav-link reveal-stagger" style={{ animationDelay: '0.1s' }}>Universe</a>
+              <a href={`/${locale}/explore`} className="nav-link reveal-stagger" style={{ animationDelay: '0.2s' }}>Products</a>
+              <a href={`/${locale}/blog`} className="nav-link reveal-stagger" style={{ animationDelay: '0.3s' }}>AI</a>
+              <a href={`/${locale}/partner`} className="nav-link reveal-stagger" style={{ animationDelay: '0.4s' }}>Partner</a>
             </div>
 
             <LanguageSwitcher currentLocale={locale} />

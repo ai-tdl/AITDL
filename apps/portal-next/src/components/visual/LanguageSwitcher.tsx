@@ -28,11 +28,12 @@ export default function LanguageSwitcher({ currentLocale }: { currentLocale: str
         <React.Fragment key={loc.code}>
           <Link
             href={getPathForLocale(loc.code)}
-            className={`transition-all duration-300 hover:text-white ${
-              currentLocale === loc.code ? 'text-[#c9a84c] font-bold' : 'text-[#444]'
+            className={`transition-all duration-300 relative group ${
+              currentLocale === loc.code ? 'text-[#c9a84c] font-bold' : 'text-[#444] hover:text-[#888]'
             }`}
           >
             {loc.label}
+            <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-[#c9a84c] transition-all duration-300 group-hover:w-full ${currentLocale === loc.code ? 'w-full' : ''}`} />
           </Link>
           {index < locales.length - 1 && <span className="text-[#222]">|</span>}
         </React.Fragment>

@@ -82,7 +82,7 @@ export default function CanvasBackground() {
         window.addEventListener('resize', resize);
 
         pts = [];
-        for (let i = 0; i < 20; i++) pts.push(new P());
+        for (let i = 0; i < 35; i++) pts.push(new P());
 
         const animId = requestAnimationFrame(animate);
 
