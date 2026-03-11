@@ -1,0 +1,9 @@
+[phases.setup]
+nixPkgs = ["python311", "gcc"]
+
+[phases.install]
+cmds = ["python -m venv .venv", ".venv/bin/pip install -r backend/requirements.txt"]
+
+[start]
+cmd = "bash backend/start.sh"
+mounts = ["/app/backend/products", "/app/backend/plugins", "/app/backend/themes"]
