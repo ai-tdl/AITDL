@@ -80,7 +80,7 @@ async def workspace_seed(db_session):
 
 async def _create_page(client, token, slug="test-page", title="Test Page"):
     resp = await client.post(
-        "/api/v1/cms/pages",
+        "/api/cms/pages",
         json={"title": title, "slug": slug},
         headers={"Authorization": f"Bearer {token}"},
     )
@@ -108,7 +108,7 @@ async def test_get_page(cms_token, workspace_seed):
         page_id = create_resp.json()["id"]
 
         get_resp = await client.get(
-            f"/api/v1/cms/pages/{page_id}",
+            f"/api/cms/pages/{page_id}",
             headers={"Authorization": f"Bearer {cms_token}"},
         )
         assert get_resp.status_code == 200
@@ -132,7 +132,7 @@ async def test_duplicate_page(cms_token, workspace_seed):
         page_id = create_resp.json()["id"]
 
         dup_resp = await client.post(
-            f"/api/v1/cms/pages/{page_id}/duplicate",
+            f"/api/cms/pages/{page_id}/duplicate",
             headers={"Authorization": f"Bearer {cms_token}"},
         )
         assert dup_resp.status_code == 201
@@ -152,7 +152,7 @@ async def test_optimistic_lock_conflict(cms_token, workspace_seed):
 
         # PATCH with a stale / wrong If-Match value should 409
         patch_resp = await client.patch(
-            f"/api/v1/cms/pages/{page_id}",
+            f"/api/cms/pages/{page_id}",
             json={"title": "Updated Title"},
             headers={
                 "Authorization": f"Bearer {cms_token}",
@@ -171,14 +171,14 @@ async def test_delete_page(cms_token, workspace_seed):
         page_id = create_resp.json()["id"]
 
         del_resp = await client.delete(
-            f"/api/v1/cms/pages/{page_id}",
+            f"/api/cms/pages/{page_id}",
             headers={"Authorization": f"Bearer {cms_token}"},
         )
         assert del_resp.status_code == 204
 
         # Confirm it's gone
         get_resp = await client.get(
-            f"/api/v1/cms/pages/{page_id}",
+            f"/api/cms/pages/{page_id}",
             headers={"Authorization": f"Bearer {cms_token}"},
         )
         assert get_resp.status_code == 404

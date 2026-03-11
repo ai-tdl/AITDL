@@ -9,7 +9,7 @@
         "on_media_uploaded",
         "on_form_submitted"
     ],
-    "routes_prefix": "/api/v1/cms",
+    "routes_prefix": "/api/cms",
     "author": "Jawahar R. Mallah",
     "org": "AITDL"
 }

@@ -21,7 +21,7 @@ import sys, os, uuid, json, logging
 from typing import Optional, List
 from datetime import datetime
 
-_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "backend"))
+_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if _backend_dir not in sys.path:
     sys.path.insert(0, _backend_dir)
 
@@ -31,7 +31,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
 
-_plugin_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_plugin_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if _plugin_dir not in sys.path:
     sys.path.insert(0, _plugin_dir)
 
@@ -44,7 +44,7 @@ from cms_core.routers import pages, cards, blog, media, forms, workspaces, ai as
 log = logging.getLogger(__name__)
 
 # ── Main CMS Router ────────────────────────────────────────────────────────────
-router = APIRouter(prefix="/api/v1/cms")
+router = APIRouter(prefix="/api/cms")
 
 # Mount all sub-routers
 router.include_router(pages.router)

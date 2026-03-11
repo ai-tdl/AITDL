@@ -80,7 +80,7 @@ async def workspace_seed(db_session):
 
 async def _create_workspace(client, token, slug="sharma-retail", name="Sharma Retail", plan="starter"):
     return await client.post(
-        "/api/v1/cms/workspaces",
+        "/api/cms/workspaces",
         json={"name": name, "slug": slug, "plan": plan, "ai_credits_limit": 500},
         headers={"Authorization": f"Bearer {token}"},
     )
@@ -117,25 +117,25 @@ async def test_create_workspace_seeds_content(cms_token, workspace_seed):
         headers = {"Authorization": f"Bearer {scoped_token}"}
 
         # Verify seeded page
-        pages_resp = await client.get("/api/v1/cms/pages", headers=headers)
+        pages_resp = await client.get("/api/cms/pages", headers=headers)
         assert pages_resp.status_code == 200
         pages = pages_resp.json()
         assert any(p["slug"] == "home" for p in pages), "Default 'home' page not seeded"
 
         # Verify seeded blog post
-        blog_resp = await client.get("/api/v1/cms/blog", headers=headers)
+        blog_resp = await client.get("/api/cms/blog", headers=headers)
         assert blog_resp.status_code == 200
         posts = blog_resp.json()
         assert any(p["slug"] == "welcome" for p in posts), "Default 'welcome' blog post not seeded"
 
         # Verify seeded form
-        forms_resp = await client.get("/api/v1/cms/forms", headers=headers)
+        forms_resp = await client.get("/api/cms/forms", headers=headers)
         assert forms_resp.status_code == 200
         forms = forms_resp.json()
         assert any(f["slug"] == "contact" for f in forms), "Default 'contact' form not seeded"
 
         # Verify seeded card
-        cards_resp = await client.get("/api/v1/cms/cards", headers=headers)
+        cards_resp = await client.get("/api/cms/cards", headers=headers)
         assert cards_resp.status_code == 200
         cards = cards_resp.json()
         assert len(cards) >= 1, "Default card not seeded"
@@ -160,7 +160,7 @@ async def test_list_workspaces(cms_token, workspace_seed):
         await _create_workspace(client, cms_token, slug="ws-2", name="WS Two")
 
         resp = await client.get(
-            "/api/v1/cms/workspaces",
+            "/api/cms/workspaces",
             headers={"Authorization": f"Bearer {cms_token}"},
         )
         assert resp.status_code == 200
@@ -178,7 +178,7 @@ async def test_update_workspace(cms_token, workspace_seed):
         await _create_workspace(client, cms_token, slug="update-ws")
 
         patch_resp = await client.patch(
-            "/api/v1/cms/workspaces/update-ws",
+            "/api/cms/workspaces/update-ws",
             json={"plan": "pro", "ai_credits_limit": 2000},
             headers={"Authorization": f"Bearer {cms_token}"},
         )
@@ -197,7 +197,7 @@ async def test_workspace_stats(cms_token, workspace_seed):
         scoped_token = create_jwt({"sub": "test@aitdl.com", "role": "superadmin", "workspace_id": "stats-ws"})
 
         stats_resp = await client.get(
-            "/api/v1/cms/workspaces/stats-ws/stats",
+            "/api/cms/workspaces/stats-ws/stats",
             headers={"Authorization": f"Bearer {scoped_token}"},
         )
         assert stats_resp.status_code == 200
@@ -215,7 +215,7 @@ async def test_workspace_export(cms_token, workspace_seed):
         scoped_token = create_jwt({"sub": "test@aitdl.com", "role": "superadmin", "workspace_id": "export-ws"})
 
         export_resp = await client.get(
-            "/api/v1/cms/workspaces/export-ws/export",
+            "/api/cms/workspaces/export-ws/export",
             headers={"Authorization": f"Bearer {scoped_token}"},
         )
         assert export_resp.status_code == 200

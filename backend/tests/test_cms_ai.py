@@ -94,7 +94,7 @@ async def test_generate_content_stub(cms_token, internal_workspace):
     """AI stub mode returns a response and deducts credits from workspace."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         resp = await client.post(
-            "/api/v1/cms/ai/generate",
+            "/api/cms/ai/generate",
             json={
                 "block_type": "hero",
                 "context": "AITDL is an AI technology development lab serving Indian SMBs",
@@ -122,7 +122,7 @@ async def test_credit_limit_exceeded(limited_token, limited_workspace):
     """
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         resp = await client.post(
-            "/api/v1/cms/ai/generate",
+            "/api/cms/ai/generate",
             json={"block_type": "hero", "context": "test", "tone": "friendly", "language": "en"},
             headers={"Authorization": f"Bearer {limited_token}"},
         )
@@ -139,7 +139,7 @@ async def test_context_guard_truncates(cms_token, internal_workspace):
     huge_context = "A" * 10_000  # 10k chars — well above 3000 limit
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         resp = await client.post(
-            "/api/v1/cms/ai/generate",
+            "/api/cms/ai/generate",
             json={"block_type": "text", "context": huge_context, "tone": "casual", "language": "hi"},
             headers={"Authorization": f"Bearer {cms_token}"},
         )
@@ -152,7 +152,7 @@ async def test_usage_endpoint(cms_token, internal_workspace):
     """GET /ai/usage returns credits_remaining = -1 for unlimited internal workspace."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         resp = await client.get(
-            "/api/v1/cms/ai/usage",
+            "/api/cms/ai/usage",
             headers={"Authorization": f"Bearer {cms_token}"},
         )
         assert resp.status_code == 200, resp.text
@@ -167,7 +167,7 @@ async def test_seo_endpoint_stub(cms_token, internal_workspace):
     """POST /ai/seo returns seo_title and meta_description fields."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         resp = await client.post(
-            "/api/v1/cms/ai/seo",
+            "/api/cms/ai/seo",
             json={
                 "page_title": "AITDL — AI Tools for Indian Businesses",
                 "content_summary": "AITDL offers AI-powered CMS, analytics, and WhatsApp automation.",
