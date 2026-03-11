@@ -66,7 +66,12 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    ({ addVariant }: { addVariant: Function }) => {
+      addVariant('hi', '&:lang(hi)')
+      addVariant('sa', '&:lang(sa)')
+    },
+  ],
 }
 
 export default config
