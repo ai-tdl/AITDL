@@ -38,10 +38,10 @@ export default function CanvasBackground() {
                 this.x = Math.random() * W;
                 this.y = Math.random() * H;
                 this.s = Math.random() * 1.2 + 0.3;
-                this.vx = (Math.random() - 0.5) * 0.28;
-                this.vy = (Math.random() - 0.5) * 0.28;
-                this.o = Math.random() * 0.4 + 0.1;
-                this.sp = Math.random() > 0.85;
+                this.vx = (Math.random() - 0.5) * 0.15;
+                this.vy = (Math.random() - 0.5) * 0.15;
+                this.o = Math.random() * 0.3 + 0.1;
+                this.sp = Math.random() > 0.7;
             }
 
             update() {
@@ -54,7 +54,7 @@ export default function CanvasBackground() {
                 const [r, g, b] = getThemeColor();
                 ctx!.beginPath();
                 ctx!.arc(this.x, this.y, this.s, 0, Math.PI * 2);
-                ctx!.fillStyle = this.sp ? `rgba(${r},${g},${b},${this.o})` : `rgba(255,255,255,${this.o * 0.2})`;
+                ctx!.fillStyle = `rgba(${r},${g},${b},${this.o * 0.4})`;
                 ctx!.fill();
             }
         }
@@ -65,22 +65,7 @@ export default function CanvasBackground() {
         };
 
         const drawLines = () => {
-            const [r, g, b] = getThemeColor();
-            for (let i = 0; i < pts.length; i++) {
-                for (let j = i + 1; j < pts.length; j++) {
-                    const dx = pts[i].x - pts[j].x;
-                    const dy = pts[i].y - pts[j].y;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < 110) {
-                        ctx!.beginPath();
-                        ctx!.moveTo(pts[i].x, pts[i].y);
-                        ctx!.lineTo(pts[j].x, pts[j].y);
-                        ctx!.strokeStyle = `rgba(${r},${g},${b},${0.06 * (1 - d / 110)})`;
-                        ctx!.lineWidth = 0.5;
-                        ctx!.stroke();
-                    }
-                }
-            }
+            // Lines removed for cleaner aesthetic
         };
 
         const animate = () => {
@@ -97,7 +82,7 @@ export default function CanvasBackground() {
         window.addEventListener('resize', resize);
 
         pts = [];
-        for (let i = 0; i < 90; i++) pts.push(new P());
+        for (let i = 0; i < 20; i++) pts.push(new P());
 
         const animId = requestAnimationFrame(animate);
 

@@ -13,15 +13,29 @@ export default async function HomePage({
     <div id="gate" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6 pt-20 pb-12">
 
       {/* Cinematic Logo/Hero */}
-      <div className="text-center mb-16 relative z-10 fade-up">
+      <div className="text-center mb-16 relative z-10 w-full max-w-4xl mx-auto">
         <div className="badge-cs">{dict.common.brand} · LIVING KNOWLEDGE</div>
-        <h1 className="text-8xl md:text-[12rem] font-heading leading-tight tracking-[0.05em] text-white">
-          {dict.common.brand}
+        <h1 className="text-8xl md:text-[14rem] font-heading leading-tight tracking-[0.05em] text-white flex justify-center overflow-hidden h-[1.1em]">
+          {dict.common.brand.split('').map((char: string, i: number) => (
+            <span key={i} className="reveal-container">
+              <span 
+                className="reveal-letter"
+                style={{ animationDelay: `${0.1 + i * 0.1}s` }}
+              >
+                {char}
+              </span>
+            </span>
+          ))}
         </h1>
-        <div className="h-[1px] w-24 bg-[#c9a84c] mx-auto my-6" />
-        <p className="font-heading text-lg md:text-2xl tracking-[0.3em] text-[#6a6860] uppercase">
+        <div className="hero-divider" />
+        <p className="font-heading text-lg md:text-2xl tracking-[0.4em] text-[#888] uppercase fade-up" style={{ animationDelay: '1.2s' }}>
           {dict.gate.title}
         </p>
+      </div>
+
+      <div className="scroll-indicator fade-up" style={{ animationDelay: '2s' }}>
+        <span>Scroll</span>
+        <span className="text-xs">↓</span>
       </div>
 
       {/* The 4-Door Primary Grid - Flex based for magnetic expansion */}
