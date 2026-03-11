@@ -54,10 +54,12 @@
   }
 
   :lang(hi) .brand-h1, :lang(sa) .brand-h1 {
-    font-size: clamp(3rem, 10vw, 10rem); 
-    letter-spacing: -0.01em;
+    /* Optimized for 7-grapheme word "एआईटीडीएल" */
+    font-size: clamp(2.5rem, 11.5vw, 11rem); 
+    letter-spacing: -0.015em; /* Slightly tighter for better horizontal fit */
     font-weight: 800;
-    line-height: 1.2; /* Extra space for top matras */
+    line-height: 1.25;
+    white-space: nowrap;      /* Prevent accidental wrapping */
   }
 
   :lang(hi) .tagline-scaling, :lang(sa) .tagline-scaling {
