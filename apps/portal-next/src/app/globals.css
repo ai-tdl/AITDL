@@ -49,7 +49,7 @@
 
   /* Global Brand Header Scaling */
   .brand-h1 {
-    font-size: clamp(4.5rem, 15vw, 14rem);
+    font-size: clamp(2.25rem, 7.5vw, 7.0rem);
     letter-spacing: 0.05em;
   }
 
@@ -62,8 +62,7 @@
   :lang(hi) .brand-h1,
   :lang(sa) .brand-h1 {
     /* Optimized for 7-grapheme word "एआईटीडीएल" */
-    /* font-size: clamp(2.5rem, 11.5vw, 11rem);  */
-    font-size: clamp(2.5rem, 7.5vw, 11rem);
+    font-size: clamp(1.25rem, 5.75vw, 5.5rem);
     letter-spacing: -0.015em;
     font-weight: 800;
     line-height: 1.4;
