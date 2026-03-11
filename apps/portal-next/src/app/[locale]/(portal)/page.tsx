@@ -15,7 +15,7 @@ export default async function HomePage({
       {/* Cinematic Logo/Hero */}
       <div className="text-center mb-16 relative z-10 w-full max-w-4xl mx-auto">
         <div className="badge-cs">{dict.common.brand} · LIVING KNOWLEDGE</div>
-        <h1 className="brand-h1 font-heading leading-tight text-white flex justify-center h-[1.6em] py-4 px-4 whitespace-nowrap">
+        <h1 className="brand-h1 font-heading leading-tight text-white flex justify-center h-[1.8em] py-8 px-4 whitespace-nowrap">
           {(() => {
             let segmenter;
             try {
@@ -25,9 +25,9 @@ export default async function HomePage({
             }
             const segments = Array.from(segmenter.segment(dict.common.brand));
             return segments.map((s, i) => (
-              <span key={i} className="inline-block overflow-hidden py-4 -my-4">
+              <span key={i} className="reveal-container">
                 <span
-                  className="inline-block reveal-text"
+                  className="reveal-letter"
                   style={{ animationDelay: `${i * 0.05}s` }}
                 >
                   {s.segment}

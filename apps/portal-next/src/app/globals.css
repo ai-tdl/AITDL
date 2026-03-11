@@ -307,6 +307,10 @@
   .reveal-container {
     overflow: hidden;
     display: inline-block;
+    padding-top: 2rem; /* Added headroom for matras */
+    padding-bottom: 2rem;
+    margin-top: -2rem; /* Compensation */
+    margin-bottom: -2rem;
   }
 
   .reveal-letter {
@@ -317,6 +321,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    padding: 1rem 0; /* Internal padding for ligatures */
   }
 
   .hero-divider {
