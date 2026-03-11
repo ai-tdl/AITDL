@@ -10,16 +10,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
         run: |
           pip install -r backend/requirements.txt
           pip install pytest pytest-asyncio httpx
-      
+
+      - name: Run Tests
+        env:
+          ENVIRONMENT: testing
+          DATABASE_URL: "sqlite+aiosqlite:///:memory:"
+          SUPABASE_URL: "https://mock.supabase.co"
+          SUPABASE_ANON_KEY: "mock-key"
+          SUPABASE_JWT_SECRET: "mock-secret"
+        run: pytest backend/tests/ -v
+
       - name: Master Verification Pipeline
         env:
           ENVIRONMENT: testing
@@ -27,14 +43,18 @@ jobs:
           SUPABASE_URL: "https://mock.supabase.co"
           SUPABASE_ANON_KEY: "mock-key"
           SUPABASE_JWT_SECRET: "mock-secret"
-        run: |
-          python backend/scripts/aitdl_master_execute.py
+        run: python backend/scripts/aitdl_master_execute.py
+
+      - name: Notify on failure
+        if: failure()
+        run: echo "::error::Verify stage failed — tests or master pipeline did not pass"
 
   deploy-frontend:
     needs: verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Deploy Portal to Vercel
         uses: amondnet/vercel-action@v25
         with:
@@ -44,15 +64,33 @@ jobs:
           working-directory: ./apps/portal
           vercel-args: '--prod'
 
+      - name: Notify on failure
+        if: failure()
+        run: echo "::error::Frontend deploy failed — check Vercel logs"
+
   deploy-backend:
     needs: verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install Railway CLI
         run: npm install -g @railway/cli
+
       - name: Deploy Backend to Railway
-        run: railway up --detach
+        run: railway up --detach --service backend
         working-directory: ./backend
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_ENVIRONMENT: production
+
+      - name: Verify Backend Health
+        run: |
+          echo "Waiting for Railway deploy to become live..."
+          sleep 20
+          curl --fail --retry 3 --retry-delay 10 \
+            https://aitdl-backend.up.railway.app/health || exit 1
+
+      - name: Notify on failure
+        if: failure()
+        run: echo "::error::Backend deploy failed — check Railway logs"
