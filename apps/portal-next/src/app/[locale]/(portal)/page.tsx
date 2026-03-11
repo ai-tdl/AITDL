@@ -32,7 +32,7 @@ export default async function HomePage({
           })()}
         </h1>
         <div className="hero-divider" />
-        <p className="font-heading text-lg md:text-2xl tracking-[0.4em] text-[#888] uppercase fade-up" style={{ animationDelay: '1.2s' }}>
+        <p className="tagline-scaling font-heading text-lg md:text-2xl tracking-[0.4em] text-[#888] uppercase fade-up" style={{ animationDelay: '1.2s' }}>
           {dict.gate.title}
         </p>
       </div>
