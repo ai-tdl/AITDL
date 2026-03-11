@@ -15,15 +15,20 @@ export default async function HomePage({
       {/* Cinematic Logo/Hero */}
       <div className="text-center mb-16 relative z-10 w-full max-w-4xl mx-auto">
         <div className="badge-cs">{dict.common.brand} · LIVING KNOWLEDGE</div>
-        <h1 className="brand-h1 font-heading leading-tight text-white flex justify-center h-[1.4em] py-2 px-4 whitespace-nowrap">
+        <h1 className="brand-h1 font-heading leading-tight text-white flex justify-center h-[1.6em] py-4 px-4 whitespace-nowrap">
           {(() => {
-            const segmenter = new Intl.Segmenter(locale, { granularity: 'grapheme' });
+            let segmenter;
+            try {
+              segmenter = new Intl.Segmenter(locale, { granularity: 'grapheme' });
+            } catch (e) {
+              segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+            }
             const segments = Array.from(segmenter.segment(dict.common.brand));
             return segments.map((s, i) => (
-              <span key={i} className="reveal-container">
-                <span 
-                  className="reveal-letter"
-                  style={{ animationDelay: `${0.1 + i * 0.1}s` }}
+              <span key={i} className="inline-block overflow-hidden py-4 -my-4">
+                <span
+                  className="inline-block reveal-text"
+                  style={{ animationDelay: `${i * 0.05}s` }}
                 >
                   {s.segment}
                 </span>

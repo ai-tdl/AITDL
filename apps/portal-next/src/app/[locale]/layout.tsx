@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     description: 'Technology Solutions for Retail, ERP, Education & AI. Pan India.',
   },
   metadataBase: new URL('https://aitdl.com'),
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 import { getDictionary } from '@/lib/get-dictionary'
