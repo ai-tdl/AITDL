@@ -1,572 +1,416 @@
-/* || ॐ श्री गणेशाय नमः || · AITDL Portal · globals.css */
+/* ॥ ॐ श्री गणेशाय नमः ॥ · AITDL Portal · globals.css
+   Organization: AITDL — AI Technology Development Lab
+   Creator: Jawahar R. Mallah · Copyright © aitdl.com
+   Typography System V2 — Ancient Wisdom. Modern Precision.
+*/
 
-@import url('https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@300;400;500;600;700;800&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* ── Font Import ──────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Bebas+Neue&family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --bg: #03040a;
-    --deep: #06070e;
-    --card: #0a0c16;
-    --text: #e8e4da;
-    --muted: #6a6860;
-    --border: rgba(255, 255, 255, 0.05);
+/* ── Design Tokens ────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg:            #06070e;
+  --bg-deep:       #03040a;
+  --bg-card:       #0a0c16;
+  --bg-card-hover: #0d1020;
+  --bg-glass:      rgba(10, 12, 22, 0.7);
 
-    /* Default Gold Theme */
-    --primary: 201, 168, 76;
-    --accent: #c9a84c;
+  /* Gold Accent System */
+  --gold:          #C9A84C;
+  --gold-light:    #E8C96A;
+  --gold-dim:      #8A6E2E;
+  --gold-glow:     rgba(201, 168, 76, 0.15);
+  --gold-rgb:      201, 168, 76;
 
-    --font-heading: 'Bebas Neue', sans-serif;
-    --font-body: 'Outfit', sans-serif;
-    --font-mono: 'Space Mono', monospace;
-  }
+  /* Text Hierarchy — warm, never cold */
+  --text-hero:     #FFFFFF;
+  --text-h1:       #F5F2EC;
+  --text-h2:       #EDE9E0;
+  --text-card:     #E0DBD0;
+  --text-body:     #B0A898;
+  --text-muted:    #746C60;
+  --text-disabled: #3D3A35;
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    cursor: default;
-    -webkit-font-smoothing: antialiased;
-  }
+  /* Borders */
+  --border:        rgba(201, 168, 76, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-card:   rgba(255, 255, 255, 0.08);
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-heading);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
+  /* Section Accent Colours */
+  --c-retail:      #FF6B1A;
+  --c-erp:         #1A8FFF;
+  --c-education:   #22C565;
+  --c-ai:          #A259FF;
+  --c-partner:     #39E07A;
+  --c-ngo:         #0EB8A0;
+  --c-lef:         #F5A623;
+  --c-ecom:        #6C63FF;
+  --c-home:        #FF4D6A;
 
-  /* Global Brand Header Scaling */
-  .brand-h1 {
-    font-size: clamp(2.25rem, 7.5vw, 7.0rem);
-    letter-spacing: 0.05em;
-  }
+  /* ── Typography Scale ────────────────────────────────────────── */
 
-  /* Hindi & Sanskrit Overrides */
-  :lang(hi),
-  :lang(sa) {
-    --font-heading: 'Anek Devanagari', sans-serif;
-  }
+  /* Font Families */
+  --font-display:  'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-impact:   'Bebas Neue', 'Arial Narrow', sans-serif;
+  --font-body:     'Noto Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-label:    'Space Grotesk', 'Helvetica Neue', sans-serif;
+  --font-mono:     'Space Mono', 'Courier New', monospace;
+  --font-deva:     'Noto Sans Devanagari', 'Noto Sans', sans-serif;
 
-  :lang(hi) .brand-h1,
-  :lang(sa) .brand-h1 {
-    /* Optimized for 7-grapheme word "एआईटीडीएल" */
-    font-size: clamp(1.25rem, 5.75vw, 5.5rem);
-    letter-spacing: -0.015em;
-    font-weight: 800;
-    line-height: 1.4;
-    /* Increased even further for double-matra headroom */
-    white-space: nowrap;
-  }
+  /* Fluid Type Scale — clamp(min, preferred, max) */
+  --type-hero:     clamp(4rem, 12vw, 10rem);       /* AITDL brand mark */
+  --type-tagline:  clamp(1.1rem, 2.5vw, 1.75rem);  /* SEE IT. LOVE IT. */
+  --type-h1:       clamp(2.5rem, 6vw, 5rem);        /* Section hero */
+  --type-h2:       clamp(2rem, 4vw, 3.5rem);        /* Sub-section */
+  --type-h3:       clamp(1.4rem, 2.5vw, 2rem);      /* Card headline */
+  --type-h4:       clamp(1.1rem, 1.8vw, 1.4rem);    /* Card sub-title */
+  --type-label:    clamp(0.65rem, 1vw, 0.75rem);    /* Eyebrow labels */
+  --type-body:     1rem;                             /* 16px body */
+  --type-small:    0.875rem;                         /* 14px small */
+  --type-meta:     0.6875rem;                        /* 11px meta/mono */
 
-  :lang(hi) .tagline-scaling,
-  :lang(sa) .tagline-scaling {
-    letter-spacing: 0.05em !important;
-    /* Devanagari breaks if tracked out too much */
-    font-size: 0.85em;
-  }
+  /* Line Heights */
+  --lh-tight:      1.0;
+  --lh-heading:    1.15;
+  --lh-subhead:    1.3;
+  --lh-body:       1.75;
+  --lh-relaxed:    1.9;
 
-  :lang(hi) h1,
-  :lang(hi) h2,
-  :lang(hi) h3,
-  :lang(sa) h1,
-  :lang(sa) h2,
-  :lang(sa) h3 {
-    text-transform: none;
-    letter-spacing: -0.01em;
-    line-height: 1.3;
-    /* Increased for vertical matras */
-    font-weight: 700;
-  }
-
-  /* Scaling factors for dense scripts */
-  :lang(hi) .stitle,
-  :lang(sa) .stitle {
-    font-size: clamp(2.5rem, 8vw, 7rem);
-    font-weight: 800;
-  }
-
-  :lang(hi) h2,
-  :lang(sa) h2 {
-    font-size: 0.8em;
-    font-weight: 700;
-  }
+  /* Letter Spacing */
+  --ls-hero:       0.04em;
+  --ls-heading:    0.02em;
+  --ls-label:      0.18em;
+  --ls-body:       0;
+  --ls-mono:       0.04em;
 }
 
-@layer utilities {
-
-  /* Animation Utilities */
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .fade-up {
-    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-
-    100% {
-      background-position: 200% 0;
-    }
-  }
-
-  .shimmer-text {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    background-size: 200% 100%;
-    animation: shimmer 4s linear infinite;
-  }
-
-  /* Cinematic Float */
-  @keyframes float {
-
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-      opacity: 0.4;
-      filter: blur(120px);
-    }
-
-    33% {
-      transform: translate(30px, -50px) scale(1.1);
-      opacity: 0.5;
-      filter: blur(100px);
-    }
-
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
-      opacity: 0.3;
-      filter: blur(140px);
-    }
-  }
-
-  .animate-float {
-    animation: float 20s ease-in-out infinite;
-  }
-
-  .animate-float-delayed {
-    animation: float 25s ease-in-out infinite reverse;
-  }
-
-  @keyframes pulse-soft {
-
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    50% {
-      opacity: 0.8;
-      transform: scale(0.98);
-    }
-  }
-
-  .animate-pulse-soft {
-    animation: pulse-soft 3s ease-in-out infinite;
-  }
-
-  /* Emissive Glows */
-  .glow-blue {
-    filter: drop-shadow(0 0 15px rgba(26, 143, 255, 0.4));
-  }
-
-  .glow-purple {
-    filter: drop-shadow(0 0 15px rgba(162, 89, 255, 0.4));
-  }
-
-  .glow-green {
-    filter: drop-shadow(0 0 15px rgba(34, 197, 101, 0.4));
-  }
-
-  .glow-burgundy {
-    filter: drop-shadow(0 0 15px rgba(255, 77, 106, 0.4));
-  }
-
-  .glow-gold {
-    filter: drop-shadow(0 0 15px rgba(201, 168, 76, 0.4));
-  }
-
-  /* Structural Utilities */
-  .glass {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-  }
-
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-    pointer-events: none;
-    z-index: -1;
-    opacity: 0.4;
-  }
-
-  /* Reveal Utility */
-  .rv {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .rv-on {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Marquee Utility */
-  .mq {
-    padding: 1.2rem 0;
-    overflow: hidden;
-    background: rgba(var(--primary), 0.02);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-  }
-
-  .mq-t {
-    display: inline-flex;
-    gap: 4rem;
-    animation: marquee 50s linear infinite;
-  }
-
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
-  /* Section Styling */
-  .sec {
-    padding: 10rem 2rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .stitle {
-    font-size: clamp(3.5rem, 10vw, 8rem);
-    line-height: 0.85;
-    margin-bottom: 2.5rem;
-  }
-
-  .snum {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  /* Stats and Badges */
-  .badge-cs {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    background: rgba(var(--primary), 0.15);
-    border: 1px solid rgba(var(--primary), 0.8);
-    color: var(--accent);
-    padding: 0.5rem 1.4rem;
-    margin-bottom: 2rem;
-    display: inline-block;
-    border-radius: 99px;
-    animation: badgePulse 3s ease-in-out infinite;
-  }
-
-  @keyframes badgePulse {
-
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-      border-color: rgba(var(--primary), 0.8);
-      box-shadow: 0 0 0px rgba(var(--primary), 0);
-    }
-
-    50% {
-      opacity: 0.8;
-      transform: scale(0.98);
-      border-color: rgba(var(--primary), 1);
-      box-shadow: 0 0 15px rgba(var(--primary), 0.2);
-    }
-  }
-
-  .sn {
-    font-family: var(--font-heading);
-    font-size: 5rem;
-    line-height: 1;
-    background: linear-gradient(135deg, var(--accent), #fff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .sl {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.5rem;
-    display: block;
-  }
-
-  /* Theme Overrides */
-  .t-retail {
-    --primary: 255, 107, 26;
-    --accent: #ff6b1a;
-  }
-
-  .t-erp {
-    --primary: 26, 143, 255;
-    --accent: #1a8fff;
-  }
-
-  .t-education {
-    --primary: 34, 197, 101;
-    --accent: #22c565;
-  }
-
-  .t-teacher {
-    --primary: 34, 197, 101;
-    --accent: #22c565;
-  }
-
-  .t-student {
-    --primary: 162, 89, 255;
-    --accent: #a259ff;
-  }
-
-  .t-home {
-    --primary: 255, 77, 106;
-    --accent: #ff4d6a;
-  }
-
-  .t-partner {
-    --primary: 57, 224, 122;
-    --accent: #39e07a;
-  }
-
-  .t-ngo {
-    --primary: 14, 184, 160;
-    --accent: #0eb8a0;
-  }
-
-  .t-ecom {
-    --primary: 108, 99, 255;
-    --accent: #6c63ff;
-  }
-
-  .t-ai {
-    --primary: 162, 89, 255;
-    --accent: #a259ff;
-  }
-
-  .t-lef {
-    --primary: 245, 166, 35;
-    --accent: #f5a623;
-  }
-
-  /* Premium Form Elements */
-  .form-input {
-    @apply w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-sm text-white placeholder:text-zinc-600 transition-all duration-300 outline-none backdrop-blur-md;
-  }
-
-  .form-input:focus {
-    @apply border-violet-500/50 bg-white/[0.07] ring-4 ring-violet-500/10;
-  }
-
-  .btn-premium {
-    @apply relative overflow-hidden px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-[0.2em] transition-all duration-500 active:scale-95 flex items-center justify-center gap-3;
-  }
-
-  .btn-premium-violet {
-    @apply bg-violet-600 text-white shadow-lg shadow-violet-600/20 hover:bg-violet-500 hover:shadow-violet-500/40;
-  }
-
-  .btn-premium-emerald {
-    @apply bg-emerald-600 text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-500 hover:shadow-emerald-500/40;
-  }
-
-  /* Nav Links Hover */
-  .nav-link {
-    position: relative;
-    @apply transition-colors duration-300;
-  }
-
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--accent);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .nav-link:hover {
-    @apply text-white;
-    color: var(--accent) !important;
-  }
-
-  .nav-link:hover::after {
-    width: 100%;
-  }
-
-  /* Hero Animations */
-  @keyframes revealUp {
-    from {
-      transform: translateY(110%);
-    }
-
-    to {
-      transform: translateY(0);
-    }
-  }
-
-  .reveal-container {
-    overflow: hidden;
-    display: inline-block;
-    padding-top: 2rem;
-    /* Added headroom for matras */
-    padding-bottom: 2rem;
-    margin-top: -2rem;
-    /* Compensation */
-    margin-bottom: -2rem;
-  }
-
-  .reveal-letter {
-    display: inline-block;
-    animation: revealUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    transform: translateY(110%);
-    background: linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.7));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding: 1rem 0;
-    /* Internal padding for ligatures */
-  }
-
-  .hero-divider {
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(to right, transparent, rgba(var(--primary), 0.3), transparent);
-    margin: 2.5rem 0;
-  }
-
-  @keyframes scrollBounce {
-
-    0%,
-    20%,
-    52%,
-    80%,
-    100% {
-      transform: translate(-50%, 0);
-    }
-
-    40%,
-    43% {
-      transform: translate(-50%, -10px);
-    }
-
-    70% {
-      transform: translate(-50%, -5px);
-    }
-
-    90% {
-      transform: translate(-50%, -2px);
-    }
-  }
-
-  .scroll-indicator {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    @apply font-mono text-[10px] tracking-[0.4em] text-white/30 uppercase flex flex-col items-center gap-2;
-    animation: scrollBounce 2.5s infinite;
-  }
+/* ── Base Reset ───────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Custom Cursor Elements */
-#cur,
-#curR {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background 0.3s, transform 0.1s, opacity 1s ease-in-out;
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
 }
 
-#curR {
-  width: 36px;
-  height: 36px;
-  background: none;
-  border: 1px solid rgba(var(--primary), 0.3);
-  transition: width 0.4s, height 0.4s, border 0.4s, opacity 1s ease-in-out;
+body {
+  background-color: var(--bg);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  overflow-x: hidden;
+  cursor: default;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide default cursor only if not on touch */
-@media (pointer: fine) {
-  body {
-    cursor: none;
-  }
+/* ── Heading Hierarchy ────────────────────────────────────────────────────── */
+
+/* Brand impact — Bebas Neue for all-caps cinematic punch */
+.font-impact,
+.brand-h1,
+h1.impact {
+  font-family: var(--font-impact);
+  font-weight: 400;
+  letter-spacing: var(--ls-hero);
+  line-height: var(--lh-tight);
+  color: var(--text-hero);
 }
 
-/* Selection & Scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
+/* Editorial display — Cormorant for soul and warmth */
+.font-display,
+h1.display,
+.tagline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: var(--lh-subhead);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg);
+/* Section headlines — Bebas */
+h1, h2 {
+  font-family: var(--font-impact);
+  font-weight: 400;
+  letter-spacing: var(--ls-heading);
+  line-height: var(--lh-heading);
+  color: var(--text-h1);
 }
 
-::-webkit-scrollbar-thumb {
-  background: #1a1b26;
-  border-radius: 10px;
+/* Card titles — Space Grotesk */
+h3, h4, h5, h6,
+.font-label {
+  font-family: var(--font-label);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: var(--lh-subhead);
+  color: var(--text-card);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+/* Body — Noto Sans */
+p, li, span, blockquote {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  color: var(--text-body);
 }
+
+/* Mono */
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+  font-size: var(--type-meta);
+  letter-spacing: var(--ls-mono);
+}
+
+/* ── Hero Section Typography ──────────────────────────────────────────────── */
+
+.brand-h1 {
+  font-size: var(--type-hero);
+  font-family: var(--font-impact);
+  font-weight: 400;
+  letter-spacing: var(--ls-hero);
+  line-height: var(--lh-tight);
+  color: var(--text-hero);
+  text-transform: uppercase;
+}
+
+.hero-tagline {
+  font-family: var(--font-display);
+  font-size: var(--type-tagline);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  line-height: var(--lh-subhead);
+}
+
+.hero-sub {
+  font-family: var(--font-label);
+  font-size: var(--type-label);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ── Card Typography ──────────────────────────────────────────────────────── */
+
+.card-eyebrow {
+  font-family: var(--font-label);
+  font-size: var(--type-label);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.card-title {
+  font-family: var(--font-impact);
+  font-size: var(--type-h3);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: var(--text-card);
+  text-transform: uppercase;
+  line-height: var(--lh-heading);
+}
+
+.card-body {
+  font-family: var(--font-body);
+  font-size: var(--type-small);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  color: var(--text-muted);
+}
+
+/* ── Navigation ───────────────────────────────────────────────────────────── */
+
+nav, .nav-link {
+  font-family: var(--font-label);
+  font-size: var(--type-small);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Badge / Label Chips ──────────────────────────────────────────────────── */
+
+.badge-cs {
+  font-family: var(--font-label);
+  font-size: var(--type-meta);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  padding: 0.35em 1em;
+  display: inline-block;
+  animation: badge-pulse 3s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { border-color: var(--gold-dim); box-shadow: 0 0 0 0 var(--gold-glow); }
+  50%       { border-color: var(--gold);     box-shadow: 0 0 12px 2px var(--gold-glow); }
+}
+
+/* ── Footer Typography ────────────────────────────────────────────────────── */
+
+footer, .footer-text {
+  font-family: var(--font-body);
+  font-size: var(--type-small);
+  color: var(--text-muted);
+  line-height: var(--lh-body);
+}
+
+.footer-meta {
+  font-family: var(--font-mono);
+  font-size: var(--type-meta);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-disabled);
+}
+
+.footer-heading {
+  font-family: var(--font-label);
+  font-size: var(--type-small);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-card);
+}
+
+/* ── Devanagari Override (Hindi / Sanskrit) ───────────────────────────────── */
+
+:lang(hi),
+:lang(sa),
+:lang(hi) p,
+:lang(sa) p,
+:lang(hi) h1,
+:lang(sa) h1,
+:lang(hi) h2,
+:lang(sa) h2,
+:lang(hi) h3,
+:lang(sa) h3 {
+  font-family: var(--font-deva);
+  line-height: 1.9;
+  letter-spacing: 0;
+}
+
+:lang(hi) .brand-h1,
+:lang(sa) .brand-h1 {
+  font-family: var(--font-deva);
+  font-weight: 700;
+}
+
+/* ── Gold Gradient Text Utility ───────────────────────────────────────────── */
+
+.text-gold {
+  color: var(--gold);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dim) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-white-gradient {
+  background: linear-gradient(180deg, #FFFFFF 0%, #D0C8B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Reveal Animations ────────────────────────────────────────────────────── */
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.char-reveal {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: charUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes charUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Scroll Indicator ─────────────────────────────────────────────────────── */
+
+.scroll-indicator {
+  font-family: var(--font-label);
+  font-size: var(--type-meta);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+/* ── Hero Divider ─────────────────────────────────────────────────────────── */
+
+.hero-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-dim) 20%,
+    var(--gold) 50%,
+    var(--gold-dim) 80%,
+    transparent 100%
+  );
+  margin: 2rem auto;
+  opacity: 0.6;
+}
+
+/* ── Tagline Scaling ──────────────────────────────────────────────────────── */
+
+.tagline-scaling {
+  font-family: var(--font-display);
+  font-size: var(--type-tagline);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* ── Selection ────────────────────────────────────────────────────────────── */
 
 ::selection {
-  background: var(--accent);
-  color: #000;
+  background: rgba(var(--gold-rgb), 0.25);
+  color: var(--text-hero);
 }
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
