@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS cards (
     cta_url      TEXT,
     sort_order   INTEGER     NOT NULL DEFAULT 0,
     enabled      BOOLEAN     NOT NULL DEFAULT TRUE,
-    tags         TEXT[]      NOT NULL DEFAULT '{}',                  -- filter by audience: retail, student, ngo
+    tags         JSONB       NOT NULL DEFAULT '[]',                  -- filter by audience: retail, student, ngo
     created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     status         TEXT        NOT NULL DEFAULT 'draft',            -- draft | review | published
     featured_image UUID        REFERENCES media_assets(id) ON DELETE SET NULL,
     ai_summary     TEXT,                                            -- auto-generated 2-sentence summary
-    tags           TEXT[]      NOT NULL DEFAULT '{}',               -- per-suggestion: added tags
+    tags           JSONB       NOT NULL DEFAULT '[]',               -- per-suggestion: added tags
     seo_title      TEXT,
     seo_description TEXT,
     last_modified_by TEXT,

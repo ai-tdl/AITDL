@@ -43,7 +43,7 @@ async def test_auth_me_valid(async_client: AsyncClient):
     assert response.status_code == 200
     data = response.json()
     assert data["role"] == "superadmin"
-    assert data["id"] == "123e4567-e89b-12d3-a456-426614174000"
+    assert data["sub"] == "123e4567-e89b-12d3-a456-426614174000"
 
 @pytest.mark.asyncio
 async def test_auth_me_invalid(async_client: AsyncClient):
