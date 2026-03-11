@@ -15,7 +15,7 @@ export default async function HomePage({
       {/* Cinematic Logo/Hero */}
       <div className="text-center mb-16 relative z-10 w-full max-w-4xl mx-auto">
         <div className="badge-cs">{dict.common.brand} · LIVING KNOWLEDGE</div>
-        <h1 className="text-8xl md:text-[14rem] font-heading leading-tight tracking-[0.05em] text-white flex justify-center overflow-hidden h-[1.1em]">
+        <h1 className="brand-h1 font-heading leading-tight text-white flex justify-center overflow-hidden h-[1.1em]">
           {(() => {
             const segmenter = new Intl.Segmenter(locale, { granularity: 'grapheme' });
             const segments = Array.from(segmenter.segment(dict.common.brand));

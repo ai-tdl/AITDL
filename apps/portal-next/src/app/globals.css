@@ -42,27 +42,39 @@
     text-transform: uppercase;
   }
 
+  /* Global Brand Header Scaling */
+  .brand-h1 {
+    font-size: clamp(4.5rem, 15vw, 14rem);
+    letter-spacing: 0.05em;
+  }
+
   /* Hindi & Sanskrit Overrides */
   :lang(hi), :lang(sa) {
     --font-heading: 'Anek Devanagari', sans-serif;
   }
 
+  :lang(hi) .brand-h1, :lang(sa) .brand-h1 {
+    font-size: clamp(3.5rem, 12vw, 11rem); /* Scaled down to prevent overflow */
+    letter-spacing: -0.01em;
+    font-weight: 800;
+  }
+
   :lang(hi) h1, :lang(hi) h2, :lang(hi) h3,
   :lang(sa) h1, :lang(sa) h2, :lang(sa) h3 {
     text-transform: none; 
-    letter-spacing: -0.01em; /* Tighter for premium feel */
-    line-height: 1;        /* Tight leading for brand headers */
-    font-weight: 800;      /* Maximum visual impact */
+    letter-spacing: -0.01em;
+    line-height: 1;
+    font-weight: 700;
   }
 
   /* Scaling factors for dense scripts */
   :lang(hi) .stitle, :lang(sa) .stitle { 
-    font-size: clamp(3rem, 10vw, 8.5rem); 
+    font-size: clamp(2.5rem, 8vw, 7rem); 
     font-weight: 800;
   }
   
   :lang(hi) h2, :lang(sa) h2 { 
-    font-size: 0.85em; 
+    font-size: 0.8em; 
     font-weight: 700;
   }
 }
