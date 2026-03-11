@@ -28,18 +28,18 @@ export default function PartnerForm({ dict }: { dict: any }) {
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.name} *</label>
-          <input name="name" required placeholder={dict.placeholder.name} className="form-input" />
+          <label className="pf-label">{dict.name} *</label>
+          <input name="name" required placeholder={dict.placeholder.name} className="pf-input" />
         </div>
         <div>
-          <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.phone} *</label>
-          <input name="phone" required placeholder={dict.placeholder.phone} className="form-input" />
+          <label className="pf-label">{dict.phone} *</label>
+          <input name="phone" required placeholder={dict.placeholder.phone} className="pf-input" />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.email} *</label>
-        <input name="email" type="email" required placeholder={dict.placeholder.email} className="form-input" />
+        <label className="pf-label">{dict.email} *</label>
+        <input name="email" type="email" required placeholder={dict.placeholder.email} className="pf-input" />
       </div>
 
       {/* Intelligent Location Selector */}
@@ -53,8 +53,8 @@ export default function PartnerForm({ dict }: { dict: any }) {
       <input type="hidden" name="city" value={location.city} />
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.occupation} *</label>
-        <select name="occupation" required className="form-input">
+        <label className="pf-label">{dict.occupation} *</label>
+        <select name="occupation" required className="pf-input">
           <option value="">{dict.select}</option>
           {OCCUPATIONS.map(o => (
             <option key={o} value={o} className="bg-zinc-900">{o}</option>
@@ -63,23 +63,23 @@ export default function PartnerForm({ dict }: { dict: any }) {
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-400 mb-1.5 uppercase tracking-widest">{dict.why}</label>
+        <label className="pf-label">{dict.why}</label>
         <textarea
           name="message"
           rows={4}
           placeholder={dict.placeholder.why}
-          className="form-input resize-none"
+          className="pf-input pf-textarea"
         />
       </div>
 
       <button
         type="submit"
-        className="btn-premium btn-premium-emerald w-full"
+        className="pf-button w-full"
       >
         {dict.submit} <span className="ml-2">→</span>
       </button>
 
-      <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-mono">
+      <p className="pf-quote text-center">
         "See it. Love it. Then pay for it."
       </p>
     </form>
