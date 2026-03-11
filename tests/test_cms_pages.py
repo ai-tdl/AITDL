@@ -104,6 +104,7 @@ async def test_create_page(cms_token, workspace_seed):
 async def test_get_page(cms_token, workspace_seed):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         create_resp = await _create_page(client, cms_token, slug="get-page")
+        assert create_resp.status_code == 201, f"Failed to create page: {create_resp.text}"
         page_id = create_resp.json()["id"]
 
         get_resp = await client.get(
@@ -127,6 +128,7 @@ async def test_create_page_duplicate_slug(cms_token, workspace_seed):
 async def test_duplicate_page(cms_token, workspace_seed):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         create_resp = await _create_page(client, cms_token, slug="original-page", title="Original")
+        assert create_resp.status_code == 201, f"Failed to create page: {create_resp.text}"
         page_id = create_resp.json()["id"]
 
         dup_resp = await client.post(
@@ -145,6 +147,7 @@ async def test_duplicate_page(cms_token, workspace_seed):
 async def test_optimistic_lock_conflict(cms_token, workspace_seed):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         create_resp = await _create_page(client, cms_token, slug="lock-page")
+        assert create_resp.status_code == 201, f"Failed to create page: {create_resp.text}"
         page_id = create_resp.json()["id"]
 
         # PATCH with a stale / wrong If-Match value should 409
@@ -164,6 +167,7 @@ async def test_optimistic_lock_conflict(cms_token, workspace_seed):
 async def test_delete_page(cms_token, workspace_seed):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
         create_resp = await _create_page(client, cms_token, slug="delete-page")
+        assert create_resp.status_code == 201, f"Failed to create page: {create_resp.text}"
         page_id = create_resp.json()["id"]
 
         del_resp = await client.delete(
