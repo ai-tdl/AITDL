@@ -68,7 +68,7 @@ export default function Door({
             <div className="w-4 h-[1px] bg-[#6a6860] group-hover:w-8 transition-all duration-700" />
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888] uppercase">{label}</span>
           </div>
-          <h2 className="font-heading text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.9] tracking-tight text-white mb-6 group-hover:tracking-[0.05em] transition-all duration-1000 uppercase">
+          <h2 className="font-heading text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.9] tracking-tight text-white mb-6 group-hover:tracking-[0.05em] transition-all duration-1000 uppercase hi:text-[0.9em] sa:text-[0.9em]">
             {title}
           </h2>
           <p className="text-[13px] leading-relaxed text-[#999] group-hover:text-white transition-colors duration-500 max-w-[280px] mb-8 min-h-[50px]">

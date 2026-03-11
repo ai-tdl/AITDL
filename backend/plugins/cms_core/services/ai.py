@@ -78,6 +78,7 @@ _TASK_CONFIG = {
     "seo":        {"complexity": TaskComplexity.CONTENT,  "credits": 5,  "max_ctx": 3000},
     "alt_text":   {"complexity": TaskComplexity.BASIC,    "credits": 1,  "max_ctx": 1000},
     "blog_draft": {"complexity": TaskComplexity.ADVANCED, "credits": 20, "max_ctx": 6000},
+    "summary":    {"complexity": TaskComplexity.CONTENT,  "credits": 5,  "max_ctx": 4000},
 }
 
 
@@ -331,6 +332,36 @@ async def generate_alt_text(
 
     return {
         "alt_text": result.get("response", ""),
+        "provider": result.get("provider", "unknown"),
+        "credits_charged": credits,
+        "tokens_used": _approx_tokens(prompt),
+    }
+
+
+async def summarize_blog_content(
+    title: str,
+    content_raw: str,
+    workspace: Workspace,
+    db: AsyncSession,
+) -> dict:
+    """Generate a 2-sentence SEO-friendly blog summary (5 credits)."""
+    task = "summary"
+    content_raw = _guard_context(content_raw, task)
+    system_prompt = await _get_active_prompt(task, db)
+    cfg = _TASK_CONFIG[task]
+
+    prompt = (
+        f"{system_prompt}\n\n"
+        f"Blog Title: {title}\n"
+        f"Full Content:\n{content_raw}\n\n"
+        f"Return ONLY the summary string."
+    )
+
+    result = await generate_response(prompt, task_type=cfg["complexity"])
+    credits = await _charge_credits(workspace, task, db)
+
+    return {
+        "summary": result.get("response", ""),
         "provider": result.get("provider", "unknown"),
         "credits_charged": credits,
         "tokens_used": _approx_tokens(prompt),

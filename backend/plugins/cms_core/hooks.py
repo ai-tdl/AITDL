@@ -36,6 +36,7 @@ Output  : None
 import logging
 import sys
 import os
+from typing import Optional
 
 log = logging.getLogger(__name__)
 
@@ -47,8 +48,9 @@ if _backend_dir not in sys.path:
 from services import hooks
 from core.database import get_db
 from sqlalchemy import select, text
-from cms_core.models.cms_tables import MediaAsset, Workspace
+from cms_core.models.cms_tables import MediaAsset, Workspace, BlogPost
 from cms_core.services import ai as cms_ai
+import json
 
 
 # ── Hook Handlers ──────────────────────────────────────────────────────────────
@@ -74,6 +76,10 @@ async def _on_content_published(resource_type: str, resource_id: str, workspace_
     # Trigger CDN invalidation placeholder
     log.info(f"[cms-core] Triggering CDN invalidation for {resource_type}:{resource_id} at edge gateways")
     # Real implementation would call Vercel/Cloudflare API here.
+
+    # If it's a blog post, trigger specific blog hooks (AI summarization, etc.)
+    if resource_type == "blog_post":
+        await hooks.trigger("on_blog_published", resource_id=resource_id, workspace_id=workspace_id, **kwargs)
 
 
 async def _on_media_uploaded(asset_id: str, workspace_id: str, filename: str, mime_type: str, **kwargs) -> None:
@@ -162,14 +168,73 @@ async def _on_form_submitted(form_id: str, workspace_id: str, submission_id: str
     log.info(f"[cms-core] Dispatched WhatsApp notification hook for form:{form_id}")
 
 
+async def _on_blog_published(resource_id: str, workspace_id: str, **kwargs) -> None:
+    """
+    Fires specifically for blog posts. Handles AI automation (summaries, SEO boost).
+    """
+    log.info(f"[cms-core] _on_blog_published: Processing AI automation for {resource_id}")
+    
+    async for db in get_db():
+        # Fetch post content
+        post_res = await db.execute(select(BlogPost).where(BlogPost.id == resource_id))
+        post = post_res.scalar_one_or_none()
+        if not post:
+            log.warning(f"[cms-core] Blog post {resource_id} not found for summarization")
+            break
+
+        # Fetch workspace for credits
+        ws_res = await db.execute(select(Workspace).where(Workspace.id == workspace_id))
+        workspace = ws_res.scalar_one_or_none()
+        if not workspace:
+            break
+
+        try:
+            # Prepare content for AI (strip JSON structure if needed, or join text)
+            full_text = ""
+            for node in post.content:
+                if isinstance(node, dict) and "children" in node:
+                    for child in node["children"]:
+                        full_text += child.get("text", "") + " "
+                elif isinstance(node, str):
+                    full_text += node + " "
+            
+            # Generate Summary
+            if not post.ai_summary:
+                result = await cms_ai.summarize_blog_content(
+                    title=post.title,
+                    content_raw=full_text,
+                    workspace=workspace,
+                    db=db
+                )
+                summary = result.get("summary")
+                if summary:
+                    post.ai_summary = summary
+                    await db.commit()
+                    log.info(f"[cms-core] AI summary generated for blog:{resource_id}")
+
+            # Notify Analytics
+            await hooks.trigger(
+                "on_event_track",
+                event="blog_published",
+                workspace_id=workspace_id,
+                resource_id=resource_id,
+                meta={"title": post.title, "char_count": len(full_text)}
+            )
+
+        except Exception as e:
+            log.error(f"[cms-core] AI blog automation failed for {resource_id}: {e}")
+        break
+
+
 # ── Registration ───────────────────────────────────────────────────────────────
 
 def _register() -> None:
     """Register all cms-core hook handlers into the global hooks registry."""
     hooks.register("on_content_published", _on_content_published)
+    hooks.register("on_blog_published", _on_blog_published)
     hooks.register("on_media_uploaded", _on_media_uploaded)
     hooks.register("on_form_submitted", _on_form_submitted)
-    log.info("[cms-core] Hooks registered: on_content_published, on_media_uploaded, on_form_submitted")
+    log.info("[cms-core] Hooks registered: on_content_published, on_blog_published, on_media_uploaded, on_form_submitted")
 
 
 # Called by plugin_loader when this file is exec'd
