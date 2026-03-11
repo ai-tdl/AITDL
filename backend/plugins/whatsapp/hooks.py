@@ -67,6 +67,23 @@ async def on_partner_approved(partner_record):
         
     asyncio.create_task(whatsapp_service.send_template_message(phone, template_name, components=components))
 
+async def on_whatsapp_notify(event: str, workspace_id: str, **kwargs):
+    if not ADMIN_PHONE:
+        return
+        
+    log.info(f"[WhatsApp] Sending CMS alert to Admin for event: {event}")
+    
+    if event == "form_submission":
+        form_id = kwargs.get("form_id")
+        text = (
+            f"📋 *New CMS Form Submission*\n\n"
+            f"Workspace: {workspace_id}\n"
+            f"Form ID: {form_id}\n"
+            f"Submission ID: {kwargs.get('submission_id')}"
+        )
+        asyncio.create_task(whatsapp_service.send_text_message(ADMIN_PHONE, text))
+
 hooks.register("on_lead_received", on_lead_received)
 hooks.register("on_partner_applied", on_partner_applied)
 hooks.register("on_partner_approved", on_partner_approved)
+hooks.register("on_whatsapp_notify", on_whatsapp_notify)
